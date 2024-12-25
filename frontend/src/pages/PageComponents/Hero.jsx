@@ -1,0 +1,27 @@
+import React from "react";
+import hero from "../../assets/heroPageImage.png";
+import BorderButton from "../../components/BorderButton";
+import Button from "../../components/Button";
+import { useNavigate } from "react-router-dom";
+
+const Hero = () => {
+
+  const navigate = useNavigate();
+
+  return (
+    <div data-scroll data-scroll-section data-scroll-speed='-.3' className="hero">
+      <div className="left-container">
+        <h1 className="hero-title">Resolute & Rowe</h1>
+        <div className="buttons">
+          <BorderButton onclick={() => navigate('/products')} text={'buy'} bgColor={'black'}/>
+            
+        </div>
+      </div>
+      <div className="right-container">
+        <img className="hero-image" src={hero} alt="hero-image" />
+      </div>
+    </div>
+  );
+};
+
+export default Hero;
