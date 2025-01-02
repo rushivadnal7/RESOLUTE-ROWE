@@ -15,7 +15,7 @@ const ShopContextProvider = (props) => {
     const [loginStatus, setLoginStatus] = useState(false)
     const [cartData, setCartData] = useState({})
 
-    const backendUrl = 'http://localhost:7007/';
+    const backendUrl = import.meta.env.VITE_BACKEND_URL;
     const CART_API = `http://localhost:7007/api/cart/`
 
 
@@ -41,7 +41,7 @@ const ShopContextProvider = (props) => {
         }
     };
 
-    
+
     const fetchProducts = async () => {
         try {
             const data = await ListProductAPI();
