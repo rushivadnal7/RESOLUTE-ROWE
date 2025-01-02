@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import {
     ProductViewWrapper,
     Container,
@@ -29,7 +29,6 @@ import {
     ShareButton,
     SizeChart
 } from '../wrappers/productView';
-
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Button from '../components/Button';
@@ -40,20 +39,21 @@ import SizeChartModal from '../components/SizeChartModal';
 import ScaleImage from '../assets/scaleImage.png'
 import { useLocation } from 'react-router-dom';
 
-// import { from '../context/ShopContext'
+
 import { ShopContext } from '../context/ShopContext';
 import { toast } from 'react-toastify';
 
 
 const ProductView = () => {
     const [quantity, setQuantity] = useState(1);
-
     const handleIncrement = () => setQuantity((prev) => prev + 1);
     const handleDecrement = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
-    const { addToCart } = useContext(ShopContext)
+    const { addToCart, loginStatus } = useContext(ShopContext)
     const [favoriteSelected, setFavoriteSelected] = useState(false)
     const [selectedSize, setSelectedSize] = useState("");
     const location = useLocation();
+
+
     const data = location.state
 
     const productId = data._id
@@ -63,6 +63,8 @@ const ProductView = () => {
 
     const sizesValue = data.sizes
     const sizesArray = sizesValue[0].split(',')
+
+
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -74,16 +76,19 @@ const ProductView = () => {
     }
     // State to hold the selected size
 
+
     const handleSizeChange = (e) => {
         setSelectedSize(e.target.value); // Update state with the selected size
     };
+
 
     const handleAddToCart = () => {
         if (!selectedSize) {
             toast.error("Please select a size before adding to cart!");
             return;
         }
-        addToCart(productId, selectedSize, quantity); // Call addToCart with selected size
+            addToCart(productId, selectedSize, quantity); // Call addToCart with selected size
+        
     };
 
     const OtherProductsData = [
@@ -124,12 +129,11 @@ const ProductView = () => {
                         {Object.values(data.images).map((img) => {
                             return (
                                 <>
-                                    <img src={img} className='product-view-image' alt="" />
+                                    <img src={img} className={`  'product-view-image '`} alt="" />
                                 </>
                             )
                         })}
                     </ProductImages>
-                    {/* <ImageWrapper src="https://dummyimage.com/400x400" alt="ecommerce" /> */}
                     <ContentWrapper>
                         <Title>Resolute & Rowe</Title>
                         <ProductName>{name}</ProductName>
@@ -163,14 +167,6 @@ const ProductView = () => {
                             </RatingStars>
                             <RatingText>4 Reviews</RatingText>
                         </Rating>
-                        {/* <SocialIcons>
-                            <a href="#"><svg>...</svg></a>
-                            <a href="#"><svg>...</svg></a>
-                            <a href="#"><svg>...</svg></a>
-                        </SocialIcons> */}
-                        {/* <Description>
-                            {data.description}
-                        </Description> */}
                         <OptionsWrapper>
                             <ColorOptions>
                                 <span>Color</span>
@@ -186,12 +182,13 @@ const ProductView = () => {
                                 } */}
                             </ColorOptions>
                             <SizeOptions>
-                                <span>Size</span>
+                                {/* <span>Size</span> */}
                                 <select
                                     id="sizeSelector"
                                     value={selectedSize} // Bind the select's value to state
                                     onChange={handleSizeChange} // Handle change event
                                 >
+                                    <option value="select size">Select size</option>
                                     {sizesArray.map((size, index) => (
                                         <option key={index} value={size}> {/* Add value attribute */}
                                             {size}

@@ -39,6 +39,27 @@ export const ProductImages = styled.div`
     width: 350px;
     object-fit: cover;
   }
+
+  .skeleton {
+    content: "";
+    background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  .skeleton::placeholder {
+    color: transparent;
+    
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
   `;
 
 export const ContentWrapper = styled.div`

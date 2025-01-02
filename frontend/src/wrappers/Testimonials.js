@@ -28,12 +28,6 @@ const TestimonialWrapper = styled.section`
     overflow: hidden;
     width: calc(25% - 16px); /* Adjusted width for smaller cards */
     transition: transform 0.2s;
-    border: 2px solid gray;
-    /* background: linear-gradient(
-      to right,
-      #403b4a,
-      #e7e9bb
-    );  */
 
     /* Inner content box */
     display: flex;

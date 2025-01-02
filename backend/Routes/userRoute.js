@@ -19,10 +19,6 @@ userRouter.post('/admin', authMiddleware, (req, res) => {
     res.json({ message: "This is a protected route", user: req.user });
 })
 
-// // Protect your routes
-// app.get('/home', checkLoginStatus, (req, res) => {
-//     res.json({ success: true, message: 'Protected route accessed', user: req.user });
-// });
 
 
 export default userRouter; 

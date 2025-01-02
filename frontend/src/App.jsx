@@ -6,16 +6,17 @@ import Allproducts from "./pages/Allproducts";
 import Customize from "./pages/Customize";
 import Login from "./pages/Login";
 import Contact from "./pages/Contact";
-import { DndProvider} from 'react-dnd';
+import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import Cart from "./pages/Cart";
 import ProductView from "./pages/ProductView";
 import Account from './pages/Account'
 
-import { ToastContainer , Bounce  } from 'react-toastify';
+import { ToastContainer, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Admin from "./pages/Admin";
 import CustomerDetails from "./pages/CustomerDetails";
+import AdminProtectedRoute from "./components/admin_components/AdminProtectedRoute";
 
 function App() {
   const router = createBrowserRouter([
@@ -41,19 +42,27 @@ function App() {
     },
     {
       path: "/admin",
-      element: <Admin />,
+      element: <AdminProtectedRoute />, // AdminProtectedRoute checks token and role
+      children: [
+        {
+          index: true, // Default route for /admin
+          element: <Admin />, // Render Admin page if valid
+        },
+      ],
     },
+ 
     {
       path: "/account/login",
       element: <Login />,
     },
+
     {
       path: "/cart",
       element: <Cart />,
     },
     {
       path: "/cart/customerdetails",
-      element: <CustomerDetails/>,
+      element: <CustomerDetails />,
     },
     {
       path: "/products/productview",

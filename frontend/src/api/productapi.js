@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = 'http://localhost:7000/api/product/'
+const API_URL = 'http://localhost:7007/api/product/'
 
 export const addProductAPI = async (data) => {
     try {

@@ -7,6 +7,7 @@ import { LoginUser, registerUser } from '../api/authapis';
 import { toast } from 'react-toastify'
 
 import { useNavigate } from 'react-router-dom';
+import { adminLogin } from '../api/adminapi';
 
 
 
@@ -43,20 +44,28 @@ const Login = () => {
   }
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    if(loginFormData.email === 'admin@gmail.com' && loginFormData.password === 'adminPassword'){
-      navigate('/admin')
-      toast.success('welcome ADMIN')
-      return
-    }
-    // try {
-      const data = await LoginUser(loginFormData);
-      if (data.success) {
-        // localStorage.setItem("token", data.token);
-        toast.success(data.message)
-        navigate('/')
+    if (loginFormData.email === 'admin@gmail.com' && loginFormData.password === 'adminPassword') {
+      const data = {
+        email: loginFormData.email,
+        password: loginFormData.password,
+      };
+      const response = await adminLogin(data);
+      if (response.success) {
+        navigate('/admin'); // Navigate directly to the admin page
+        toast.success('Welcome ADMIN');
+        return;
       } else {
-        toast.error(data.message);
+        toast.error('Invalid Email or Password');
       }
+    }
+    const data = await LoginUser(loginFormData);
+    if (data.success) {
+      // localStorage.setItem("token", data.token);
+      toast.success(data.message)
+      navigate('/')
+    } else {
+      toast.error(data.message);
+    }
   }
 
 
@@ -94,7 +103,7 @@ const Login = () => {
               <form onSubmit={handleSignupSubmit} className="form">
                 <h2>Sign Up</h2>
                 <input
-                value={signupFormData.name}
+                  value={signupFormData.name}
                   onChange={(e) => setSignupFormData({
                     ...signupFormData,
                     name: e.target.value
@@ -102,7 +111,7 @@ const Login = () => {
                   type="text" placeholder="Full name" />
 
                 <input
-                value={signupFormData.email}
+                  value={signupFormData.email}
                   onChange={(e) => setSignupFormData({
                     ...signupFormData,
                     email: e.target.value
@@ -110,7 +119,7 @@ const Login = () => {
                   type="email" placeholder="Email" />
 
                 <input
-                value={signupFormData.password}
+                  value={signupFormData.password}
                   onChange={(e) => setSignupFormData({
                     ...signupFormData,
                     password: e.target.value
@@ -122,15 +131,15 @@ const Login = () => {
               <form onSubmit={handleLoginSubmit} className="form">
                 <h2>Login</h2>
                 <input
-                value={loginFormData.email}
+                  value={loginFormData.email}
                   onChange={(e) => setLoginFormData({
                     ...loginFormData,
                     email: e.target.value
                   })}
                   type="email" placeholder="Email" />
-                  
+
                 <input
-                value={loginFormData.password}
+                  value={loginFormData.password}
                   onChange={(e) => setLoginFormData({
                     ...loginFormData,
                     password: e.target.value

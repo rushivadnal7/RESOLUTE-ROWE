@@ -5,12 +5,16 @@ import { useNavigate } from 'react-router-dom'
 
 const ProductCard = ({ data }) => {
   const { images, name, price } = data
-  // console.log(data)
 
   const navigate = useNavigate()
+
+  const CardbuttonHandler = () => {
+    scrollTo(0, 0);
+    navigate('/products/productview' ,{state:data})
+  }
   return (
     <>
-      <ProductCardWrapper onClick={() => navigate('/products/productview' ,{state:data})}>
+      <ProductCardWrapper onClick={CardbuttonHandler}>
         <img className='image' src={images? images[0] : ''} alt={name} />
         <div className="product-card-container">
           <h1>{name? name : ''}</h1>

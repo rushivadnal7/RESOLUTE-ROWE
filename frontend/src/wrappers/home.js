@@ -53,7 +53,7 @@ export const HomeWrapper = styled.section`
       display: flex;
       /* border: 1px solid red; */
       flex-direction: column;
-      justify-content: start;
+      justify-content: center;
       align-items: center;
       text-align: center;
 
@@ -306,6 +306,7 @@ export const HomeWrapper = styled.section`
     position: relative;
 
     .gradient-background-image{
+      height: 100%;
       position: absolute;
       top: 0;
       left: 0;

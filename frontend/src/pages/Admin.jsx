@@ -15,6 +15,7 @@ import ListProducts from "../components/admin_components/ListProducts";
 import { useNavigate } from "react-router-dom";
 import ListDesigns from "../components/admin_components/ListDesigns";
 import AddDesigns from "../components/admin_components/AddDesigns";
+import { adminLogout } from "../api/adminapi";
 
 
 const Admin = () => {
@@ -22,6 +23,8 @@ const Admin = () => {
   const [currentSection, setCurrentSection] = useState("listProducts"); // Tracks which Manage Products section is active
   const navigate = useNavigate()
   const [productList, setProductList] = useState([]);
+
+  console.log('admin')
 
   // Render Manage Products sections
   const renderManageProductsSection = () => {
@@ -55,6 +58,14 @@ const Admin = () => {
     }
   };
 
+  const logoutHandler = async () => {
+
+    const response = await adminLogout()
+    if(response.success){
+      navigate('/')
+    }
+  }
+
   return (
     <Container>
       {/* Sidebar */}
@@ -64,7 +75,7 @@ const Admin = () => {
           <li onClick={() => setCurrentPage("dashboard")}>Dashboard</li>
           <li onClick={() => setCurrentPage("manageProducts")}>Manage Products</li>
           <li onClick={() => setCurrentPage("manageDesigns")}>Manage Designs</li>
-          <li onClick={() => navigate('/')}>Logout</li>
+          <li onClick={logoutHandler}>Logout</li>
         </ul>
       </Sidebar>
 

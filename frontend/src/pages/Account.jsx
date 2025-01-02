@@ -24,7 +24,7 @@ const Account = () => {
     const checkUserLogin = async () => {
       const response = await CheckLoginStatus()
       if (response.loggedIn) {
-
+        console.log(response)
         setUserName(response.userData.name)
         // setCartData(response.userData.cartData)
       }

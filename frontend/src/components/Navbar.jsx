@@ -2,22 +2,20 @@ import React, { useState, useEffect, useContext } from "react";
 import Logo3D from "./Logo3D";
 import { NavbarWrapper } from "../wrappers/navbar";
 import { useNavigate } from "react-router-dom";
-
-import { toast } from 'react-toastify'
 import { ShopContext } from '../context/ShopContext';
 
 const Navbar = () => {
   const navigate = useNavigate();
-  // const { setCartData, cartItems, cartData, loginStatus, setLoginStatus } = useContext(ShopContext)
   const [hamburgerMenu, setHamburgerMenu] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  // const [loginStatus, setLoginStatus] = useState(false)
 
   const { cartData, loginStatus, fetchUserData } = useContext(ShopContext);
 
   const getCartCount = () => {
     let totalCount = 0;
+    // console.log(cartData)
     for (const itemId in cartData) {
+      // console.log(itemId)
       if (cartData[itemId]) {
         for (const size in cartData[itemId]) {
           const count = cartData[itemId][size];
@@ -34,47 +32,8 @@ const Navbar = () => {
     fetchUserData()
   },[])
 
-
-  // useEffect(() => {
-  //   const checkUserLogin = async () => {
-  //     try {
-  //       console.log('rendered')
-  //       const response = await CheckLoginStatus()
-  //       const data = await UserCart()
-  //       if (response.loggedIn) {
-  //         setLoginStatus(true)
-  //         setCartData(data.cartData)
-  //       }
-  //       else {
-  //         setLoginStatus(false)
-  //         setCartData({});
-  //         toast.error('user not logged in')
-  //       }
-  //     } catch (error) {
-  //       console.error(error.message)
-  //     }
-  //   }
-  //   checkUserLogin()
-  // }, [cartItems, loginStatus])
-
-
-
-  // const getCartCount = (cartItemsArray) => {
-  //   let totalCount = 0;
-  //   for (const itemId in cartItemsArray) {
-  //     if (cartItemsArray[itemId]) {
-  //       for (const size in cartItemsArray[itemId]) {
-  //         const count = cartItemsArray[itemId][size];
-  //         if (typeof count === "number" && count > 0) {
-  //           totalCount += count;
-  //         }
-  //       }
-  //     }
-  //   }
-  //   return totalCount;
-  // };
-
   const value = getCartCount()
+  // console.log(value)
 
 
   const menuDrawerHandler = () => {
@@ -151,7 +110,7 @@ const Navbar = () => {
               />
             </svg>
           </div>
-          <div onClick={() => loginStatus ? navigate('/cart') : navigate('/account/login')} className="cart-button button">
+          <div onClick={() =>navigate('/cart')} className="cart-button button">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

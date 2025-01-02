@@ -11,9 +11,16 @@ import Marquee from "./PageComponents/Marquee";
 import PlayfullLogo from "./PageComponents/PlayfullLogo";
 import Testimonials from "./PageComponents/Testimonials";
 import Footer from "../components/Footer";
+import { use } from "react";
 
 const Home = () => {
   const locomotiveScroll = new LocomotiveScroll();
+
+  // useEffect(()=> {
+  //   const dataString = localStorage.getItem('cart-items')
+  //   const cartItems = JSON.parse(dataString);
+  //   console.log(cartItems)
+  // },[])
 
   // let scrollRatio ;
   const [scrollRatio, setScrollRatio] = useState(0);

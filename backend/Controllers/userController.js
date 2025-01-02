@@ -56,11 +56,11 @@ export const register = async (req, res) => {
     })
   }
 }
-
+  
 const generateToken = (id) => {
   return jwt.sign({ id: id }, process.env.JWT_SECRET, { expiresIn: '60d' })
 }
-
+  
 export const login = async (req, res) => {
 
   const { email, password } = req.body;

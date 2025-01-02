@@ -9,9 +9,10 @@ import productRouter from "./Routes/ProductRoute.js";
 import connectCloudinary from "./Config/cloudinary.js";
 import designRouter from "./Routes/designRoute.js";
 import cartRouter from "./Routes/cartRoute.js";
+import adminAuthRouter from "./Routes/adminRoute.js";
 
 const app = express();
-const port = process.env.PORT || 7000;
+const port = process.env.PORT || 7007;
 
 // app config       
 app.use(express.json());
@@ -26,6 +27,7 @@ connectCloudinary();
 //API Endpoints
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/admin", adminAuthRouter);
 app.use("/api/product", productRouter);
 app.use("/api/designs", designRouter);
 app.use("/api/cart", cartRouter);
