@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect , useContext} from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { AllproductWrapper, StyledProductList } from '../wrappers/allproduct'
@@ -7,10 +7,13 @@ import ProductCard from '../components/ProductCard'
 import { ListProductAPI } from "../api/productapi";
 import { toast } from 'react-toastify'
 import { Spinner, SpinnerContainer } from '../utils/wrappers/spinner'
+import { ShopContext } from '../context/ShopContext'
 
 
 const Allproducts = () => {
+  const {allProducts} = useContext(ShopContext);
   const [availabilityArrow, setAvailabilityArrow] = useState(false);
+
   const [InStockCheckbox, setInStockCheckbox] = useState(false);
   const [OutStockCheckbox, setOutStockCheckbox] = useState(false);
   const [priceRange, setPriceRange] = useState(false);
@@ -21,23 +24,19 @@ const Allproducts = () => {
   const [loading, setLoading] = useState(false)
 
 
+  console.log(allProducts)
+
   useEffect(() => {
     let isMounted = true;
     setLoading(true);
 
     const fetchData = async () => {
-      const startTime = Date.now(); // Capture the start time
+      const startTime = Date.now(); 
 
       try {
-        const data = await ListProductAPI();
-
-        if (!data) {
-          setLoading(true);
-        }
-
         if (isMounted) {
-          setProductList(data.products);
-          setOriginalProductList(data.products);
+          setProductList(allProducts);
+          setOriginalProductList(allProducts);
         }
       } catch (error) {
         if (isMounted) {
@@ -45,9 +44,8 @@ const Allproducts = () => {
           toast.error("Something went wrong. Please try again.");
         }
       } finally {
-        // Calculate the elapsed time and ensure a minimum loading duration
         const elapsedTime = Date.now() - startTime;
-        const minimumLoadingTime = 2000; // 2 seconds
+        const minimumLoadingTime = 500; 
 
         const remainingTime = Math.max(0, minimumLoadingTime - elapsedTime);
 

@@ -34,7 +34,7 @@ export const LogoutUser = async () => {
 export const CheckLoginStatus = async () => {
     try {
         const response = await axios.get(`${AUTH_API_URL}status`, {
-            withCredentials: true, // Ensure cookies are sent
+            withCredentials: true, 
         });
         return response.data;
     } catch (error) {

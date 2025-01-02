@@ -3,13 +3,13 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { CheckLoginStatus } from "../api/authapis";
 import { UserCart } from "../api/cartapi";
+import { ListProductAPI } from "../api/productapi";
 
 export const ShopContext = createContext(null);
 
 const ShopContextProvider = (props) => {
     const [loading, setLoading] = useState(true);
     const [allProducts, setAllProducts] = useState([]);
-    const [filteredProducts, setFilteredProducts] = useState([]);
     const [cartItems, setCartItems] = useState([]);
     const [adminLoginStatus, setAdminLoginStatus] = useState(false);
     const [loginStatus, setLoginStatus] = useState(false)
@@ -41,10 +41,21 @@ const ShopContextProvider = (props) => {
         }
     };
 
+    
+    const fetchProducts = async () => {
+        try {
+            const data = await ListProductAPI();
+            setAllProducts(data.products);
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     useEffect(() => {
-        fetchUserData(); // Initial data fetch
+        fetchUserData();
+        fetchProducts();
     }, []);
-    // console.log(loginStatus)
+
 
 
     // add to cart

@@ -38,8 +38,6 @@ import Gpay from "../assets/googlepay_color_card.svg";
 import SizeChartModal from '../components/SizeChartModal';
 import ScaleImage from '../assets/scaleImage.png'
 import { useLocation } from 'react-router-dom';
-
-
 import { ShopContext } from '../context/ShopContext';
 import { toast } from 'react-toastify';
 
@@ -74,11 +72,9 @@ const ProductView = () => {
     const favoriteButtonHandler = () => {
         setFavoriteSelected(!favoriteSelected)
     }
-    // State to hold the selected size
-
 
     const handleSizeChange = (e) => {
-        setSelectedSize(e.target.value); // Update state with the selected size
+        setSelectedSize(e.target.value); 
     };
 
 
