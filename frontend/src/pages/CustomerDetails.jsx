@@ -41,11 +41,8 @@ const CustomerDetails = () => {
             for (const items in cartData) {
                 for (const item in cartData[items]) {
                     if (cartData[items][item] > 0) {
-
                         const itemInfo =
                             allProducts.find((product) => product._id === items)
-
-                        console.log(itemInfo);
                         if (itemInfo) {
                             itemInfo.size = item;
                             itemInfo.quantity = cartData[items][item];
@@ -61,35 +58,34 @@ const CustomerDetails = () => {
                 amount: getCartAmount() + delivery_fee,
             };
 
-            //API calls according to payment method
-            // switch (paymentMethod) {
-            //     case "cod":
-            //         const response = await axios.post(
-            //             backendUrl + "/api/order/place",
-            //             orderData,
-            //             { headers: { token } }
-            //         );
-            //         if (response.data.success) {
-            //             setCartData({});
-            //             navigate("/orders");
-            //         } else {
-            //             toast.error(response.data.message);
-            //         }
-            //         break;
-            //     case "razorpay":
-            //         const responseRazorpay = await axios.post(
-            //             backendUrl + "/api/order/razorpay",
-            //             orderData,
-            //             { headers: { token } }
-            //         );
-            //         if (responseRazorpay.data.success) {
-            //             initPay(responseRazorpay.data.order);
-            //         }
-            //         break;
-            //     default:
-            //         break;
-            // }
-            console.log(orderData);
+            // API calls according to payment method
+            switch (paymentMethod) {
+                case "cod":
+                    const response = await axios.post(
+                        backendUrl + "/api/order/place",
+                        orderData,
+                        { headers: { token } }
+                    );
+                    if (response.data.success) {
+                        setCartData({});
+                        navigate("/orders");
+                    } else {
+                        toast.error(response.data.message);
+                    }
+                    break;
+                case "razorpay":
+                    const responseRazorpay = await axios.post(
+                        backendUrl + "/api/order/razorpay",
+                        orderData,
+                        { headers: { token } }
+                    );
+                    if (responseRazorpay.data.success) {
+                        initPay(responseRazorpay.data.order);
+                    }
+                    break;
+                default:
+                    break;
+            }
 
         } catch (error) {
             console.log(error);

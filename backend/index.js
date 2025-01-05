@@ -10,6 +10,7 @@ import connectCloudinary from "./Config/cloudinary.js";
 import designRouter from "./Routes/designRoute.js";
 import cartRouter from "./Routes/cartRoute.js";
 import adminAuthRouter from "./Routes/adminRoute.js";
+import orderRouter from "./Routes/orderRoute.js";
 
 const app = express();
 const port = process.env.PORT || 7007;
@@ -33,6 +34,7 @@ app.use("/api/admin", adminAuthRouter);
 app.use("/api/product", productRouter);
 app.use("/api/designs", designRouter);
 app.use("/api/cart", cartRouter);
+app.use("/api/order", orderRouter);
 
 // Home Route
 app.get("/", (req, res) => {

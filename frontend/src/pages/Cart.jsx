@@ -93,7 +93,6 @@ const Cart = () => {
         updatedQuantity = updatedCartItems.find(item => item.id === id && item.size === size).quantity;
         try {
             const response = await UpdateCartApi(id, size, updatedQuantity)
-            console.log(response)
         } catch (error) {
             console.error(error)
         }
