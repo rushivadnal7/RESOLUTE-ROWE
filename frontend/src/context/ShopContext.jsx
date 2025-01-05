@@ -16,12 +16,13 @@ const ShopContextProvider = (props) => {
     const [cartData, setCartData] = useState({})
 
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
-    const CART_API = `http://localhost:7007/api/cart/`
+    const CART_API = `http://localhost:7007/api/cart/`;
+    const delivery_fee = 100;
+    const currency = "₹";
 
 
     const fetchUserData = async () => {
         try {
-
             const response = await CheckLoginStatus();
             if (response.adminLoggedin) {
                 setAdminLoginStatus(true)
@@ -74,7 +75,7 @@ const ShopContextProvider = (props) => {
                 cart[itemId][size] = quantity;
             }
         } else {
-            console.log(itemId, size, quantity)
+            // console.log(itemId, size, quantity)
             cart[itemId] = {};
             cart[itemId][size] = quantity;
         }
@@ -157,8 +158,29 @@ const ShopContextProvider = (props) => {
         }
     }
 
+    // GET CART AMOUNT
+    const getCartAmount = () => {
+        let totalAmount = 0;
+        for (const items in cartData) {
+            let itemInfo = allProducts.find((product) => product._id === items);
+            for (const item in cartData[items]) {
+                try {
+                    totalAmount +=
+                        (itemInfo.offer_price > 0 ? itemInfo.offer_price : itemInfo.price) *
+                        cartData[items][item];
+                } catch (e) {
+                    console.log(e);
+                }
+            }
+        }
+        return totalAmount;
+    };
+
     const contextValue = {
         allProducts,
+        getCartAmount,
+        currency,
+        delivery_fee,
         backendUrl,
         addToCart,
         getCartCount,
