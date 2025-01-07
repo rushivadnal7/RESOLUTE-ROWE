@@ -11,6 +11,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import Cart from "./pages/Cart";
 import ProductView from "./pages/ProductView";
 import Account from './pages/Account'
+import UserOrders from "./pages/UserOrders"
 
 import { ToastContainer, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -41,6 +42,10 @@ function App() {
       element: <Account />,
     },
     {
+      path: "/orders",
+      element: <UserOrders />,
+    },
+    {
       path: "/admin",
       element: <AdminProtectedRoute />, // AdminProtectedRoute checks token and role
       children: [
@@ -50,7 +55,7 @@ function App() {
         },
       ],
     },
- 
+
     {
       path: "/account/login",
       element: <Login />,

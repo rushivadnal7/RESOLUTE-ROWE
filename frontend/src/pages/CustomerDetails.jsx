@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { ShopContext } from "../context/ShopContext";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -6,14 +6,16 @@ import styled from "styled-components";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 
 const CustomerDetails = () => {
-    const location = useLocation();
-    // const cartItems = location.state;
-    const [paymentMethod, setPaymentMethod] = useState("");
-    const { cartData, getCartAmount, delivery_fee, allProducts, setCartData } = useContext(ShopContext);
+    // const location = useLocation();
+    const navigate = useNavigate();
 
+    const { cartData, getCartAmount, delivery_fee, allProducts, setCartData, backendUrl } = useContext(ShopContext);
+
+    const [paymentMethod, setPaymentMethod] = useState("");
     const [customerData, setCustomerData] = useState({
         firstName: "dhruv",
         lastName: "patel",
@@ -32,6 +34,48 @@ const CustomerDetails = () => {
             ...customerData,
             [name]: value,
         });
+    };
+
+    const initPay = (order) => {
+        const options = {
+            key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+            amount: order.amount,
+            currency: order.currency,
+            name: "Order Payment",
+            description: "Order Payment",
+            order_id: order.id,
+            receipt: order.receipt,
+            handler: (response) => {
+                const { razorpay_order_id } = response;
+                verifyRazorpay(razorpay_order_id);
+            },
+            modal: {
+                ondismiss: () => {
+                    verifyRazorpay(order.id);
+                },
+            },
+        };
+        const rzp = new window.Razorpay(options);
+        rzp.open();
+    };
+
+    const verifyRazorpay = async (orderId) => {
+        try {
+            const { data } = await axios.post(
+                backendUrl + "api/order/verifyrazorpay",
+                { orderId },
+                { withCredentials: true }
+            );
+            console.log(data);
+
+            if (data.success) {
+                navigate("/orders");
+                cartData({});
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error(error.message);
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -62,9 +106,9 @@ const CustomerDetails = () => {
             switch (paymentMethod) {
                 case "cod":
                     const response = await axios.post(
-                        backendUrl + "/api/order/place",
+                        backendUrl + "api/order/place",
                         orderData,
-                        { headers: { token } }
+                        { withCredentials: true }
                     );
                     if (response.data.success) {
                         setCartData({});
@@ -75,9 +119,9 @@ const CustomerDetails = () => {
                     break;
                 case "razorpay":
                     const responseRazorpay = await axios.post(
-                        backendUrl + "/api/order/razorpay",
+                        backendUrl + "api/order/razorpay",
                         orderData,
-                        { headers: { token } }
+                        { withCredentials: true }
                     );
                     if (responseRazorpay.data.success) {
                         initPay(responseRazorpay.data.order);
@@ -92,6 +136,9 @@ const CustomerDetails = () => {
             toast.error(error.message);
         }
     };
+    useEffect(() => {
+        console.log(paymentMethod);
+    }, [paymentMethod])
 
     return (
         <>
