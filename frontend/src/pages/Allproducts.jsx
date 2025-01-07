@@ -1,68 +1,31 @@
-import React, { useState, useEffect , useContext} from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { AllproductWrapper, StyledProductList } from '../wrappers/allproduct'
 // import { allProductsData } from '../Data/allproductsData'
 import ProductCard from '../components/ProductCard'
-import { ListProductAPI } from "../api/productapi";
 import { toast } from 'react-toastify'
-import { Spinner, SpinnerContainer } from '../utils/wrappers/spinner'
 import { ShopContext } from '../context/ShopContext'
 
 
 const Allproducts = () => {
-  const {allProducts} = useContext(ShopContext);
+  const { allProducts, loading } = useContext(ShopContext);
   const [availabilityArrow, setAvailabilityArrow] = useState(false);
 
   const [InStockCheckbox, setInStockCheckbox] = useState(false);
   const [OutStockCheckbox, setOutStockCheckbox] = useState(false);
   const [priceRange, setPriceRange] = useState(false);
-  const [originalProductList, setOriginalProductList] = useState([]); // Keep the original list intact
-  const [productList, setProductList] = useState([]); // Filtered product list
+  const [originalProductList, setOriginalProductList] = useState([]);
+  const [productList, setProductList] = useState([]);
   const [priceValue, setPriceValue] = useState([250, 600]);
 
-  const [loading, setLoading] = useState(false)
 
 
   console.log(allProducts)
 
   useEffect(() => {
-    let isMounted = true;
-    setLoading(true);
-
-    const fetchData = async () => {
-      const startTime = Date.now(); 
-
-      try {
-        if (isMounted) {
-          setProductList(allProducts);
-          setOriginalProductList(allProducts);
-        }
-      } catch (error) {
-        if (isMounted) {
-          console.error("Error fetching product list:", error);
-          toast.error("Something went wrong. Please try again.");
-        }
-      } finally {
-        const elapsedTime = Date.now() - startTime;
-        const minimumLoadingTime = 500; 
-
-        const remainingTime = Math.max(0, minimumLoadingTime - elapsedTime);
-
-        setTimeout(() => {
-          if (isMounted) {
-            setLoading(false);
-          }
-        }, remainingTime);
-      }
-    };
-
-    fetchData();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+    setProductList(allProducts);
+  }, [allProducts]);
 
 
   const handlePriceChange = (event) => {
@@ -80,7 +43,7 @@ const Allproducts = () => {
     setPriceValue([250, 600])
     setProductList(originalProductList)
   }
-  console.log(productList)
+  // console.log(productList)
 
   return (
     <>
@@ -147,7 +110,7 @@ const Allproducts = () => {
                   className="slider"
                 />
               </div>
-              <span onClick={() => (setPriceValue([250, 600]) , setProductList(originalProductList ))}>reset</span>
+              <span onClick={() => (setPriceValue([250, 600]), setProductList(originalProductList))}>reset</span>
             </div>
           </div>
         </div>

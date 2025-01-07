@@ -65,7 +65,7 @@ function App() {
       element: <CustomerDetails />,
     },
     {
-      path: "/products/productview",
+      path: "/products/:productID",
       element: <ProductView />,
     },
   ]);

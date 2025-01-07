@@ -1,16 +1,14 @@
-import React, { useState, useContext } from "react";
-import { ShopContext } from "../context/ShopContext";
+import React, { useContext, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useLocation } from "react-router-dom";
+import { ShopContext } from "../context/ShopContext";
 
 const CustomerDetails = () => {
-    // const { cartData } = useContext(ShopContext);
-    const location = useLocation();
-    const cartItems = location.state;
+
+    const {cartData} = useContext(ShopContext);   
 
     const [customerData, setCustomerData] = useState({
         firstName: "",
@@ -23,7 +21,7 @@ const CustomerDetails = () => {
         pincode: "",
         phoneNumber: "",
     });
-    console.log(cartItems);
+    // console.log(cartItems);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
