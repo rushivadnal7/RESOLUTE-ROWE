@@ -2,25 +2,31 @@ import React, { useContext, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import styled from "styled-components";
+import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ShopContext } from "../context/ShopContext";
 
 const CustomerDetails = () => {
+    // const {cartData} = useContext(ShopContext);   
 
-    const {cartData} = useContext(ShopContext);   
+    const location = useLocation();
+    // const cartItems = location.state;
+    const [paymentMethod, setPaymentMethod] = useState("");
+    const { cartData, getCartAmount, delivery_fee, allProducts, setCartData } = useContext(ShopContext);
 
     const [customerData, setCustomerData] = useState({
-        firstName: "",
-        lastName: "",
-        country: "",
-        address: "",
-        apartment: "",
-        city: "",
-        state: "",
-        pincode: "",
-        phoneNumber: "",
+        firstName: "dhruv",
+        lastName: "patel",
+        country: "c",
+        address: "add",
+        apartment: "app",
+        city: "city",
+        state: "state",
+        pincode: "4251",
+        phoneNumber: "1234567890",
     });
+
     // console.log(cartItems);
 
     const handleInputChange = (e) => {
@@ -31,27 +37,66 @@ const CustomerDetails = () => {
         });
     };
 
-    const handleSubmit = () => {
-        const requiredFields = [
-            "firstName",
-            "lastName",
-            "country",
-            "address",
-            "city",
-            "state",
-            "pincode",
-            "phoneNumber",
-        ];
-        const missingFields = requiredFields.filter(
-            (field) => !customerData[field]
-        );
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            let orderItems = [];
+            for (const items in cartData) {
+                for (const item in cartData[items]) {
+                    if (cartData[items][item] > 0) {
 
-        if (missingFields.length > 0) {
-            toast.error(
-                `Please fill the following fields: ${missingFields.join(", ")}`
-            );
-        } else {
-            console.log(customerData);
+                        const itemInfo =
+                            allProducts.find((product) => product._id === items)
+
+                        console.log(itemInfo);
+                        if (itemInfo) {
+                            itemInfo.size = item;
+                            itemInfo.quantity = cartData[items][item];
+                            orderItems.push(itemInfo);
+                        }
+                    }
+                }
+            }
+
+            let orderData = {
+                address: customerData,
+                items: orderItems,
+                amount: getCartAmount() + delivery_fee,
+            };
+
+            //API calls according to payment method
+            // switch (paymentMethod) {
+            //     case "cod":
+            //         const response = await axios.post(
+            //             backendUrl + "/api/order/place",
+            //             orderData,
+            //             { headers: { token } }
+            //         );
+            //         if (response.data.success) {
+            //             setCartData({});
+            //             navigate("/orders");
+            //         } else {
+            //             toast.error(response.data.message);
+            //         }
+            //         break;
+            //     case "razorpay":
+            //         const responseRazorpay = await axios.post(
+            //             backendUrl + "/api/order/razorpay",
+            //             orderData,
+            //             { headers: { token } }
+            //         );
+            //         if (responseRazorpay.data.success) {
+            //             initPay(responseRazorpay.data.order);
+            //         }
+            //         break;
+            //     default:
+            //         break;
+            // }
+            console.log(orderData);
+
+        } catch (error) {
+            console.log(error);
+            toast.error(error.message);
         }
     };
 
@@ -168,7 +213,8 @@ const CustomerDetails = () => {
                     <button>razorpay</button>
                 </CartSection> */}
                 <PaymentOptions>
-                    <button>razorpay</button>
+                    <button onClick={() => setPaymentMethod("razorpay")}>razorpay</button>
+                    <button onClick={() => setPaymentMethod("cod")}>cod</button>
                 </PaymentOptions>
             </MainSection>
             <Footer />
@@ -205,6 +251,9 @@ const PaymentOptions = styled.div`
   width: 40%;
   height: 100%;
   background-color: aliceblue;
+  display: flex;
+  justify-content: space-around;
+  align-items:center;
 `;
 
 const Heading = styled.h2`

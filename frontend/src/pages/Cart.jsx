@@ -1,18 +1,18 @@
-import React, { useEffect, useState, useContext  } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { CartWrapper, CartItems, CartItem, SummarySection, PaymentInfo, PaymentButton, QuantitySelector } from '../wrappers/cart';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Button from '../components/Button';
 import { ShopContext } from "../context/ShopContext";
-import {findProduct } from "../api/productapi";
+import { findProduct } from "../api/productapi";
 import Spinner from '../components/Spinner';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
-    const { cartData, addToCart, UpdateCartApi } = useContext(ShopContext)
+    const { cartData, addToCart, UpdateCartApi, getCartAmount, delivery_fee, currency } = useContext(ShopContext)
     const navigate = useNavigate()
- 
+
     const [cartItems, setCartItems] = useState([]);
     const [couponCode, setCouponCode] = useState('')
     const [discountedRate, setDiscountedRate] = useState(null)
@@ -62,9 +62,9 @@ const Cart = () => {
         }
     };
 
-    const calculateSubtotal = () => {
-        return cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
-    };
+    // const calculateSubtotal = () => {
+    //     return cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
+    // };
 
     useEffect(() => {
         if (Object.keys(cartData).length > 0) {
@@ -121,8 +121,8 @@ const Cart = () => {
     };
 
     const couponApply = () => {
-        const totalPrice = calculateSubtotal();
-        console.log(totalPrice)
+        const totalPrice = getCartAmount();
+        // console.log(totalPrice)
         setCouponLoading(true)
         setTimeout(() => {
             if (couponCode === 'TOP10') {
@@ -132,7 +132,7 @@ const Cart = () => {
                 setCouponCode('');
                 setCouponPlaceholder('no discounts available');
             }
-            setCouponLoading(false); 
+            setCouponLoading(false);
         }, 500);
 
     }
@@ -141,13 +141,16 @@ const Cart = () => {
         if (cartItems.length === 0) {
             toast.error("Your cart is empty");
         } else {
+
             navigate('/cart/customerdetails')
+
+            // navigate('/cart/customerdetails', { state: cartItems })
         }
     }
 
 
 
-
+    console.log('')
     return (
         <>
             <Navbar />
@@ -213,11 +216,11 @@ const Cart = () => {
                                 <>
                                     <div>
                                         <p>Subtotal:</p>
-                                        <p>₹{discountedRate ? discountedRate : calculateSubtotal()}</p>
+                                        <p>{currency}{discountedRate ? discountedRate : getCartAmount()}</p>
                                     </div>
                                     <div>
                                         <p>Shipping:</p>
-                                        <p>Free shipping</p>
+                                        <p>{currency} {delivery_fee}</p>
                                     </div>
                                     <div>
                                         <p>discount:</p>
@@ -230,7 +233,7 @@ const Cart = () => {
                                     </div>
                                     <div>
                                         <strong>Total:</strong>
-                                        <strong>₹{discountedRate ? discountedRate : calculateSubtotal()}</strong>
+                                        <strong>₹{discountedRate ? discountedRate : getCartAmount() + delivery_fee}</strong>
                                     </div>
                                     <Button onclick={continueShoppingHandler} text={'continue shopping'} />
                                 </>
