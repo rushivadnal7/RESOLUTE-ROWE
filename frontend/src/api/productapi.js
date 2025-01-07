@@ -33,7 +33,7 @@ export const removeProductAPI = async (id) => {
 }
 export const ListProductAPI = async () => {
     try {
-        const response = await axios.get(`${API_URL}list`)
+        const response = await axios.get(`${API_URL}list`, { withCredentials: true })
         return response.data;
     } catch (error) {
         throw error.response?.data?.message || "Something went wrong";

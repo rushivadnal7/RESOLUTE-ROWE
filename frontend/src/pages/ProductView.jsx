@@ -36,31 +36,39 @@ import BorderButton from '../components/BorderButton'
 import razorpay from "../assets/upi_color_card.svg";
 import Gpay from "../assets/googlepay_color_card.svg";
 import SizeChartModal from '../components/SizeChartModal';
-import ScaleImage from '../assets/scaleImage.png'
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { ShopContext } from '../context/ShopContext';
 import { toast } from 'react-toastify';
 
 
+
 const ProductView = () => {
+    const { productID } = useParams();
     const [quantity, setQuantity] = useState(1);
     const handleIncrement = () => setQuantity((prev) => prev + 1);
     const handleDecrement = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
-    const { addToCart, loginStatus } = useContext(ShopContext)
+
+    const { addToCart, allProducts } = useContext(ShopContext)
     const [favoriteSelected, setFavoriteSelected] = useState(false)
     const [selectedSize, setSelectedSize] = useState("");
-    const location = useLocation();
+    const [productData, setProductData] = useState({})
 
 
-    const data = location.state
+    useEffect(() => {
+        window.scrollTo(0, 0)
+        const foundProduct = allProducts.find((product) => product._id === productID);
+        if (!foundProduct) {
+            console.warn(`Product with ID ${productID} not found.`);
+        }
+        setProductData(foundProduct || {});
+    }, [allProducts, productID]);
 
-    const productId = data._id
-    const name = data.name
-    const description = data.description
-    const price = data.price
-
-    const sizesValue = data.sizes
-    const sizesArray = sizesValue[0].split(',')
+    const productId = productID
+    const name = productData?.name
+    const description = productData?.description
+    const price = productData?.price
+    const sizesValue = productData?.sizes || [];
+    const sizesArray = sizesValue.length > 0 ? sizesValue[0]?.split(',') : [];
 
 
 
@@ -74,7 +82,7 @@ const ProductView = () => {
     }
 
     const handleSizeChange = (e) => {
-        setSelectedSize(e.target.value); 
+        setSelectedSize(e.target.value);
     };
 
 
@@ -83,8 +91,8 @@ const ProductView = () => {
             toast.error("Please select a size before adding to cart!");
             return;
         }
-            addToCart(productId, selectedSize, quantity); // Call addToCart with selected size
-        
+        addToCart(productId, selectedSize, quantity); // Call addToCart with selected size
+
     };
 
     const OtherProductsData = [
@@ -122,13 +130,15 @@ const ProductView = () => {
             <ProductViewWrapper>
                 <Container>
                     <ProductImages>
-                        {Object.values(data.images).map((img) => {
-                            return (
-                                <>
-                                    <img src={img} className={`  'product-view-image '`} alt="" />
-                                </>
-                            )
-                        })}
+                        <ProductImages>
+                            {productData?.images?.length ? (
+                                productData.images.map((img, index) => (
+                                    <img key={index} src={img} className="product-view-image" alt={`Product ${index}`} />
+                                ))
+                            ) : (
+                                <p>No images available for this product.</p>
+                            )}
+                        </ProductImages>
                     </ProductImages>
                     <ContentWrapper>
                         <Title>Resolute & Rowe</Title>
@@ -186,7 +196,7 @@ const ProductView = () => {
                                 >
                                     <option value="select size">Select size</option>
                                     {sizesArray.map((size, index) => (
-                                        <option key={index} value={size}> {/* Add value attribute */}
+                                        <option key={index} value={size}>
                                             {size}
                                         </option>
                                     ))}
@@ -269,7 +279,10 @@ const ProductView = () => {
             <SizeChart>
 
                 {/* Product Details */}
-                <button className='size-button' onClick={handleOpenModal}>Size Guide <img src={ScaleImage} alt="scale" /></button>
+                <button className='size-button' onClick={handleOpenModal}>Size Guide <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                </svg>
+                </button>
 
                 <SizeChartModal isOpen={isModalOpen} onClose={handleCloseModal} />
             </SizeChart>

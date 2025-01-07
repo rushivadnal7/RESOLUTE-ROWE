@@ -72,7 +72,7 @@ const updateCart = async (req, res) => {
 //get product from cart
 const getUserCart = async (req, res) => {
     try {
-        const userId = req.userId;
+        const userId = req.userId;  
         console.log(userId)
         const userData = await userModel.findById(userId);
         if (!userData) {
@@ -86,4 +86,15 @@ const getUserCart = async (req, res) => {
     }
 };
 
-export { addToCart, updateCart, getUserCart };
+const calculateCartTotal = async (req,res) => {
+    try{
+        const {cartData} = req.body
+        console.log(cartData)
+        return res.json({success : true , message : 'calculated successfully'})
+    }catch(error){
+        console.log(error)
+        return res.json({success : false , message : 'error in calculating total'})
+    }
+}
+
+export { addToCart, updateCart, getUserCart , calculateCartTotal };

@@ -140,13 +140,16 @@ const Cart = () => {
         if (cartItems.length === 0) {
             toast.error("Your cart is empty");
         } else {
-            navigate('/cart/customerdetails', { state: cartItems })
+
+            navigate('/cart/customerdetails')
+
+            // navigate('/cart/customerdetails', { state: cartItems })
         }
     }
 
 
 
-
+    console.log('')
     return (
         <>
             <Navbar />

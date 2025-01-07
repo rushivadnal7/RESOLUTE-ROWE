@@ -8,7 +8,8 @@ import { ListProductAPI } from "../api/productapi";
 export const ShopContext = createContext(null);
 
 const ShopContextProvider = (props) => {
-    const [loading, setLoading] = useState(true);
+
+    const [loading, setLoading] = useState(false)
     const [allProducts, setAllProducts] = useState([]);
     const [cartItems, setCartItems] = useState([]);
     const [adminLoginStatus, setAdminLoginStatus] = useState(false);
@@ -44,14 +45,21 @@ const ShopContextProvider = (props) => {
 
 
     const fetchProducts = async () => {
+        setLoading(true);
         try {
             const data = await ListProductAPI();
-            setAllProducts(data.products);
+            if (data.products) {
+                setAllProducts(data.products);
+            } else {
+                console.error('No products found');
+            }
         } catch (error) {
-            console.error(error)
+            console.error('Error fetching products:', error);
+        } finally {
+            setLoading(false);
         }
-    }
-
+    };
+    
     useEffect(() => {
         fetchUserData();
         fetchProducts();
@@ -192,7 +200,9 @@ const ShopContextProvider = (props) => {
         setLoginStatus,
         setCartData,
         fetchUserData,
-        cartData
+        cartData,
+        loading,
+        setLoading,
     };
     return (
         <ShopContext.Provider value={contextValue}>
