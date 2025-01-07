@@ -86,7 +86,7 @@ const singleProduct = async (req, res) => {
         return res.json({ success: false, message: error.message });
     }
 };
-
+    
 
 
 export { addProduct, listProducts, removeProduct, singleProduct };
