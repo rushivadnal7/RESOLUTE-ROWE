@@ -31,7 +31,7 @@ const adminLogin = async (req, res) => {
 
 
 const adminLogout = async (req, res) => {
-    console.log('request reached')
+    // console.log('request reached')
     res.clearCookie('token', {
         httpOnly: true,
         secure: false,

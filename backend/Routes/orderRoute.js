@@ -17,6 +17,6 @@ orderRouter.post("/razorpay", authMiddleware, placeOrderRazorpay);
 orderRouter.post("/verifyrazorpay", authMiddleware, verifyRazorpay);
 
 //user features
-orderRouter.post("/userorders", authMiddleware, userOrders);
+orderRouter.get("/userorders", authMiddleware, userOrders);
 
 export default orderRouter;

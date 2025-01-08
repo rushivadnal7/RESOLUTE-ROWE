@@ -198,9 +198,9 @@ const ShopContextProvider = (props) => {
         loading,
         loginStatus,
         setLoginStatus,
-        setCartData,
         fetchUserData,
         cartData,
+        setCartData,
         loading,
         setLoading,
     };

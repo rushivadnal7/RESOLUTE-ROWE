@@ -7,7 +7,7 @@ const ProductCard = ({ data }) => {
   const { images, name, price, _id } = data
 
   const navigate = useNavigate()
-  console.log(_id)
+  // console.log(_id)
 
   const CardbuttonHandler = () => {
     setTimeout(() => {

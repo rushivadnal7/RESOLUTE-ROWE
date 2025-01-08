@@ -9,7 +9,7 @@ export const checkLoginStatus = async (req, res) => {
     const userId = req.userId;
     const userData = await userModel.findById(userId);
 
-    console.log('Token received:', token);
+    // console.log('Token received:', token);
     if (!token) {
         return res.status(200).json({ loggedIn: false, message: "User is not logged in" });
     }
