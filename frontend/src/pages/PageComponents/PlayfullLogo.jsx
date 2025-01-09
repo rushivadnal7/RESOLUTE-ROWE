@@ -34,9 +34,6 @@ const PlayfullLogo = () => {
 
   return (
     <div
-      //   data-scroll
-      //   data-scroll-section
-      //   data-scroll-speed="-.1"
       onMouseMove={handleMouseMove}
       className="playfull-page"
       style={{ width: "100vw", height: "100vh", cursor: "pointer", display: 'flex' }}

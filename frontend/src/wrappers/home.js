@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { media } from "../helper/mediaHelper";
 
 export const HomeWrapper = styled.section`
   width: 100vw;
@@ -6,26 +7,25 @@ export const HomeWrapper = styled.section`
   font-family: "Roboto Condensed", sans-serif;
   font-family: "Poppins", sans-serif;
 
-
   @keyframes heroImageAnimation {
-    0%{
+    0% {
       transform: translateY(100%);
       opacity: 0.1;
       scale: 0.7;
     }
-    100%{
+    100% {
       transform: translateY(0%);
       opacity: 1;
       scale: 1.001;
     }
   }
   @keyframes heroTextAnimation {
-    0%{
+    0% {
       transform: translateX(-100%);
       opacity: 0.1;
       scale: 0.7;
     }
-    100%{
+    100% {
       transform: translateY(0%);
       opacity: 1;
       scale: 1.001;
@@ -49,23 +49,29 @@ export const HomeWrapper = styled.section`
     .left-container {
       width: 50%;
       height: 100%;
+      margin: auto 0px;
       /* padding: 1rem 3rem; */
       display: flex;
       /* border: 1px solid red; */
       flex-direction: column;
-      justify-content: center;
+      /* justify-content: ; */
       align-items: center;
       text-align: center;
 
       .hero-title {
         color: white;
-        font-size: 90px;
+        margin: 4rem;
+        font-size: 8rem;
         font-weight: bold;
         animation: heroTextAnimation 2.5s ease 0s 1 normal none;
+
+        ${media("lg")`
+          font-size: 6rem;
+       `}
       }
-      
+
       .buttons {
-        animation: heroImageAnimation 2.5s ease 0s 1 normal none;
+        animation: heroTextAnimation 2.5s ease 0s 1 normal none;
         color: white;
         display: flex;
         gap: 2rem;
@@ -81,17 +87,14 @@ export const HomeWrapper = styled.section`
       align-items: start;
       position: relative;
 
-      .hero-image{
-        width: 600px;
+      .hero-image {
+        width: 1400px;
         height: auto;
         filter: drop-shadow(8px 5px 5px gray);
         animation: heroImageAnimation 2.5s ease 0s 1 normal none;
-
       }
-
     }
   }
-
 
   .marquee {
     width: 100%;
@@ -123,37 +126,84 @@ export const HomeWrapper = styled.section`
 
   .trending-page {
     border-radius: 20px 20px 0px 0px;
-    /* border: 1px solid black; */
     width: 100vw;
     height: 130vh;
     padding: 20px;
-    /* background-color: #36454f; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
     background-color: black;
+    position: relative;
 
-    .scrolling-container::-webkit-scrollbar {
-      display: none; /* Hide scrollbar for Chrome, Safari, etc. */
+    .title-trending {
+      padding: 2rem;
+      color: white;
+      font-size: 3rem;
+      font-weight: bold;
     }
 
     .scrolling-container {
       width: 100%;
-      height: 100%;
+      height: max-content;
       display: flex;
-      padding: 0px 20px;
-      flex-wrap: nowrap; /* Items in a single row */
-      gap: 2rem; /* Space between items */
+      padding: 0px 2rem;
+      flex-wrap: nowrap;
+      gap: 2rem;
       justify-content: flex-start;
       align-items: center;
-      overflow-x: auto; /* Horizontal scrolling */
-      scroll-behavior: smooth; /* Smooth scrolling */
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
 
-      /* Hides scrollbar in most browsers */
-      scrollbar-width: none; /* Firefox */
-      -ms-overflow-style: none; /* Internet Explorer 10+ */
-
-      /* Webkit-based browsers (Chrome, Safari) */
       &::-webkit-scrollbar {
         display: none;
       }
+    }
+
+    .arrow-controls {
+    }
+
+    .arrow {
+      position: absolute;
+      top: 50%; /* Center arrows vertically */
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      /* transform: translateY(-50%); */
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      transition: background-color 0.3s, transform 0.2s;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.3);
+        /* transform: scale(1.1); */
+      }
+
+      &:active {
+        transform: scale(0.9);
+      }
+    }
+
+    .left-arrow {
+      position: absolute;
+      left: 10px;
+    }
+
+    .right-arrow {
+      position: absolute;
+      right: 10px;
     }
   }
 
@@ -178,24 +228,32 @@ export const HomeWrapper = styled.section`
     }
 
     .product-container {
-      width: 70%;
+      width: 100%;
       height: 90%;
       padding: 2rem;
-      /* background-color: whitesmoke; */
       display: flex;
+
+      ${media("lg")`
+        width:70%;
+        padding:4rem;
+      `}
 
       .product-display {
         width: 50%;
         padding: 1rem;
         height: 100%;
-        /* border: 1px solid white; */
         display: flex;
         justify-content: center;
         align-items: center;
 
         .product-image {
-          width: 100%;
-          height: 100%;
+          width: auto;
+          height: auto;
+
+          /* ${media("lg")`
+        width:200px;
+        height:400px;
+      `} */
 
           img {
             width: 100%;
@@ -212,37 +270,30 @@ export const HomeWrapper = styled.section`
         padding: 1rem;
         display: flex;
         flex-direction: column;
-        justify-content: space-around;
-        gap: 1rem;
+        justify-content: center;
+        gap: 2rem;
 
         .information {
           display: flex;
           flex-direction: column;
-          /* gap:10px; */
-          /* border: 1px solid black; */
-
           .branding {
-            font-size: small;
+            font-size: medium;
             font-weight: 300;
           }
 
           .product-title {
             font-size: 40px;
-            /* letter-spacing: px; */
-            /* margin-top: 2rem; */
             font-weight: 600;
           }
 
           .pricing {
-            font-size: 20px;
+            font-size: 4rem;
             font-weight: 400;
           }
         }
 
         .payment-gateway {
           width: 100%;
-          /* border: 1px solid black; */
-
           h2 {
             margin: 8px 0px;
             font-size: larger;
@@ -258,12 +309,8 @@ export const HomeWrapper = styled.section`
           .razorpay,
           .gpay {
             background-color: rgba(0, 0, 0, 0.03);
-            /* padding: 10px; */
             border-radius: 4px;
             width: 80px;
-            /* height: 50px; */
-            /* border: 1px solid black; */
-
             img {
               width: 100%;
               height: 100%;
@@ -272,28 +319,11 @@ export const HomeWrapper = styled.section`
         }
 
         .buy-addtocart-buttons {
-          /* border: 1px solid black; */
           justify-content: center;
           align-items: start;
           display: flex;
           flex-direction: column;
           gap: 1rem;
-
-          /* .buy-button {
-            width: 80%;
-            border: 1.5px solid black;
-            border-radius: 5px;
-
-            padding: 0.5rem 5rem;
-          } */
-
-          /* .add-to-cart-button {
-            padding: 0.5rem 5rem;
-            color: white;
-            border-radius: 5px;
-            background-color: black;
-            width: 80%;
-          } */
         }
       }
     }
@@ -305,22 +335,21 @@ export const HomeWrapper = styled.section`
     backdrop-filter: blur(15px);
     position: relative;
 
-    .gradient-background-image{
+    .gradient-background-image {
       height: 100%;
+      width: 100%;
       position: absolute;
       top: 0;
       left: 0;
       z-index: -100;
     }
 
-    canvas{
+    canvas {
       width: 50%;
       height: 100%;
-
-
     }
 
-    .info-container{
+    .info-container {
       width: 50%;
       height: 100%;
       display: flex;
@@ -328,17 +357,15 @@ export const HomeWrapper = styled.section`
       justify-content: center;
       align-items: start;
       padding: 1rem;
-      
-      h1{
+
+      h1 {
         color: white;
         font-size: xx-large;
       }
 
-      p{
+      p {
         color: gray;
       }
     }
   }
-
-  
 `;

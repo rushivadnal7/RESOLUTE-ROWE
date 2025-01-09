@@ -1,7 +1,8 @@
 import styled from "styled-components";
+import { media } from "../helper/mediaHelper";
 
 export const ProductViewWrapper = styled.section`
-  overflow: hidden;
+  overflow-x: hidden;
   color: #4b5563;
   position: relative;
   .sizechart {
@@ -11,7 +12,7 @@ export const ProductViewWrapper = styled.section`
 export const Container = styled.div`
   width: 100vw;
   padding: 4rem 5rem;
-
+  overflow-y: hidden;
   margin: auto;
   display: grid;
   grid-template-areas:

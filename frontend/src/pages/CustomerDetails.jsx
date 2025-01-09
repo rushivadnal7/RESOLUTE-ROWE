@@ -6,11 +6,14 @@ import styled from "styled-components";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+
 
 const CustomerDetails = () => {
     const location = useLocation();
     // const cartItems = location.state;
+    const navigate = useNavigate();
+    const { cartData, getCartAmount, delivery_fee, allProducts, setCartData, backendUrl } = useContext(ShopContext);
     const [paymentMethod, setPaymentMethod] = useState("");
     const [customerData, setCustomerData] = useState({
         firstName: "dhruv",

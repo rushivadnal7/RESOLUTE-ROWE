@@ -84,6 +84,7 @@ const verifyRazorpay = async (req, res) => {
     if (orderInfo.status === "paid") {
       await orderModel.findByIdAndUpdate(orderInfo.receipt, { payment: true });
       await userModel.findByIdAndUpdate(userId, { cartData: {} });
+      
       return res.json({ success: true, message: "Payment successful" });
     } else if (orderInfo.status === "created" || "cancelled") {
       await orderModel.findByIdAndDelete(orderInfo.receipt.toString());

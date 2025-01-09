@@ -122,12 +122,25 @@ const ProductView = () => {
         },
     ]
 
+    useEffect(() => {
+        if (isModalOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = ""; // Revert to the default style
+        }
+
+        // Cleanup on component unmount
+        return () => {
+            document.body.style.overflow = "";
+        };
+    }, [isModalOpen]);
+
     return (
 
         <>
 
             <Navbar />
-            <ProductViewWrapper>
+            <ProductViewWrapper scrollDisable={isModalOpen}>
                 <Container>
                     <ProductImages>
                         <ProductImages>

@@ -5,7 +5,7 @@ import userModel from "../models/userModel.js";
 export const checkLoginStatus = async (req, res) => {
     const token = req.cookies?.token; // Check cookies
     const isAdmin = req.user.role === 'admin';
-
+    
     const userId = req.userId;
     const userData = await userModel.findById(userId);
 

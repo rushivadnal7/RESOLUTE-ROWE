@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5174",
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
@@ -39,7 +39,7 @@ app.use("/api/order", orderRouter);
 // Home Route
 app.get("/", (req, res) => {
   res.send("Backend is live :)siuuu");
-});
+}); 
 
 // port
 app.listen(port, () => {

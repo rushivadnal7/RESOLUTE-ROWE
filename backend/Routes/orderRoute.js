@@ -8,6 +8,15 @@ import {
 } from "../Controllers/orderController.js";
 
 const orderRouter = express.Router();
+// const conditionalAuthMiddleware = (req, res, next) => {
+//   if (req.isAuthenticated) {
+//     // If the user is logged in, use authMiddleware
+//     return authMiddleware(req, res, next);
+//   } else {
+//     // If the user is not logged in, skip authMiddleware
+//     return next();
+//   }
+// };
 
 //payment features
 orderRouter.post("/place", authMiddleware, placeOrder);
