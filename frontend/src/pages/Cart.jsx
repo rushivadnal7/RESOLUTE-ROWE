@@ -12,6 +12,8 @@ import { useNavigate } from 'react-router-dom';
 const Cart = () => {
     const { cartData, addToCart, UpdateCartApi, getCartAmount, delivery_fee, currency } = useContext(ShopContext)
     const navigate = useNavigate()
+    console.log(cartData);
+    
 
     const [cartItems, setCartItems] = useState([]);
     const [couponCode, setCouponCode] = useState('')

@@ -6,14 +6,13 @@ import styled from "styled-components";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useLocation, useNavigate } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 
 const CustomerDetails = () => {
-    const location = useLocation();
-    // const cartItems = location.state;
     const navigate = useNavigate();
+
     const { cartData, getCartAmount, delivery_fee, allProducts, setCartData, backendUrl } = useContext(ShopContext);
+
     const [paymentMethod, setPaymentMethod] = useState("");
     const [customerData, setCustomerData] = useState({
         firstName: "dhruv",
@@ -27,7 +26,6 @@ const CustomerDetails = () => {
         phoneNumber: "1234567890",
     });
 
-    // console.log(cartItems);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -37,46 +35,51 @@ const CustomerDetails = () => {
         });
     };
 
-    const initPay = (order) => {
+    const verifyRazorpay = (order) => {
         const options = {
             key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+            order_id: order.id,
             amount: order.amount,
             currency: order.currency,
-            name: "Order Payment",
-            description: "Order Payment",
-            order_id: order.id,
-            receipt: order.receipt,
-            handler: (response) => {
-                const { razorpay_order_id } = response;
-                verifyRazorpay(razorpay_order_id);
+            name: "Resolute & Rowe",
+            description: "RazorPay Resolute & Rowe payment testing.",
+            prefill: {
+                name: `${customerData.firstName} ${customerData.lastName}`,
+                contact: `${customerData.phoneNumber}`,
             },
-            modal: {
-                ondismiss: () => {
-                    verifyRazorpay(order.id);
-                },
+            theme: {
+                color: '#daa520',
             },
+            handler: async (response) => {
+                const razorpayData = {
+                    order_id: response.razorpay_order_id,
+                    payment_id: response.razorpay_payment_id,
+                    signature: response.razorpay_signature,
+                }
+                try {
+                    const { data } = await axios.post(
+                        backendUrl + "api/order/verifyrazorpay",
+                        { razorpayData },
+                        { withCredentials: true }
+                    );
+                    console.log(data);
+
+                    if (data.success) {
+                        toast.success(data.message);
+                        setCartData({});
+                        navigate("/orders");
+                    } else {
+                        toast.error(data.message);
+                    }
+                } catch (error) {
+                    console.log(error);
+                    toast.error(error.message);
+                }
+            }
         };
+
         const rzp = new window.Razorpay(options);
         rzp.open();
-    };
-
-    const verifyRazorpay = async (orderId) => {
-        try {
-            const { data } = await axios.post(
-                backendUrl + "api/order/verifyrazorpay",
-                { orderId },
-                { withCredentials: true }
-            );
-            console.log(data);
-
-            if (data.success) {
-                navigate("/orders");
-                cartData({});
-            }
-        } catch (error) {
-            console.log(error);
-            toast.error(error.message);
-        }
     };
 
     const handleSubmit = async (e) => {
@@ -125,7 +128,7 @@ const CustomerDetails = () => {
                         { withCredentials: true }
                     );
                     if (responseRazorpay.data.success) {
-                        initPay(responseRazorpay.data.order);
+                        verifyRazorpay(responseRazorpay.data.order);
                     }
                     break;
                 default:
