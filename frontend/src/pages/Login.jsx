@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from "../components/Footer";
 import { LoginWrapper } from '../wrappers/login';
@@ -6,13 +6,19 @@ import Button from '../components/Button';
 import { LoginUser, registerUser } from '../api/authapis';
 import { toast } from 'react-toastify'
 
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { adminLogin } from '../api/adminapi';
+import { ShopContext } from '../context/ShopContext';
+import { addCartDataLStrgToDb, UserCart } from '../api/cartapi';
+
 
 
 
 const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
+  const location = useLocation();
+  const customerDetailsLogin = location.state;
+
   const navigate = useNavigate()
   const [signupFormData, setSignupFormData] = useState({
     name: '',
@@ -24,8 +30,11 @@ const Login = () => {
     password: '',
   })
 
+  const { cartData } = useContext(ShopContext)
+
 
   const [message, setMessage] = useState('')
+  console.log(cartData)
 
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
@@ -33,7 +42,11 @@ const Login = () => {
       const data = await registerUser(signupFormData);
       if (data.success) {
         toast.success(data.message)
-        navigate('/')
+        if (customerDetailsLogin === true) {
+          navigate('/cart/customerdetails');
+        } else {
+          navigate('/')
+        }
       } else {
         toast.error(data.message);
       }
@@ -60,17 +73,20 @@ const Login = () => {
     }
     const data = await LoginUser(loginFormData);
     if (data.success) {
-      // localStorage.setItem("token", data.token);
-      toast.success(data.message)
-      navigate('/')
+      const response = await addCartDataLStrgToDb(cartData);
+      if (response.success) {
+        console.log('data added to db from local storage')
+      }
+      if (customerDetailsLogin === true) {
+        navigate('/cart/customerdetails');
+      } else {
+        toast.success(data.message)
+        navigate('/')
+      }
     } else {
       toast.error(data.message);
     }
   }
-
-
-
-
 
   const handleToggle = () => {
     setIsSignUp(prevState => !prevState);

@@ -5,6 +5,7 @@ import { CheckLoginStatus } from "../api/authapis";
 import { UserCart } from "../api/cartapi";
 import { ListProductAPI } from "../api/productapi";
 
+
 export const ShopContext = createContext(null);
 
 const ShopContextProvider = (props) => {
@@ -15,6 +16,8 @@ const ShopContextProvider = (props) => {
     const [adminLoginStatus, setAdminLoginStatus] = useState(false);
     const [loginStatus, setLoginStatus] = useState(false)
     const [cartData, setCartData] = useState({})
+    const [buyData, setBuyData] = useState({})
+    const [sessionId, setSessionId] = useState('')
 
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
     const CART_API = `http://localhost:7007/api/cart/`;
@@ -30,14 +33,26 @@ const ShopContextProvider = (props) => {
             }
             if (response.loggedIn) {
                 setLoginStatus(true);
-                const data = await UserCart();
-                setCartData(data.cartData || {});
+                
+                setSessionId('')
             } else {
                 setLoginStatus(false);
-                const dataString = localStorage.getItem('cart-items')
-                const localStrgCartData = JSON.parse(dataString);
-                setCartData(localStrgCartData || {});
+                if (!document.cookie.includes("sessionId")) {
+                    let sessionId = '';
+                    for (let i = 0; i < 24; i++) {
+                        sessionId += Math.floor(Math.random() * 10);
+                    }
+                    document.cookie = `sessionId=${sessionId}; path=/`;
+                    setSessionId(sessionId);
+                } else {
+                    const cookies = document.cookie.split("; ");
+                    const sessionCookie = cookies.find((cookie) => cookie.startsWith("sessionId="));
+                    setSessionId(sessionCookie ? sessionCookie.split("=")[1] : null)
+                }
             }
+            const dataString = localStorage.getItem('cart-items')
+            const localStrgCartData = JSON.parse(dataString);
+            setCartData(localStrgCartData || {});
         } catch (error) {
             console.error("Error fetching user data:", error);
         }
@@ -59,11 +74,12 @@ const ShopContextProvider = (props) => {
             setLoading(false);
         }
     };
-    
+
     useEffect(() => {
         fetchUserData();
         fetchProducts();
     }, []);
+
 
 
 
@@ -96,6 +112,7 @@ const ShopContextProvider = (props) => {
                 if (response.data) {
                     toast.success('product added to cart')
                 }
+                localStorage.setItem('cart-items', JSON.stringify(cart))
                 return response.data
             } catch (e) {
                 // console.log(e);
@@ -142,6 +159,8 @@ const ShopContextProvider = (props) => {
                 if (Object.keys(cart[itemId]).length === 0) {
                     delete cart[itemId];
                 }
+            } else if (cart[itemId]) {
+                delete cart[itemId];
             }
         } else {
             // Update the quantity
@@ -159,6 +178,9 @@ const ShopContextProvider = (props) => {
             try {
                 console.log(itemId, size, quantity)
                 const response = await axios.post(`${CART_API}update`, { itemId, size, quantity }, { withCredentials: true })
+                if (response.data.success) {
+                    localStorage.setItem('cart-items', JSON.stringify(cart))
+                }
                 return response.data
             } catch (error) {
                 throw error.response?.data?.message || "Something went wrong";
@@ -184,6 +206,20 @@ const ShopContextProvider = (props) => {
         return totalAmount;
     };
 
+    // Check if a user exists in the database
+    const checkUserExists = async (email) => {
+        console.log(email)
+        try {
+            const response = await axios.post(`${backendUrl}api/user/checkuserexists`, {
+                email,
+            });
+            return response.data.exists;
+        } catch (error) {
+            console.error("Error in checkUserExists:", error);
+            throw error;
+        }
+    };
+
     const contextValue = {
         allProducts,
         getCartAmount,
@@ -203,6 +239,10 @@ const ShopContextProvider = (props) => {
         setCartData,
         loading,
         setLoading,
+        setBuyData,
+        buyData,
+        checkUserExists,
+        sessionId,
     };
     return (
         <ShopContext.Provider value={contextValue}>

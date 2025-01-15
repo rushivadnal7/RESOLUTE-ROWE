@@ -7,44 +7,115 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import logo from '../assets/logo.png'
+import Spinner from "../components/Spinner";
+import { registerUser } from "../api/authapis";
+
+
 
 const CustomerDetails = () => {
     const navigate = useNavigate();
 
-    const { cartData, getCartAmount, delivery_fee, allProducts, setCartData, backendUrl } = useContext(ShopContext);
-
-    const [paymentMethod, setPaymentMethod] = useState("");
-    const [customerData, setCustomerData] = useState({
-        firstName: "dhruv",
-        lastName: "patel",
-        country: "c",
-        address: "add",
-        apartment: "app",
-        city: "city",
-        state: "state",
-        pincode: "4251",
-        phoneNumber: "1234567890",
+    const { cartData, getCartAmount, delivery_fee, allProducts, setCartData, backendUrl, buyData, checkUserExists, loginStatus, sessionId, setLoginStatus } = useContext(ShopContext);
+    const [customerData, setCustomerData] = useState(() => {
+        const savedData = localStorage.getItem("customer-shipping-details");
+        return savedData ? JSON.parse(savedData) : {
+            Name: "",
+            email: "",
+            password: "",
+            country: "",
+            address: "",
+            apartment: "",
+            city: "",
+            state: "",
+            pincode: "",
+            phoneNumber: "",
+        };
     });
 
+    console.log(backendUrl)
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setCustomerData({
-            ...customerData,
-            [name]: value,
-        });
+
+    const [isEmailValid, setIsEmailValid] = useState(false);
+    const [isUserExists, setIsUserExists] = useState(null);
+    const [isChecking, setIsChecking] = useState(false);
+    const [paymentMethod, setPaymentMethod] = useState('')
+
+    useEffect(() => {
+        localStorage.setItem("customer-shipping-details", JSON.stringify(customerData));
+    }, [customerData]);
+
+    useEffect(() => {
+        // Check if a valid email is present on page load
+        if (customerData.email && validateEmail(customerData.email)) {
+            handleCheckUserExists();
+        }
+    }, []);
+
+    // validateEmail(customerData.email)
+    useEffect(() => {
+        console.log(customerData.email)
+        const delayDebounce = setTimeout(() => {
+            if (isEmailValid) {
+                handleCheckUserExists();
+            }
+        }, 500);
+
+        return () => clearTimeout(delayDebounce);
+    }, [customerData.email]);
+
+    const validateEmail = (email) => {
+        const emailRegex =
+            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        setIsEmailValid(emailRegex.test(email));
+        return emailRegex.test(email);
     };
 
+    const handleCheckUserExists = async () => {
+        setIsChecking(true);
+        console.log(customerData.email)
+
+        if (loginStatus === false) {
+            try {
+                const exists = await checkUserExists(customerData.email);
+                setIsUserExists(exists);
+            } catch (error) {
+                console.error("Error checking user:", error);
+                toast.error("Failed to check user.");
+            } finally {
+                setIsChecking(false);
+            }
+        }
+    };
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+
+        setCustomerData((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+
+        if (name === "email") {
+            validateEmail(value);
+            setIsUserExists(null);
+        }
+    };
+
+
+    // console.log(buyData)
+
     const verifyRazorpay = (order) => {
+        console.log(order.receipt)
         const options = {
             key: import.meta.env.VITE_RAZORPAY_KEY_ID,
             order_id: order.id,
             amount: order.amount,
             currency: order.currency,
+            image: logo,
             name: "Resolute & Rowe",
             description: "RazorPay Resolute & Rowe payment testing.",
             prefill: {
-                name: `${customerData.firstName} ${customerData.lastName}`,
+                name: `${customerData.Name}`,
                 contact: `${customerData.phoneNumber}`,
             },
             theme: {
@@ -55,21 +126,34 @@ const CustomerDetails = () => {
                     order_id: response.razorpay_order_id,
                     payment_id: response.razorpay_payment_id,
                     signature: response.razorpay_signature,
+                    sessionId: sessionId,
+                    receipt: order.receipt
                 }
                 try {
                     const { data } = await axios.post(
                         backendUrl + "api/order/verifyrazorpay",
-                        { razorpayData },
+                        razorpayData,
                         { withCredentials: true }
                     );
                     console.log(data);
 
                     if (data.success) {
-                        toast.success(data.message);
                         setCartData({});
-                        navigate("/orders");
-                    } else {
-                        toast.error(data.message);
+                        localStorage.removeItem('cart-items')
+                        navigate("/");
+                        if (!loginStatus && isUserExists === false) {
+                            const data = {
+                                name: customerData.Name,
+                                email: customerData.email,
+                                password: customerData.password
+                            }
+                            const response = await registerUser(data)
+                            if (response.success) {
+                                toast.success(response.message)
+                                setLoginStatus(true)
+                            }
+
+                        }
                     }
                 } catch (error) {
                     console.log(error);
@@ -104,7 +188,10 @@ const CustomerDetails = () => {
                 address: customerData,
                 items: orderItems,
                 amount: getCartAmount() + delivery_fee,
+                sessionId
             };
+
+
 
             // API calls according to payment method
             switch (paymentMethod) {
@@ -116,7 +203,8 @@ const CustomerDetails = () => {
                     );
                     if (response.data.success) {
                         setCartData({});
-                        navigate("/orders");
+                        localStorage.removeItem('cart-items')
+                        navigate("/");
                     } else {
                         toast.error(response.data.message);
                     }
@@ -128,11 +216,16 @@ const CustomerDetails = () => {
                         { withCredentials: true }
                     );
                     if (responseRazorpay.data.success) {
+                        console.log()
                         verifyRazorpay(responseRazorpay.data.order);
                     }
                     break;
                 default:
                     break;
+            }
+
+            if (!loginStatus && !isUserExists) {
+
             }
 
         } catch (error) {
@@ -152,27 +245,49 @@ const CustomerDetails = () => {
                     <Heading>Shipping Details</Heading>
                     <FormContainer>
                         <InputWrapper>
-                            <Label>First Name</Label>
+                            <Label>Name</Label>
                             <Input
                                 type="text"
-                                placeholder="Enter your first name"
-                                name="firstName"
-                                value={customerData.firstName}
+                                placeholder="Enter your full name"
+                                name="Name"
+                                value={customerData.Name}
                                 onChange={handleInputChange}
                                 required
                             />
                         </InputWrapper>
                         <InputWrapper>
-                            <Label>Last Name</Label>
+                            <Label>Email</Label>
                             <Input
-                                type="text"
-                                placeholder="Enter your last name"
-                                name="lastName"
-                                value={customerData.lastName}
+                                type="email"
+                                placeholder="enter your email"
+                                name="email"
+                                value={customerData.email}
                                 onChange={handleInputChange}
                                 required
                             />
+                            {
+                                loginStatus === false && isUserExists ? <>
+                                    <span className="text-xs text-gray-500 ">user is already registered ! </span>
+                                    <a className="underline text-blue-600 cursor-pointer text-sm  " onClick={() => navigate('/login', { state: true })}>Login</a>
+                                    <span className="text-xs text-gray-500"> for order tracking</span>
+                                </> : ''
+                            }
                         </InputWrapper>
+
+                        {
+                            loginStatus === false && isUserExists !== null && !isUserExists ?
+                                <InputWrapper>
+                                    <Label>Password</Label>
+                                    <Input
+                                        type="password"
+                                        placeholder="create a Password"
+                                        name="password"
+                                        value={customerData.password}
+                                        onChange={handleInputChange}
+                                        required
+                                    />
+                                </InputWrapper> : ''
+                        }
                         <InputWrapper>
                             <Label>Country</Label>
                             <Input
@@ -271,12 +386,12 @@ export default CustomerDetails;
 
 const MainSection = styled.section`
   display: flex;
-  height: 100vh;
+  height: auto;
 `;
 
 const Container = styled.div`
   width: 70%;
-  height: 100%;
+  height: max-content;
   margin: 40px auto;
   padding: 2rem 4rem;
   display: flex;
@@ -293,7 +408,7 @@ const CartSection = styled.div`
 
 const PaymentOptions = styled.div`
   width: 40%;
-  height: 100%;
+  height: 100;
   background-color: aliceblue;
   display: flex;
   justify-content: space-around;

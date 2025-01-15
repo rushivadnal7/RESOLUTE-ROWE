@@ -1,7 +1,9 @@
+import mongoose from "mongoose";
 import orderModel from "../models/orderModel.js";
 import userModel from "../models/userModel.js";
 import crypto from "crypto";
 import razorpay from "razorpay";
+
 
 //global variable
 const currency = "inr";
@@ -16,9 +18,10 @@ const razorpayInstance = new razorpay({
 //placing orders using cod method
 const placeOrder = async (req, res) => {
   try {
-    const { userId, items, amount, address } = req.body;
+    const { items, amount, address, sessionId } = req.body;
+    const userId = req.body.userId || sessionId;
     const orderData = {
-      orderId,
+      userId,
       items,
       address,
       amount,
@@ -30,7 +33,9 @@ const placeOrder = async (req, res) => {
     const newOrder = new orderModel(orderData);
     await newOrder.save();
 
-    await userModel.findByIdAndUpdate(userId, { cartData: {} });
+    if (req.body.userId) {
+      await userModel.findByIdAndUpdate(userId, { cartData: {} });
+    }
 
     return res.status(200).json({ success: true, message: "Order Placed" });
   } catch (error) {
@@ -42,10 +47,12 @@ const placeOrder = async (req, res) => {
 //placing orders using razorpay method
 const placeOrderRazorpay = async (req, res) => {
   try {
-    const { items, amount, address } = req.body;
+    const { items, amount, address, sessionId } = req.body;
+    const userId = req.body.userId || sessionId;
+
     let orderId;
     const orderData = {
-      orderId,
+      userId,
       items,
       address,
       amount,
@@ -70,6 +77,8 @@ const placeOrderRazorpay = async (req, res) => {
           .status(500)
           .json({ success: false, message: "Some Error, Try Again!" });
       }
+      console.log('order ' , order)
+      console.log('order id' , order.id)
       orderId = order.id;
       return res.status(200).json({ success: true, order });
     });
@@ -81,23 +90,28 @@ const placeOrderRazorpay = async (req, res) => {
 
 //verify razorpay
 const verifyRazorpay = async (req, res) => {
-  const { order_id, payment_id, signature } = req.body.razorpayData;
-  const userId = req.body.userId;
-
+  const { order_id, payment_id, signature, sessionId , receipt } = req.body;
+  const _id = receipt
+  const userId = req.body.userId || sessionId;
+  console.log('verify razorpay ' + userId)
   const body = order_id + "|" + payment_id;
   const generatedSignature = crypto
     .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
     .update(body)
     .digest("hex");
 
+    console.log(userId)
+
   try {
     if (generatedSignature === signature) {
-      await orderModel.findOneAndUpdate({ userId }, { payment: true });
-      await userModel.findByIdAndUpdate(userId, { cartData: {} });
-      
+      await orderModel.findOneAndUpdate({ _id },{ payment: true });
+      if (req.body.userId) {
+        await userModel.findByIdAndUpdate(userId, { cartData: {} });
+      }
+
       return res.json({ success: true, message: "Payment successful" });
-    } else if (orderInfo.status === "created" || "cancelled") {
-      await orderModel.findByIdAndDelete(orderInfo.receipt.toString());
+    } else{
+      // await orderModel.findByIdAndDelete(orderInfo.receipt.toString());
       return res.json({ success: false, message: "Payment failed" });
     }
   } catch (error) {

@@ -52,7 +52,7 @@ const Cart = () => {
             console.error("Error fetching cart items:", error);
         } finally {
             const elapsedTime = Date.now() - startTime;
-            const minimumLoadingTime = 2000;
+            const minimumLoadingTime = 20;
 
             const remainingTime = Math.max(0, minimumLoadingTime - elapsedTime);
 
@@ -101,6 +101,7 @@ const Cart = () => {
     };
 
     const removeProduct = async (id, size) => {
+        console.log(cartItems)
         setCartItems(prevItems => prevItems.filter(item => !(item.id === id && item.size === size)));
 
         const updatedCartData = { ...cartData };

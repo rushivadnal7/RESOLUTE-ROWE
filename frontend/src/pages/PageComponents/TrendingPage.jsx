@@ -26,8 +26,9 @@ const TrendingPage = () => {
     }
   };
 
+  // data-scroll data-scroll-section data-scroll-speed="-0.1" 
   return (
-    <section data-scroll data-scroll-section data-scroll-speed="-0.1" className="trending-page">
+    <section className="trending-page">
       {/* <div className="arrow-controls"> */}
         <button className="arrow left-arrow" onClick={scrollLeft}>
           &#8249;

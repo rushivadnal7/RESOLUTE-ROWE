@@ -97,4 +97,17 @@ const calculateCartTotal = async (req,res) => {
     }
 }
 
-export { addToCart, updateCart, getUserCart , calculateCartTotal };
+const localStrgToDB = async (req,res) => {
+    try{
+        const {cartData} = req.body
+        const userId = req.userId; // Extracted from cookie middleware
+        console.log(cartData)
+        await userModel.findByIdAndUpdate(userId, { cartData });
+        return res.json({success : true , message : 'successfully stored cart'})
+    }catch(error){
+        console.log(error)
+        return res.json({success : false , message : 'error storing data'})
+    }
+}
+
+export { addToCart, updateCart, getUserCart , calculateCartTotal , localStrgToDB };

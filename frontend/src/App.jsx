@@ -60,6 +60,10 @@ function App() {
       path: "/account/login",
       element: <Login />,
     },
+    {
+      path: "/login",
+      element: <Login />,
+    },
 
     {
       path: "/cart",
@@ -67,6 +71,10 @@ function App() {
     },
     {
       path: "/cart/customerdetails",
+      element: <CustomerDetails />,
+    },
+    {
+      path: "/customerdetails",
       element: <CustomerDetails />,
     },
     {

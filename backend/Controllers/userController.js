@@ -104,3 +104,14 @@ export const logout = (req, res) => {
   });
   res.json({ success: true, message: 'Logged out successfully' });
 };
+
+export const checkUserExists = async (req,res) => {
+  const { email } = req.body;
+  const user = await userModel.findOne({ email });
+  if(!user){
+    return res.json({ success: false, message: 'User does not exist' , exists : false })
+  }else{
+    return res.json({ success: true, message: 'User exists', exists : true })
+  }
+
+}

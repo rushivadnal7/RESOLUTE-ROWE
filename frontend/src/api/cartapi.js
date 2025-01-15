@@ -12,3 +12,14 @@ export const UserCart = async () => {
     throw error.response?.data?.message || "Something went wrong";
   }
 };
+
+export const addCartDataLStrgToDb = async (cartData) => {
+  try {
+    const response = await axios.post(backendURL + "api/cart/lstrgtodb", cartData , {
+      withCredentials: true,    
+    });
+    return response.data
+  } catch (error) {
+    throw error.response?.data?.message || "Something went wrong";
+  }
+}

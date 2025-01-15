@@ -36,19 +36,20 @@ import BorderButton from '../components/BorderButton'
 import razorpay from "../assets/upi_color_card.svg";
 import Gpay from "../assets/googlepay_color_card.svg";
 import SizeChartModal from '../components/SizeChartModal';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ShopContext } from '../context/ShopContext';
 import { toast } from 'react-toastify';
 
 
 
 const ProductView = () => {
+    const navigate = useNavigate()
     const { productID } = useParams();
     const [quantity, setQuantity] = useState(1);
     const handleIncrement = () => setQuantity((prev) => prev + 1);
     const handleDecrement = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
 
-    const { addToCart, allProducts } = useContext(ShopContext)
+    const { addToCart, allProducts, setBuyData } = useContext(ShopContext)
     const [favoriteSelected, setFavoriteSelected] = useState(false)
     const [selectedSize, setSelectedSize] = useState("");
     const [productData, setProductData] = useState({})
@@ -74,8 +75,20 @@ const ProductView = () => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleOpenModal = () => setIsModalOpen(true);
-    const handleCloseModal = () => setIsModalOpen(false);
+    const handleOpenModal = () => {
+        const rootDiv = document.getElementById("root"); // Select the #root div
+        if (rootDiv) {
+            rootDiv.style.overflow = "hidden"; // Disable scroll for #root
+        } setIsModalOpen(true)
+    }
+        ;
+    const handleCloseModal = () => {
+        const rootDiv = document.getElementById("root"); // Select the #root div
+        if (rootDiv) {
+            rootDiv.style.overflow = " "; // Disable scroll for #root
+        }
+        setIsModalOpen(false)
+    };
 
     const favoriteButtonHandler = () => {
         setFavoriteSelected(!favoriteSelected)
@@ -84,6 +97,17 @@ const ProductView = () => {
     const handleSizeChange = (e) => {
         setSelectedSize(e.target.value);
     };
+
+    const handleBuyButton = () => {
+        if (selectedSize) {
+            const data = {}
+            
+            setBuyData(data)
+            navigate('/customerdetails')
+        } else {
+            toast.error('select a size')
+        }
+    }
 
 
     const handleAddToCart = () => {
@@ -124,14 +148,28 @@ const ProductView = () => {
 
     useEffect(() => {
         if (isModalOpen) {
+            console.log(isModalOpen)
             document.body.style.overflow = "hidden";
+            const rootDiv = document.getElementById("root"); // Select the #root div
+            if (rootDiv) {
+                rootDiv.style.overflow = "hidden"; // Disable scroll for #root
+            }
+            // console.log(document.body.style)
         } else {
             document.body.style.overflow = ""; // Revert to the default style
+            const rootDiv = document.getElementById("root"); // Select the #root div
+            if (rootDiv) {
+                rootDiv.style.overflow = " "; // Disable scroll for #root
+            }
         }
 
         // Cleanup on component unmount
         return () => {
             document.body.style.overflow = "";
+            const rootDiv = document.getElementById("root"); // Select the #root div
+            if (rootDiv) {
+                rootDiv.style.overflow = " "; // Disable scroll for #root
+            }
         };
     }, [isModalOpen]);
 
@@ -140,8 +178,8 @@ const ProductView = () => {
         <>
 
             <Navbar />
-            <ProductViewWrapper scrollDisable={isModalOpen}>
-                <Container>
+            <ProductViewWrapper className={isModalOpen ? 'overflow-hidden' : ''} scrollDisable={isModalOpen}>
+                <Container className={isModalOpen ? 'overflow-hidden' : ''}>
                     <ProductImages>
                         <ProductImages>
                             {productData?.images?.length ? (
@@ -224,7 +262,7 @@ const ProductView = () => {
                                 <QuantityDisplay>{quantity}</QuantityDisplay>
                                 <QuantityButton onClick={handleIncrement}>+</QuantityButton>
                             </QuantityWrapper>
-                            <BorderButton text={'Buy'} bgColor={'white'} />
+                            <BorderButton text={'Buy'} onclick={handleBuyButton} bgColor={'white'} />
                             <Button onclick={handleAddToCart} text={'Add to Cart'} />
                             <FavoriteButton onClick={favoriteButtonHandler}>
                                 <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className={`w-5 h-5 ${favoriteSelected && 'text-red-600'}`} viewBox="0 0 24 24">

@@ -37,9 +37,7 @@ export const HomeWrapper = styled.section`
     height: 100vh;
     overflow: hidden;
     display: flex;
-    /* background-color: #16161d; */
     background-color: black;
-    /* position: relative; */
 
     img {
       width: 15rem;
@@ -52,16 +50,16 @@ export const HomeWrapper = styled.section`
       margin: auto 0px;
       /* padding: 1rem 3rem; */
       display: flex;
-      /* border: 1px solid red; */
       flex-direction: column;
       /* justify-content: ; */
-      align-items: center;
+      align-items: center; 
       text-align: center;
 
       .hero-title {
         color: white;
         margin: 4rem;
         font-size: 8rem;
+        font-family: "Exo 2", serif;
         font-weight: bold;
         animation: heroTextAnimation 2.5s ease 0s 1 normal none;
 
@@ -210,7 +208,7 @@ export const HomeWrapper = styled.section`
   .best-seller-page {
     width: 100%;
     color: black;
-    height: 100vh;
+    height: max-content;
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -219,24 +217,25 @@ export const HomeWrapper = styled.section`
     border-radius: 20px 20px 0px 0px;
 
     h1 {
-      height: 10%;
+      height: max-content;
       width: 100%;
       text-align: center;
-      padding: 3rem;
+      /* padding: 0; */
       font-size: 50px;
       font-weight: 500;
+      /* border:1px solid red; */
     }
-
+    
     .product-container {
+      /* border:1px solid red; */
       width: 100%;
-      height: 90%;
-      padding: 2rem;
+      height: 600px;
+      /* padding: 1rem; */
       display: flex;
 
       ${media("lg")`
         width:70%;
-        padding:4rem;
-      `}
+        `}
 
       .product-display {
         width: 50%;
@@ -250,11 +249,6 @@ export const HomeWrapper = styled.section`
           width: auto;
           height: auto;
 
-          /* ${media("lg")`
-        width:200px;
-        height:400px;
-      `} */
-
           img {
             width: 100%;
             height: 100%;
@@ -264,7 +258,6 @@ export const HomeWrapper = styled.section`
         }
       }
       .product-details {
-        /* border: 1px solid white; */
         width: 50%;
         height: 100%;
         padding: 1rem;
@@ -287,7 +280,7 @@ export const HomeWrapper = styled.section`
           }
 
           .pricing {
-            font-size: 4rem;
+            font-size: 2rem;
             font-weight: 400;
           }
         }
@@ -310,7 +303,7 @@ export const HomeWrapper = styled.section`
           .gpay {
             background-color: rgba(0, 0, 0, 0.03);
             border-radius: 4px;
-            width: 80px;
+            width: 60px;
             img {
               width: 100%;
               height: 100%;
@@ -334,6 +327,7 @@ export const HomeWrapper = styled.section`
     /* background-color: #36454f; */
     backdrop-filter: blur(15px);
     position: relative;
+    padding:8rem;
 
     .gradient-background-image {
       height: 100%;
@@ -365,6 +359,7 @@ export const HomeWrapper = styled.section`
 
       p {
         color: gray;
+        text-align:justify;
       }
     }
   }
