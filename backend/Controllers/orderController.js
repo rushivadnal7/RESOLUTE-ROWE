@@ -77,8 +77,8 @@ const placeOrderRazorpay = async (req, res) => {
           .status(500)
           .json({ success: false, message: "Some Error, Try Again!" });
       }
-      console.log('order ' , order)
-      console.log('order id' , order.id)
+      console.log('order ', order)
+      console.log('order id', order.id)
       orderId = order.id;
       return res.status(200).json({ success: true, order });
     });
@@ -90,7 +90,7 @@ const placeOrderRazorpay = async (req, res) => {
 
 //verify razorpay
 const verifyRazorpay = async (req, res) => {
-  const { order_id, payment_id, signature, sessionId , receipt } = req.body;
+  const { order_id, payment_id, signature, sessionId, receipt } = req.body;
   const _id = receipt
   const userId = req.body.userId || sessionId;
   console.log('verify razorpay ' + userId)
@@ -100,17 +100,17 @@ const verifyRazorpay = async (req, res) => {
     .update(body)
     .digest("hex");
 
-    console.log(userId)
+  console.log(userId)
 
   try {
     if (generatedSignature === signature) {
-      await orderModel.findOneAndUpdate({ _id },{ payment: true });
+      await orderModel.findOneAndUpdate({ _id }, { payment: true });
       if (req.body.userId) {
         await userModel.findByIdAndUpdate(userId, { cartData: {} });
       }
 
       return res.json({ success: true, message: "Payment successful" });
-    } else{
+    } else {
       // await orderModel.findByIdAndDelete(orderInfo.receipt.toString());
       return res.json({ success: false, message: "Payment failed" });
     }
@@ -132,4 +132,38 @@ const userOrders = async (req, res) => {
   }
 };
 
-export { placeOrder, placeOrderRazorpay, verifyRazorpay, userOrders };
+const updateUserId = async (req, res) => {
+  try {
+    console.log('req.body ' ,req.body.userId)
+    const { userId } = req.body.userId;  
+    const { sessionId } = req.body; 
+
+    console.log('user-id ' , userId)
+    console.log('session-id ', sessionId)
+
+    const result = await orderModel.updateMany(
+      { userId: sessionId }, 
+      { $set: { userId: req.body.userId } } 
+    );
+
+    if (result.modifiedCount > 0) {
+      return res.status(200).json({
+        success: true,
+        message: `${result.modifiedCount} orders updated successfully`,
+      });
+    } else {
+      return res.status(401).json({
+        success: false,
+        message: 'No matching orders found to update',
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+
+
+
+export { placeOrder, placeOrderRazorpay, verifyRazorpay, userOrders , updateUserId };

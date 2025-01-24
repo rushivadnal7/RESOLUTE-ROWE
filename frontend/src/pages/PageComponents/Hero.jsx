@@ -3,6 +3,7 @@ import hero from "../../assets/heroPageImage.png";
 import BorderButton from "../../components/BorderButton";
 import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
+import Logo3D from "../../components/Logo3D";
 
 const Hero = () => {
 
@@ -16,6 +17,9 @@ const Hero = () => {
           <BorderButton onclick={() => navigate('/products')} text={'buy'} bgColor={'black'}/>
             
         </div>
+      </div>
+      <div className="logo-container">
+        <Logo3D/>
       </div>
       <div className="right-container">
         <img className="hero-image" src={hero} alt="hero-image" />

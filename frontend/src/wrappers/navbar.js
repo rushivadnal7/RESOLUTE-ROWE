@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { media } from "../helper/mediaHelper";
 
 export const NavbarWrapper = styled.nav`
   width: 100vw;
@@ -12,12 +13,14 @@ export const NavbarWrapper = styled.nav`
   top: 0;
   left: 0;
   z-index: 100;
-  
-  /* border-bottom: ${({ isScrolled }) => (isScrolled ? "1px solid white" : "")}; */
-  
+
+  /* border-bottom: ${({ isScrolled }) =>
+    isScrolled ? "1px solid white" : ""}; */
+
   /* Background change on scroll */
-  background-color: ${({ isScrolled }) => (isScrolled ? "transparent" : "white")};
-  color:${({ isScrolled }) => (isScrolled ? "#40404F" : "black")} ;
+  background-color: ${({ isScrolled }) =>
+    isScrolled ? "transparent" : "white"};
+  color: ${({ isScrolled }) => (isScrolled ? "#40404F" : "black")};
   transition: background-color 0.3s ease;
   transition: height 0.3s ease;
 
@@ -67,7 +70,7 @@ export const NavbarWrapper = styled.nav`
     display: none;
   }
 
-  .dropdown-container{
+  .dropdown-container {
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -85,26 +88,46 @@ export const NavbarWrapper = styled.nav`
     max-height: 0px;
     transition: max-height 0.3s ease;
 
-    .orders-button , .auth-button{
-      cursor: pointer; 
+    .orders-button,
+    .auth-button {
+      cursor: pointer;
     }
 
-    .hover-effect:hover{
+    .hover-effect:hover {
       color: #002147;
       filter: drop-shadow(0 -1mm 4mm #002147);
-
     }
   }
 
-  .dropdown-container.open{
+  .menu{
+    display: none;
+  }
+
+  .dropdown-container.open {
     max-height: 100px;
-  } 
-  .dropdown-container.close{
+  }
+  .dropdown-container.close {
     max-height: 0px;
     visibility: hidden;
-  } 
+  }
 
+  ${media("md")`
+         .hamburger-menu {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 0.3rem;
+      cursor: pointer;
+      width: 1.7rem;
+    } 
+
+    .logo{
+      display:none;
+    }
+  `}
   @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
+
     .hamburger-menu {
       display: flex;
       flex-direction: column;
@@ -113,19 +136,46 @@ export const NavbarWrapper = styled.nav`
       gap: 0.3rem;
       cursor: pointer;
       width: 1.7rem;
+      color:black;
+      /* background-color:black; */
+
+      .menu-bar{
+        background-color:gray;
+        width:20px;
+        height:3px;
+        border-radius:8px;
+
+      }
+      
     }
 
+
+
     .menu {
-      background-color: #1b2a41;
+      /* background-color: #1b2a41; */
+      display: flex;
+      flex-direction:column;
+      background-color: black;
       width: 50%;
       height: 100vh;
       position: absolute;
-      top: 0;
+      top: ${({ isScrolled }) => (isScrolled ? "4.5rem" : "5.5rem")};
       left: -300px;
-      z-index: -1;
-      transition: left 0.4s ease;
-    }
+      z-index: 10;
+      transition: all 0.4s ease;
 
+      
+      ul{
+        margin-top:5rem;
+        list-style:none;
+        display:flex;
+        flex-direction:column;
+        
+        gap: 1rem;
+        color:white;
+      }
+    }
+    
     .open {
       left: 0;
     }
@@ -139,14 +189,15 @@ export const NavbarWrapper = styled.nav`
     }
 
     .logo {
-      width: max-content;
+      /* width: max-content; */
+      display:none;
     }
   }
 
-  .cart-button{
+  .cart-button {
     position: relative;
   }
-  .cart-count{
+  .cart-count {
     width: 15px;
     text-align: center;
     height: 15px;

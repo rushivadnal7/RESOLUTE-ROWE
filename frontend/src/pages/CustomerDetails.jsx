@@ -7,42 +7,75 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-import logo from '../assets/logo.png'
-import Spinner from "../components/Spinner";
+import logo from "../assets/logo.png";
 import { registerUser } from "../api/authapis";
-
-
+// import { CartItem, CartItems, QuantitySelector } from "../wrappers/cart";
+import BorderButton from "../components/BorderButton";
+// import Button from "../components/Button";
+import Spinner from "../components/Spinner";
 
 const CustomerDetails = () => {
     const navigate = useNavigate();
 
-    const { cartData, getCartAmount, delivery_fee, allProducts, setCartData, backendUrl, buyData, checkUserExists, loginStatus, sessionId, setLoginStatus } = useContext(ShopContext);
+    const {
+        cartData,
+        getCartAmount,
+        delivery_fee,
+        allProducts,
+        setCartData,
+        backendUrl,
+        buyData,
+        checkUserExists,
+        loginStatus,
+        sessionId,
+        setLoginStatus,
+    } = useContext(ShopContext);
     const [customerData, setCustomerData] = useState(() => {
         const savedData = localStorage.getItem("customer-shipping-details");
-        return savedData ? JSON.parse(savedData) : {
-            Name: "",
-            email: "",
-            password: "",
-            country: "",
-            address: "",
-            apartment: "",
-            city: "",
-            state: "",
-            pincode: "",
-            phoneNumber: "",
-        };
+        return savedData
+            ? JSON.parse(savedData)
+            : {
+                Name: "",
+                email: "",
+                password: "",
+                country: "",
+                address: "",
+                apartment: "",
+                city: "",
+                state: "",
+                pincode: "",
+                phoneNumber: "",
+            };
     });
 
-    console.log(backendUrl)
+    useEffect(() => {
+        if (Object.keys(buyData).length > 0) {
+            localStorage.setItem("buy-data", JSON.stringify(buyData));
+        }
+    }, []);
 
+    const data = localStorage.getItem("buy-data");
 
+    let parsedBuyData = JSON.parse(data);
+
+    const { img, name, size, price, productID } = parsedBuyData[0];
+
+    const [couponCode, setCouponCode] = useState('')
+    const [discountedRate, setDiscountedRate] = useState(null)
+    const [discount, setDiscount] = useState('no discount');
+    const [couponPlaceholder, setCouponPlaceholder] = useState('discount code');
+    const [couponLoading, setCouponLoading] = useState(false);
     const [isEmailValid, setIsEmailValid] = useState(false);
     const [isUserExists, setIsUserExists] = useState(null);
     const [isChecking, setIsChecking] = useState(false);
-    const [paymentMethod, setPaymentMethod] = useState('')
+    const [paymentMethod, setPaymentMethod] = useState("razorpay");
+    const [directBuy, setDirectBuy] = useState(parsedBuyData.length > 0 ? true : false)
 
     useEffect(() => {
-        localStorage.setItem("customer-shipping-details", JSON.stringify(customerData));
+        localStorage.setItem(
+            "customer-shipping-details",
+            JSON.stringify(customerData)
+        );
     }, [customerData]);
 
     useEffect(() => {
@@ -54,7 +87,6 @@ const CustomerDetails = () => {
 
     // validateEmail(customerData.email)
     useEffect(() => {
-        console.log(customerData.email)
         const delayDebounce = setTimeout(() => {
             if (isEmailValid) {
                 handleCheckUserExists();
@@ -65,15 +97,14 @@ const CustomerDetails = () => {
     }, [customerData.email]);
 
     const validateEmail = (email) => {
-        const emailRegex =
-            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         setIsEmailValid(emailRegex.test(email));
         return emailRegex.test(email);
     };
 
     const handleCheckUserExists = async () => {
         setIsChecking(true);
-        console.log(customerData.email)
+        // console.log(customerData.email);
 
         if (loginStatus === false) {
             try {
@@ -101,11 +132,8 @@ const CustomerDetails = () => {
         }
     };
 
-
-    // console.log(buyData)
-
     const verifyRazorpay = (order) => {
-        console.log(order.receipt)
+        console.log(order.receipt);
         const options = {
             key: import.meta.env.VITE_RAZORPAY_KEY_ID,
             order_id: order.id,
@@ -119,7 +147,7 @@ const CustomerDetails = () => {
                 contact: `${customerData.phoneNumber}`,
             },
             theme: {
-                color: '#daa520',
+                color: "#daa520",
             },
             handler: async (response) => {
                 const razorpayData = {
@@ -127,8 +155,8 @@ const CustomerDetails = () => {
                     payment_id: response.razorpay_payment_id,
                     signature: response.razorpay_signature,
                     sessionId: sessionId,
-                    receipt: order.receipt
-                }
+                    receipt: order.receipt,
+                };
                 try {
                     const { data } = await axios.post(
                         backendUrl + "api/order/verifyrazorpay",
@@ -138,28 +166,29 @@ const CustomerDetails = () => {
                     console.log(data);
 
                     if (data.success) {
-                        setCartData({});
-                        localStorage.removeItem('cart-items')
+                        if (!directBuy) {
+                            setCartData({});
+                            localStorage.removeItem("cart-items");
+                        }
                         navigate("/");
                         if (!loginStatus && isUserExists === false) {
                             const data = {
                                 name: customerData.Name,
                                 email: customerData.email,
-                                password: customerData.password
-                            }
-                            const response = await registerUser(data)
+                                password: customerData.password,
+                            };
+                            const response = await registerUser(data);
                             if (response.success) {
-                                toast.success(response.message)
-                                setLoginStatus(true)
+                                toast.success(response.message);
+                                setLoginStatus(true);
                             }
-
                         }
                     }
                 } catch (error) {
                     console.log(error);
                     toast.error(error.message);
                 }
-            }
+            },
         };
 
         const rzp = new window.Razorpay(options);
@@ -170,28 +199,39 @@ const CustomerDetails = () => {
         e.preventDefault();
         try {
             let orderItems = [];
-            for (const items in cartData) {
-                for (const item in cartData[items]) {
-                    if (cartData[items][item] > 0) {
-                        const itemInfo =
-                            allProducts.find((product) => product._id === items)
-                        if (itemInfo) {
-                            itemInfo.size = item;
-                            itemInfo.quantity = cartData[items][item];
-                            orderItems.push(itemInfo);
+
+            if (directBuy) {
+
+                console.log(productID)
+                const itemInfo = allProducts.find((product) => product._id === productID)
+                itemInfo.size = size;
+                itemInfo.quantity = 1;
+                orderItems.push(itemInfo);
+
+            } else {
+
+                for (const items in cartData) {
+                    for (const item in cartData[items]) {
+                        if (cartData[items][item] > 0) {
+                            const itemInfo = allProducts.find(
+                                (product) => product._id === items
+                            );
+                            if (itemInfo) {
+                                itemInfo.size = item;
+                                itemInfo.quantity = cartData[items][item];
+                                orderItems.push(itemInfo);
+                            }
                         }
                     }
                 }
             }
-
+            console.log(orderItems)
             let orderData = {
                 address: customerData,
                 items: orderItems,
-                amount: getCartAmount() + delivery_fee,
-                sessionId
+                amount: directBuy ? discountedRate ? discountedRate + delivery_fee : price + delivery_fee : getCartAmount() + delivery_fee,
+                sessionId,
             };
-
-
 
             // API calls according to payment method
             switch (paymentMethod) {
@@ -202,9 +242,23 @@ const CustomerDetails = () => {
                         { withCredentials: true }
                     );
                     if (response.data.success) {
-                        setCartData({});
-                        localStorage.removeItem('cart-items')
-                        navigate("/");
+                        if (!directBuy) {
+                            setCartData({});
+                            localStorage.removeItem("cart-items");
+                        }
+                        if (!loginStatus && isUserExists === false) {
+                            const data = {
+                                name: customerData.Name,
+                                email: customerData.email,
+                                password: customerData.password,
+                            };
+                            const response = await registerUser(data);
+                            if (response.success) {
+                                toast.success(response.message);
+                                setLoginStatus(true);
+                            }
+                            navigate("/");
+                        }
                     } else {
                         toast.error(response.data.message);
                     }
@@ -216,7 +270,6 @@ const CustomerDetails = () => {
                         { withCredentials: true }
                     );
                     if (responseRazorpay.data.success) {
-                        console.log()
                         verifyRazorpay(responseRazorpay.data.order);
                     }
                     break;
@@ -225,18 +278,28 @@ const CustomerDetails = () => {
             }
 
             if (!loginStatus && !isUserExists) {
-
             }
-
         } catch (error) {
             console.log(error);
             toast.error(error.message);
         }
     };
-    useEffect(() => {
-        console.log(paymentMethod);
-    }, [paymentMethod])
 
+    const couponApply = () => {
+        setCouponLoading(true)
+        setTimeout(() => {
+            if (couponCode === 'TOP10') {
+                setDiscountedRate(price - (price * 25) / 100);
+                setDiscount('25%');
+            } else {
+                setCouponCode('');
+                setCouponPlaceholder('no discounts available');
+            }
+            setCouponLoading(false);
+        }, 500);
+
+    }
+    // console.log(parsedBuyData);
     return (
         <>
             <Navbar />
@@ -265,29 +328,42 @@ const CustomerDetails = () => {
                                 onChange={handleInputChange}
                                 required
                             />
-                            {
-                                loginStatus === false && isUserExists ? <>
-                                    <span className="text-xs text-gray-500 ">user is already registered ! </span>
-                                    <a className="underline text-blue-600 cursor-pointer text-sm  " onClick={() => navigate('/login', { state: true })}>Login</a>
-                                    <span className="text-xs text-gray-500"> for order tracking</span>
-                                </> : ''
-                            }
+                            {loginStatus === false && isUserExists ? (
+                                <>
+                                    <span className="text-xs text-gray-500 ">
+                                        user is already registered !{" "}
+                                    </span>
+                                    <a
+                                        className="underline text-blue-600 cursor-pointer text-sm  "
+                                        onClick={() => navigate("/login", { state: true })}
+                                    >
+                                        Login
+                                    </a>
+                                    <span className="text-xs text-gray-500">
+                                        {" "}
+                                        for order tracking
+                                    </span>
+                                </>
+                            ) : (
+                                ""
+                            )}
                         </InputWrapper>
 
-                        {
-                            loginStatus === false && isUserExists !== null && !isUserExists ?
-                                <InputWrapper>
-                                    <Label>Password</Label>
-                                    <Input
-                                        type="password"
-                                        placeholder="create a Password"
-                                        name="password"
-                                        value={customerData.password}
-                                        onChange={handleInputChange}
-                                        required
-                                    />
-                                </InputWrapper> : ''
-                        }
+                        {loginStatus === false && isUserExists !== null && !isUserExists ? (
+                            <InputWrapper>
+                                <Label>Password</Label>
+                                <Input
+                                    type="password"
+                                    placeholder="create a Password"
+                                    name="password"
+                                    value={customerData.password}
+                                    onChange={handleInputChange}
+                                    required
+                                />
+                            </InputWrapper>
+                        ) : (
+                            ""
+                        )}
                         <InputWrapper>
                             <Label>Country</Label>
                             <Input
@@ -366,18 +442,61 @@ const CustomerDetails = () => {
                         </InputWrapper>
                     </FormContainer>
 
-                    <Button onClick={handleSubmit}>Continue to Payment</Button>
+                    <Button onClick={handleSubmit}>
+                        Continue to payment
+                    </Button>
                 </Container>
-                {/* <CartSection>
-                    <button>razorpay</button>
-                </CartSection> */}
                 <PaymentOptions>
-                    <button onClick={() => setPaymentMethod("razorpay")}>razorpay</button>
-                    <button onClick={() => setPaymentMethod("cod")}>cod</button>
+                    <div className="item-details">
+                        <div className="product">
+                            <img src={img} alt={name} />
+                            <div className="details">
+                                <div className="name">{name}</div>
+                                <div className="size">Size: {size}</div>
+                            </div>
+                            <div className="price">₹{discountedRate ? discountedRate : price.toFixed(2)}</div>
+                        </div>
+
+                        <div className="price-details">
+                            <div className="label">Subtotal</div>
+                            <div className="value">₹{discountedRate ? discountedRate : price.toFixed(2)}</div>
+                        </div>
+
+                        <div className="discount-code">
+                            <input type="text" onChange={(e) => setCouponCode(e.target.value)} placeholder={couponPlaceholder} />
+                            <button onClick={couponApply}>Apply</button>
+                        </div>
+
+                        <div className="price-details">
+                            <div className="label">Shipping</div>
+                            <div className="value">Enter shipping address</div>
+                        </div>
+
+                        <div className="total">
+                        </div>
+                        Total: ₹ {discountedRate ? discountedRate : price.toFixed(2)}{
+                            couponLoading ?
+                                <Spinner size={20} />
+                                :
+                                <p>{discount}</p>
+                        }
+                        <div className="taxes">
+                            Including ₹{(price * 0.05).toFixed(2)} in taxes
+                        </div>
+                    </div>
+                    <div className="payment-options">
+                        {/* <Button
+                            onClick={() => setPaymentMethod("razorpay")}
+                            text={"razorpay"}
+                        />
+                        <input type="checkbox" name="" id="" />
+
+                        <Button onClick={() => setPaymentMethod("cod")} text={"cod"} /> */}
+
+                    </div>
                 </PaymentOptions>
             </MainSection>
             <Footer />
-
         </>
     );
 };
@@ -386,33 +505,133 @@ export default CustomerDetails;
 
 const MainSection = styled.section`
   display: flex;
-  height: auto;
+  height: 100vh;
 `;
 
 const Container = styled.div`
   width: 70%;
-  height: max-content;
+  /* height: max-content; */
   margin: 40px auto;
   padding: 2rem 4rem;
   display: flex;
   flex-direction: column;
   gap: 20px;
-`;
-
-const CartSection = styled.div`
-  width: 30%;
-  height: 100%;
-  border-left: 1.5px solid gray;
-  background-color: aliceblue;
+  overflow-y: scroll;
 `;
 
 const PaymentOptions = styled.div`
   width: 40%;
-  height: 100;
-  background-color: aliceblue;
+  padding: 1rem;
+  height: 100%;
+  background-color: whitesmoke;
   display: flex;
   justify-content: space-around;
-  align-items:center;
+  align-items: center;
+  flex-direction: column;
+
+  .item-details {
+    /* height: 80%; */
+    display: flex;
+    margin: 2rem;
+  flex-direction: column;
+  gap: 16px;
+  background-color: #f9f9f9;
+  padding: 16px;
+  border-radius: 8px;
+
+  .product {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .details {
+      display: flex;
+      flex-direction: column;
+
+      .name {
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .size {
+        font-size: 14px;
+        color: #666;
+      }
+    }
+  }
+
+  .price-details {
+    display: flex;
+    justify-content: space-between;
+
+    .label {
+      font-size: 14px;
+      color: #555;
+    }
+
+    .value {
+      font-size: 14px;
+      font-weight: 600;
+      color: #000;
+    }
+  }
+
+  .discount-code {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    input {
+      flex: 1;
+      padding: 8px;
+      font-size: 14px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    button {
+      padding: 8px 16px;
+      font-size: 14px;
+      color: #fff;
+      background-color: black;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
+
+  .total {
+    font-size: 16px;
+    font-weight: bold;
+    color: #000;
+    margin-top: 16px;
+  }
+
+  .taxes {
+    font-size: 12px;
+    color: #666;
+  }
+  }
+
+  .payment-options {
+    height: 20%;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    /* border: 1px solid red; */
+  }
 `;
 
 const Heading = styled.h2`
@@ -426,6 +645,7 @@ const FormContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+  /* overflow-y: scroll; */
 `;
 
 const InputWrapper = styled.div`
@@ -474,5 +694,120 @@ const Button = styled.button`
 
   &:hover {
     background-color: #333;
+  }
+
+`;
+
+const CartItems = styled.div`
+  width: 100%;
+  height: 100%;
+  padding-right: 40px;
+  overflow-y: auto;
+
+  h2 {
+    font-size: xx-large;
+    font-weight: bold;
+  }
+
+  .skeleton-cards {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* flex-wrap: wrap; */
+    gap: 3rem;
+  }
+
+  .skeleton-card {
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+
+    @media (max-width: 768px) {
+      width: 80px;
+      height: 100px;
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+`;
+
+const CartItem = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 20px;
+  padding: 15px 0;
+  border-bottom: 1px solid #ddd;
+
+  img {
+    width: 60px;
+    height: auto;
+    margin-right: 20px;
+    border-radius: 8px;
+  }
+
+  div {
+    flex-grow: 1;
+  }
+
+  h3 {
+    font-size: 18px;
+    margin: 0;
+  }
+
+  p {
+    color: #777;
+    font-size: 14px;
+    margin: 5px 0;
+  }
+
+  .disabled-button {
+    cursor: not-allowed;
+    opacity: 0.5; /* Optional: to visually indicate it's disabled */
+  }
+  .disabled:disabled {
+    cursor: not-allowed;
+    opacity: 0.5; /* Optional: applies to all disabled buttons */
+  }
+
+  button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    /* color: red; */
+  }
+  .delete-button:hover {
+    color: red;
+  }
+`;
+
+const QuantitySelector = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+
+  button {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ddd;
+    background: none;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  span {
+    margin: 0 10px;
+    font-size: 16px;
   }
 `;

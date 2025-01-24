@@ -2,9 +2,10 @@ import jwt from "jsonwebtoken";
 
 export const authMiddleware = (req, res, next) => {
   const token = req.cookies.token;
+  console.log('token' , token )
   if (!token) {
     return res
-      .status(401)
+    .status(401)
       .json({
         success: false,
         message: "Unauthorized access, token not provided",
@@ -15,6 +16,8 @@ export const authMiddleware = (req, res, next) => {
     req.user = decoded;
     req.userId = decoded.id;
     req.body.userId = decoded.id;
+    console.log('req.body.userId' , req.body.userId )
+    console.log('req.userId' , req.userId )
     next();
   } catch (error) {
     return res

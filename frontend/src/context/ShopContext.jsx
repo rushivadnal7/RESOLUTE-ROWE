@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { CheckLoginStatus } from "../api/authapis";
 import { UserCart } from "../api/cartapi";
 import { ListProductAPI } from "../api/productapi";
-
+import Cookies from 'js-cookie'
 
 export const ShopContext = createContext(null);
 
@@ -33,22 +33,20 @@ const ShopContextProvider = (props) => {
             }
             if (response.loggedIn) {
                 setLoginStatus(true);
-                
-                setSessionId('')
             } else {
                 setLoginStatus(false);
-                if (!document.cookie.includes("sessionId")) {
-                    let sessionId = '';
-                    for (let i = 0; i < 24; i++) {
-                        sessionId += Math.floor(Math.random() * 10);
-                    }
-                    document.cookie = `sessionId=${sessionId}; path=/`;
-                    setSessionId(sessionId);
-                } else {
-                    const cookies = document.cookie.split("; ");
-                    const sessionCookie = cookies.find((cookie) => cookie.startsWith("sessionId="));
-                    setSessionId(sessionCookie ? sessionCookie.split("=")[1] : null)
+            }
+            if (!document.cookie.includes("sessionId")) {
+                let sessionId = '';
+                for (let i = 0; i < 24; i++) {
+                    sessionId += Math.floor(Math.random() * 10);
                 }
+                document.cookie = `sessionId=${sessionId}; path=/`;
+                setSessionId(sessionId);
+            } else {
+                const cookies = document.cookie.split("; ");
+                const sessionCookie = cookies.find((cookie) => cookie.startsWith("sessionId="));
+                setSessionId(sessionCookie ? sessionCookie.split("=")[1] : null)
             }
             const dataString = localStorage.getItem('cart-items')
             const localStrgCartData = JSON.parse(dataString);
@@ -81,6 +79,28 @@ const ShopContextProvider = (props) => {
     }, []);
 
 
+    const sessionIdToUserId = async () => {
+
+        if (loginStatus) {
+            try {
+                console.log(`updating the user id : ${sessionId}`)
+                const response = await axios.post(backendUrl + "api/order/updateuserid", { sessionId }, { withCredentials: true })
+                if (response.data.success) {
+                    console.log(response.data.message)
+                }
+            } catch (error) {
+                console.error(error.message)
+                console.log('userId not updated')
+            }
+            // Cookies.remove('sessionId')
+        }
+        // setSessionId('')
+    }
+
+    useEffect(() => {
+        sessionIdToUserId()
+    }, [loginStatus])
+
 
 
     // add to cart
@@ -107,7 +127,7 @@ const ShopContextProvider = (props) => {
         setCartItems(cart);
         if (loginStatus) {
             try {
-                const response = await axios.post(backendUrl + "api/cart/add", { itemId, size, quantity }, { withCredentials: true });
+                const response = await axios.post(backendUrl + "api/order/verifyrazorpay", { itemId, size, quantity }, { withCredentials: true });
                 // console.log(response.data)
                 if (response.data) {
                     toast.success('product added to cart')

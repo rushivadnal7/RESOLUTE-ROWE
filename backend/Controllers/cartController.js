@@ -100,7 +100,7 @@ const calculateCartTotal = async (req,res) => {
 const localStrgToDB = async (req,res) => {
     try{
         const {cartData} = req.body
-        const userId = req.userId; // Extracted from cookie middleware
+        const userId = req.userId;
         console.log(cartData)
         await userModel.findByIdAndUpdate(userId, { cartData });
         return res.json({success : true , message : 'successfully stored cart'})

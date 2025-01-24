@@ -30,7 +30,7 @@ const Login = () => {
     password: '',
   })
 
-  const { cartData } = useContext(ShopContext)
+  const { cartData, setLoginStatus } = useContext(ShopContext)
 
 
   const [message, setMessage] = useState('')
@@ -83,6 +83,7 @@ const Login = () => {
         toast.success(data.message)
         navigate('/')
       }
+      setLoginStatus(true)
     } else {
       toast.error(data.message);
     }

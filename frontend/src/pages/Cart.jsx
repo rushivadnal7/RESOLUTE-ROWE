@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 const Cart = () => {
     const { cartData, addToCart, UpdateCartApi, getCartAmount, delivery_fee, currency } = useContext(ShopContext)
     const navigate = useNavigate()
-    console.log(cartData);
+    // console.log(cartData);
     
 
     const [cartItems, setCartItems] = useState([]);
@@ -20,8 +20,8 @@ const Cart = () => {
     const [discountedRate, setDiscountedRate] = useState(null)
     const [discount, setDiscount] = useState('no discount');
     const [couponPlaceholder, setCouponPlaceholder] = useState('discount code');
-    const [loading, setLoading] = useState(false);
     const [couponLoading, setCouponLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const fetchCartItems = async () => {
         setLoading(true)
@@ -101,7 +101,7 @@ const Cart = () => {
     };
 
     const removeProduct = async (id, size) => {
-        console.log(cartItems)
+        // console.log(cartItems)
         setCartItems(prevItems => prevItems.filter(item => !(item.id === id && item.size === size)));
 
         const updatedCartData = { ...cartData };
@@ -115,7 +115,7 @@ const Cart = () => {
         try {
             const response = await UpdateCartApi(id, size, 0);
             // toast.success("Item removed successfully!");
-            console.log(response.message);
+            // console.log(response.message);
         } catch (error) {
             console.error("Error removing product:", error);
             toast.error(error || "Failed to remove the item from the cart.");
@@ -152,7 +152,7 @@ const Cart = () => {
 
 
 
-    console.log('')
+    console.log(cartItems)
     return (
         <>
             <Navbar />

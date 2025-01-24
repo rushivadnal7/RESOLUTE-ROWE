@@ -5,6 +5,7 @@ import {
   placeOrderRazorpay,
   verifyRazorpay,
   userOrders,
+  updateUserId,
 } from "../Controllers/orderController.js";
 import jwt from "jsonwebtoken";
 
@@ -44,5 +45,6 @@ orderRouter.post("/verifyrazorpay", orderMiddleware, verifyRazorpay);
 
 //user features
 orderRouter.get("/userorders", orderMiddleware, userOrders);
+orderRouter.post('/updateuserid' , authMiddleware , updateUserId)
 
 export default orderRouter;

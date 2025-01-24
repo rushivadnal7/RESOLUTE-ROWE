@@ -28,9 +28,9 @@ const Navbar = () => {
     return totalCount;
   };
 
-  useEffect(()=> {
+  useEffect(() => {
     fetchUserData()
-  },[])
+  }, [])
 
   const value = getCartCount()
   // console.log(value)
@@ -75,12 +75,30 @@ const Navbar = () => {
           className={`hamburger-menu ${hamburgerMenu ? "clicked" : "unclicked"}`}
           onClick={menuDrawerHandler}
         >
-          <div className="menu-bar menu-bar-top"></div>
+          {
+            hamburgerMenu ?
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+              </svg>
+              :
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+              </svg>
+          }
+
+          {/* <div className="menu-bar menu-bar-top"></div>
           <div className="menu-bar menu-bar-middle"></div>
-          <div className="menu-bar menu-bar-bottom"></div>
+          <div className="menu-bar menu-bar-bottom"></div> */}
         </div>
 
-        <div className={`menu ${hamburgerMenu === true ? "open" : "close"}`}></div>
+        <div className={`menu ${hamburgerMenu === true ? "open" : "close"}`}>
+          <ul>
+            <li onClick={() => navigate('/')}>home</li>
+            <li onClick={() => navigate('/products')}>products</li>
+            <li onClick={() => navigate('/customize')}>customize</li>
+            <li onClick={() => navigate('/contact')}>contact</li>
+          </ul>
+        </div>
 
         <div className="nav-links">
           <ul>
@@ -110,7 +128,7 @@ const Navbar = () => {
               />
             </svg>
           </div>
-          <div onClick={() =>navigate('/cart')} className="cart-button button">
+          <div onClick={() => navigate('/cart')} className="cart-button button">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

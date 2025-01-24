@@ -98,9 +98,18 @@ const ProductView = () => {
         setSelectedSize(e.target.value);
     };
 
+    // console.log(productData)
     const handleBuyButton = () => {
         if (selectedSize) {
-            const data = {}
+            const data = [{
+                productID: productId,
+                size: selectedSize,
+                quantity: quantity,
+                name: name,
+                price: price,
+                description: description,
+                img : productData?.images[0],
+            }]
             
             setBuyData(data)
             navigate('/customerdetails')
