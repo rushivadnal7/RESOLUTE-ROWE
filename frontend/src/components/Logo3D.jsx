@@ -2,7 +2,6 @@ import React, { useRef, useEffect } from "react";
 import { Canvas, useLoader, useFrame } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { OrbitControls } from "@react-three/drei";
-// import logo from '../../public/gltfs/Logo.glb'
 
 // Directly use the relative path to your model in the public folder
 const logoModel = "/gltfs/Logo.glb";
