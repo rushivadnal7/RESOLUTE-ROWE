@@ -408,6 +408,34 @@ export const HomeWrapper = styled.section`
       display:none;
     }
 
-    }
+    
   }
+  .best-seller-page{
+    height:max-content;
+    padding:2rem;
+    .product-container{
+      flex-direction:column;
+      gap:1rem;
+
+      .product-display , .product-details{
+        width:100%;
+        height:max-content;
+      }
+
+      .product-display{
+        .product-image{
+          width:auto;  
+          height:300px;
+
+          img{
+            width:100%;
+            height:100%;
+          }
+        }
+
+      }
+    }
+  
+  }
+}
 `;

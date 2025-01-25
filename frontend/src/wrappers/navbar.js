@@ -70,6 +70,10 @@ export const NavbarWrapper = styled.nav`
     display: none;
   }
 
+  .hamburger{
+    color: ${({ isScrolled }) => (isScrolled ? "#40404F" : "black")};
+  }
+
   .dropdown-container {
     position: absolute;
     display: flex;
