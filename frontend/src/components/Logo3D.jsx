@@ -13,7 +13,7 @@ const LogoModel = () => {
   const meshRef = useRef();
 
   // Load the 3D model using the GLTFLoader
-  const { scene } = useGLTF("/public/gltfs/Logo.glb");
+  const { scene } = useGLTF("/gltfs/Logo.glb");
   // const { scene } = useLoader(GLTFLoader, logoModel);
 
   // Apply rotation in every frame
