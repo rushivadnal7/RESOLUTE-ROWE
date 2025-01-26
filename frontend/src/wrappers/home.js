@@ -158,7 +158,6 @@ export const HomeWrapper = styled.section`
       justify-content: flex-start;
       align-items: center;
       overflow-x: auto;
-      overflow: hidden;
       scroll-behavior: smooth;
       scrollbar-width: none;
       -ms-overflow-style: none;
@@ -166,16 +165,7 @@ export const HomeWrapper = styled.section`
       &::-webkit-scrollbar {
         display: none;
       }
-
-      .carousel-track {
-  display: flex;
-  transition: transform 0.5s ease-in-out; /* Smooth sliding animation */
-}
-
-.carousel-track > * {
-  flex: 0 0 calc(100% / 3); /* Visible 3 cards at a time (adjust as needed) */
-  margin-right: 16px; /* Space between cards */
-}
+      
     }
 
     .arrow-controls {

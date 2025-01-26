@@ -11,7 +11,7 @@ const TrendingPage = () => {
     if (scrollContainerRef.current) {
       const cardWidth = scrollContainerRef.current.firstChild.offsetWidth; // Get the width of a single card
       scrollContainerRef.current.scrollBy({
-        left: -500, // Scroll by one card's width
+        left: -350, // Scroll by one card's width
         behavior: "smooth",
       });
     }
@@ -22,7 +22,7 @@ const TrendingPage = () => {
     if (scrollContainerRef.current) {
       const cardWidth = scrollContainerRef.current.firstChild.offsetWidth; // Get the width of a single card
       scrollContainerRef.current.scrollBy({
-        left: 500, // Scroll by one card's width
+        left: 350, // Scroll by one card's width
         behavior: "smooth",
       });
     }
