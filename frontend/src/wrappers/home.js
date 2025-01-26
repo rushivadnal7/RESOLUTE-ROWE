@@ -374,6 +374,7 @@ export const HomeWrapper = styled.section`
   @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
     .hero{
       position:relative;
+      
       img{
         display:none;
       }
