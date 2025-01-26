@@ -17,10 +17,10 @@ const ProductCard = ({ data }) => {
   return (
     <>
       <ProductCardWrapper onClick={CardbuttonHandler}>
-        <img className='image' src={images ? images[0] : ''} alt={name} />
+        <img className='image' src={images ? images[0] : ''} alt={name && 'product-image'} />
         <div className="product-card-container">
-          <h1>{name ? name : ''}</h1>
-          <span>{price ? price : ""}</span>
+          <h1>{name ? name : 'product-name'}</h1>
+          <span>{price ? price : "product-price"}</span>
         </div>
       </ProductCardWrapper>
     </>
