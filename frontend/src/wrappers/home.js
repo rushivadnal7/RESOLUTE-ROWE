@@ -375,7 +375,7 @@ export const HomeWrapper = styled.section`
     }
   }
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     .hero{
       position:relative;
 

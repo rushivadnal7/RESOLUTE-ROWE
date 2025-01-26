@@ -117,7 +117,7 @@ export const NavbarWrapper = styled.nav`
   }
 
  
-  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     position: fixed;
 
 

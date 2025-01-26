@@ -85,11 +85,11 @@ function App() {
 
   const theme = {
     breakpoints: {
-      xs: "0px",
-      sm: "576px",
-      md: "768px",
-      lg: "992px",
-      xl: "1200px",
+      xs: "576px",
+      sm: "768px",
+      md: "992px",
+      lg: "1200px",
+      xl: "1400px",
     },
     media: {
       xs: `(max-width: 575px)`, // Up to 575px

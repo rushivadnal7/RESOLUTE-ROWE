@@ -9,6 +9,7 @@ const Testimonials = () => {
   return (
 
     <TestimonialWrapper>
+      <h6>Why People Love Us</h6>
       <div class="container">
         <div class="flex-wrap">
           <div class="card">
@@ -18,12 +19,6 @@ const Testimonials = () => {
               <h1 class="title">STOICISM</h1>
               <p class="description">Photo booth fam kinfolk cold-pressed sriracha leggings jianbing microdosing tousled waistcoat.</p>
               <div class="info">
-                {/* <a class="learn-more">Learn More
-                  <svg class="icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M5 12h14"></path>
-                    <path d="M12 5l7 7-7 7"></path>
-                  </svg>
-                </a> */}
                 <span class="views"><svg class="icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                   <circle cx="12" cy="12" r="3"></circle>
