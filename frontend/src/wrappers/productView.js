@@ -374,7 +374,7 @@ export const RelatedProductsList = styled.div`
     }
 
     @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-      
+
     }
   }
 `;
@@ -401,8 +401,13 @@ export const SizeChart = styled.div`
   }
 
   .size-button:hover{
-    
-    /* filter: drop-shadow(0 -1mm 2mm #c8a2c8); */
     filter: drop-shadow(0 -1mm 2mm #beb7b4);
   }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    .size-button{
+      bottom: -50%;
+    }
+}
+  
 `;
