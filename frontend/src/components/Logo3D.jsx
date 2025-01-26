@@ -1,9 +1,11 @@
 import React, { useRef, useEffect } from "react";
 import { Canvas, useLoader, useFrame } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, useGLTF } from "@react-three/drei";
+
 
 // Directly use the relative path to your model in the public folder
+// const logoModel = "/gl";
 const logoModel = "/gltfs/Logo.glb";
 
 // This is the model component where the rotation will be applied
@@ -11,7 +13,8 @@ const LogoModel = () => {
   const meshRef = useRef();
 
   // Load the 3D model using the GLTFLoader
-  const { scene } = useLoader(GLTFLoader, logoModel);
+  const { scene } = useGLTF("/gltfs/Logo.glb");
+  // const { scene } = useLoader(GLTFLoader, logoModel);
 
   // Apply rotation in every frame
   useFrame(() => {
