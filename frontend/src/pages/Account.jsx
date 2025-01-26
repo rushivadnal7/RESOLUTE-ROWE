@@ -11,8 +11,11 @@ import { ShopContext } from "../context/ShopContext";
 const AccountWrapper = styled.section`
     width: 100VW;
     height: 100VH;
+    
 
-
+    @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+      margin-top: 5.5rem;
+}
 `
 
 const Account = () => {
