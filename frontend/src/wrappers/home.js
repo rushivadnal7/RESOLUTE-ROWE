@@ -416,13 +416,14 @@ export const HomeWrapper = styled.section`
     .product-container{
       flex-direction:column;
       gap:1rem;
+      height:max-content;
 
       .product-display , .product-details{
         width:100%;
         height:max-content;
       }
 
-      .product-display{
+
         .product-image{
           width:auto;  
           height:300px;
@@ -433,7 +434,7 @@ export const HomeWrapper = styled.section`
           }
         }
 
-      }
+      
     }
   
   }

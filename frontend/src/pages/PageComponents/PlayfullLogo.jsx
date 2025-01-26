@@ -5,7 +5,7 @@ import backgroundImage from '../../assets/playful_background_image.jpg'
 
 const LogoModel = ({ mouse }) => {
   const modelRef = useRef();
-  const { scene } = useGLTF("../../../public/gltfs/Logo.glb");
+  const { scene } = useGLTF("/gltfs/Logo.glb");
 
   useFrame(() => {
     if (modelRef.current) {
