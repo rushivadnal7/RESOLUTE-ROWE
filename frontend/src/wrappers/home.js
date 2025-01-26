@@ -438,5 +438,11 @@ export const HomeWrapper = styled.section`
     }
   
   }
+
+  .marquee{
+    .text-container{
+      font-size: 80px;
+    }
+  }
 }
 `;
