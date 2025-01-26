@@ -12,7 +12,7 @@ export const NavbarWrapper = styled.nav`
   position: sticky;
   top: 0;
   left: 0;
-  z-index: 100;
+  z-index: 1000;
 
   /* border-bottom: ${({ isScrolled }) =>
     isScrolled ? "1px solid white" : ""}; */
@@ -118,6 +118,8 @@ export const NavbarWrapper = styled.nav`
 
  
   @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
+    position: fixed;
+
 
     .hamburger-menu {
       display: flex;

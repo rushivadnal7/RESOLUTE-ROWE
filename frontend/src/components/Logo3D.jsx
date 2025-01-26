@@ -33,6 +33,27 @@ const LogoModel = () => {
   ) : null;
 };
 
+// const LogoModel = () => {
+//   const meshRef = useRef();
+//   const { scene } = useGLTF("/gltfs/Logo.glb");
+
+//   useFrame(() => {
+//     if (meshRef.current) {
+//             meshRef.current.rotation.y += 0.01 // Adjust rotation speed
+//     }
+//   });
+
+//   return scene ?(
+//     <primitive
+//       object={scene}
+//       ref={meshRef}
+//       scale={70}
+//       position={[0, 0.3, 0]}
+//     /> 
+//   ) : null;
+// };
+
+
 // The main component rendering the canvas and controls
 const Logo3D = () => {
   return (
@@ -41,7 +62,7 @@ const Logo3D = () => {
       <directionalLight
         position={[0, -5, 0]} // Light from below (Y axis negative)
         intensity={2} // Adjust light intensity as needed
-        // color={"#ffffff"} // Optionally customize light color
+      // color={"#ffffff"} // Optionally customize light color
       />
       <LogoModel />
       {/* Render the model inside the Canvas */}
