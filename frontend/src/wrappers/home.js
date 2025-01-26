@@ -336,6 +336,9 @@ export const HomeWrapper = styled.section`
     backdrop-filter: blur(15px);
     position: relative;
     padding: 8rem;
+    display:flex;
+    height:max-content;
+    width:100%;
 
     .gradient-background-image {
       height: 100%;
@@ -438,6 +441,25 @@ export const HomeWrapper = styled.section`
       
     }
   
+  }
+
+  .playfull-page{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding:0;
+
+    .canvas{
+      width:100%;
+      height:50%;
+    }
+    .info-container{
+      width:100%;
+      height:50%;
+      padding:2rem;
+      
+    }
   }
 
   .marquee{
