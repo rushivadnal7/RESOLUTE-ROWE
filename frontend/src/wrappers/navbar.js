@@ -47,6 +47,7 @@ export const NavbarWrapper = styled.nav`
     width: 300px;
     height: 100%;
     display: flex;
+    visibility: visible;
     cursor: grab;
   }
 
@@ -115,21 +116,7 @@ export const NavbarWrapper = styled.nav`
     visibility: hidden;
   }
 
-  ${media("md")`
-         .hamburger-menu {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-      gap: 0.3rem;
-      cursor: pointer;
-      width: 1.7rem;
-    } 
-
-    .logo{
-      display:none;
-    }
-  `}
+ 
   @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
 
     .hamburger-menu {
@@ -152,9 +139,6 @@ export const NavbarWrapper = styled.nav`
       }
       
     }
-
-
-
     .menu {
       /* background-color: #1b2a41; */
       display: flex;
@@ -193,9 +177,10 @@ export const NavbarWrapper = styled.nav`
     }
 
     .logo {
-      /* width: max-content; */
-      display:none;
-    }
+    display: none; 
+    visibility: hidden; 
+    cursor: pointer;
+  }
   }
 
   .cart-button {
