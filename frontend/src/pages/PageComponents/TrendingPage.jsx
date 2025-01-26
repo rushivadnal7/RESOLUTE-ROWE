@@ -39,22 +39,22 @@ const TrendingPage = () => {
 
       <h2 className="title-trending">TRENDING</h2>
       <div className="scrolling-container" ref={scrollContainerRef}>
-        {/* {allProducts.length === 0 ? dummy.map(()=> {
-          return <ProductCard />
-        }) :  allProducts.reverse().map((val, id) => (
+        {allProducts.length === 0 ? dummy.map((val) => {
+          return (
+            <>
+              <div className="w-[300px] flex-none h-[450px] bg-slate-500">
+                {val}
+              </div>
+            </>
+          )
+        }) : allProducts.reverse().map((val, id) => (
           <ProductCard key={id} data={val} />
-        ))} */}
-        {
+        ))}
+        {/* {
           dummy.map((val) => {
-            return (
-              <>
-                <div  className="w-[300px] flex-none h-[450px] bg-slate-500">
-              {val}
-                </div>
-              </>
-            )
+            
           })
-        }
+        } */}
       </div>
 
       <button className="arrow right-arrow" onClick={scrollRight}>

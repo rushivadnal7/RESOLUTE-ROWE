@@ -7,13 +7,18 @@ export const AllproductWrapper = styled.div`
   padding: 2rem 12rem;
   scroll-behavior: smooth;
   color: white;
+  position: relative;
 
   .header {
     height: 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    .availability {
+
+    .mobile-view-filter-icon{
+      display: none;
+    }
+    .gender {
       cursor: pointer;
       margin: 0px 1rem;
       display: flex;
@@ -22,9 +27,9 @@ export const AllproductWrapper = styled.div`
       align-items: center;
       position: relative;
 
-      .availability-selection-option {
+      .gender-selection-option {
         position: absolute;
-        top: 100%; /* Positions the dropdown just below the availability filter */
+        top: 100%; /* Positions the dropdown just below the gender filter */
         left: -100%;
         z-index: 999;
         width: 200px;
@@ -35,36 +40,36 @@ export const AllproductWrapper = styled.div`
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         max-height: 0;
         overflow: hidden;
-        transition: max-height 0.3s ease-in-out;
+        transition: all 0.2s ease-in-out;
       }
 
-      .availability-selection-option.open {
+      .gender-selection-option.open {
         max-height: 200px; /* Adjust based on the content size */
         /* display: block; */
       }
 
-      .availability-selection-option.closed {
+      .gender-selection-option.closed {
         max-height: 0;
         visibility: hidden;
         /* display: none; */
       }
 
-      .availability-filter {
+      .gender-filter {
         display: flex;
         align-items: center;
         cursor: pointer;
       }
 
-      .instock-option,
-      .out-of-stock-option {
+      .men-option,
+      .women-option {
         display: flex;
         /* gap: 10px; */
         height: 2.5rem;
       }
 
       /* Hide the native checkbox */
-      .instock-option input[type="checkbox"],
-      .out-of-stock-option input[type="checkbox"] {
+      .men-option input[type="checkbox"],
+      .women-option input[type="checkbox"] {
         position: absolute;
         justify-content: center;
 
@@ -77,7 +82,7 @@ export const AllproductWrapper = styled.div`
       .custom-checkbox {
         display: inline-block;
 
-        width: 10pxpx;
+        width: 10px;
         height: 10px;
         background-color: #f0f0f0; /* Background of unchecked state */
         border: 2px solid #ccc;
@@ -142,7 +147,7 @@ export const AllproductWrapper = styled.div`
 
       .price-range-dropdown {
         position: absolute;
-        top: 100%; /* Positions the dropdown just below the availability filter */
+        top: 100%; /* Positions the dropdown just below the gender filter */
         left: -100%;
         z-index: 999;
         width: 300px;
@@ -174,12 +179,18 @@ export const AllproductWrapper = styled.div`
     }
   }
 
+  .filter-slider{
+    display: none;
+    /* background-color: ; */
+  }
+
   .product-list {
     height: 90%;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 1rem;
     padding: 1rem 0px;
     flex-wrap: wrap;
     gap: 3rem;
@@ -245,6 +256,76 @@ export const AllproductWrapper = styled.div`
 
   .product-list::-webkit-scrollbar {
     display: none;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    margin-top: 5.5rem;
+    padding: 1rem 0px;
+
+    .header{
+      width: 100vw;
+      justify-content: start;
+      align-items: center;
+      padding: 0px 3rem;
+      gap: 0.5rem;
+
+      .mobile-view-filter-icon{
+        display: flex;
+        /* width: 100%; */
+        gap: 2rem;
+      }
+      
+      .gender , .price-range{
+        display: none;
+      }
+    }
+
+    .filter-slider{
+      display: flex;
+      flex-direction: column;
+      width: max-content;
+      height: max-content;
+      position: fixed;
+      top: 5.5rem;
+      right: -100%;
+      transition: all 0.4s ease;
+      z-index: 1000;
+      background-color: black;
+      gap: 2rem;
+      justify-content: start;
+      align-items: start;
+      padding: 1rem 2rem;
+
+      svg{
+        align-self: end;
+      }
+
+      .price-range-slider{
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .gender-selection-  option{
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+      } 
+      .gender , .price-range {
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      
+
+      
+    }
+
+    .open{
+      right:0;
+    }
+    .close{
+      right: -100%;
+    }
   }
 `;
 

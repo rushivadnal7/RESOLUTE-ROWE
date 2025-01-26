@@ -31,7 +31,7 @@ const TestimonialWrapper = styled.section`
     position: relative;
     border-radius: 8px;
     overflow: hidden;
-    width: calc(25% - 16px); /* Default width for larger screens */
+    width: calc(25% - 16px); 
     transition: transform 0.2s;
 
     display: flex;
@@ -100,11 +100,11 @@ const TestimonialWrapper = styled.section`
    
     
     .card {
-      width: calc(50% - 16px); /* Adjust width for tablets */
+      width: calc(50% - 16px);
     }
 
     .category {
-      font-size: 10px; /* Smaller font size */
+      font-size: 10px; 
     }
 
     .title {

@@ -55,12 +55,12 @@ const Footer = () => {
                     </div>                </div>
                 <div className="footer-links">
                     <ul>
-                        <li>refund policy</li>
-                        <li>privacy policy</li>
-                        <li>Terms of services</li>
-                        <li>shipping policy</li>
-                        <li>contact</li>
-                        <li>about</li>
+                        <li><a href='#'></a> refund policy</li>
+                        <li><a href='#'>privacy policy</a></li>
+                        <li><a href='#'>Terms of services</a></li>
+                        <li><a href='#'>shipping policy</a></li>
+                        <li><a href='#'>contact</a></li>
+                        {/* <li>about</li> */}
                     </ul>
                 </div>
             </div>
