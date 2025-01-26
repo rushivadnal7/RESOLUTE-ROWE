@@ -11,7 +11,7 @@ const TrendingPage = () => {
     if (scrollContainerRef.current) {
       const cardWidth = scrollContainerRef.current.firstChild.offsetWidth; // Get the width of a single card
       scrollContainerRef.current.scrollBy({
-        left: -cardWidth, // Scroll by one card's width
+        left: -500, // Scroll by one card's width
         behavior: "smooth",
       });
     }
@@ -22,13 +22,14 @@ const TrendingPage = () => {
     if (scrollContainerRef.current) {
       const cardWidth = scrollContainerRef.current.firstChild.offsetWidth; // Get the width of a single card
       scrollContainerRef.current.scrollBy({
-        left: cardWidth, // Scroll by one card's width
+        left: 500, // Scroll by one card's width
         behavior: "smooth",
       });
     }
   };
 
-  let dummy = [1,2,3,4,5]
+  let dummy = [1, 2, 3, 4, 5]
+
 
   return (
     <section className="trending-page">
@@ -38,11 +39,22 @@ const TrendingPage = () => {
 
       <h2 className="title-trending">TRENDING</h2>
       <div className="scrolling-container" ref={scrollContainerRef}>
-        {allProducts.length === 0 ? dummy.map(()=> {
+        {/* {allProducts.length === 0 ? dummy.map(()=> {
           return <ProductCard />
         }) :  allProducts.reverse().map((val, id) => (
           <ProductCard key={id} data={val} />
-        ))}
+        ))} */}
+        {
+          dummy.map((val) => {
+            return (
+              <>
+                <div  className="w-[300px] flex-none h-[450px] bg-slate-500">
+              {val}
+                </div>
+              </>
+            )
+          })
+        }
       </div>
 
       <button className="arrow right-arrow" onClick={scrollRight}>
@@ -53,3 +65,6 @@ const TrendingPage = () => {
 };
 
 export default TrendingPage;
+
+
+
