@@ -69,7 +69,7 @@ const PlayfullLogo = () => {
       </Canvas>
       <div className="info-container">
         <h1 className="title">What Resolute & Rowe represent</h1>
-        <p>Resolute & Rowe is a premier clothing brand that embraces and celebrates the virtues of classic masculinity, timeless stoicism, and the strength that comes from within. We offer a refined collection of attire that draws inspiration from historical ideals, combining modern craftsmanship with old-school sensibilities. Each piece in our collection is designed to evoke the strength of character, unwavering resolve, and quiet confidence of the modern gentleman.
+        <p>Resolute & Rowe is a premier clothing brand that embraces and celebrates the virtues of classic masculinity/feminity , timeless stoicism, and the strength that comes from within. We offer a refined collection of attire that draws inspiration from historical ideals, combining modern craftsmanship with old-school sensibilities.
 
         </p>
       </div>
