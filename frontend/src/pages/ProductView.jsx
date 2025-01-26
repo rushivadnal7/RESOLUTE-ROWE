@@ -159,6 +159,7 @@ const ProductView = () => {
         if (isModalOpen) {
             console.log(isModalOpen)
             document.body.style.overflow = "hidden";
+            document.documentElement.style.overflow = "hidden";
             const rootDiv = document.getElementById("root"); // Select the #root div
             if (rootDiv) {
                 rootDiv.style.overflow = "hidden"; // Disable scroll for #root
@@ -166,6 +167,8 @@ const ProductView = () => {
             // console.log(document.body.style)
         } else {
             document.body.style.overflow = ""; // Revert to the default style
+            document.documentElement.style.overflow = "";
+
             const rootDiv = document.getElementById("root"); // Select the #root div
             if (rootDiv) {
                 rootDiv.style.overflow = " "; // Disable scroll for #root
@@ -175,6 +178,8 @@ const ProductView = () => {
         // Cleanup on component unmount
         return () => {
             document.body.style.overflow = "";
+            document.documentElement.style.overflow = "";
+
             const rootDiv = document.getElementById("root"); // Select the #root div
             if (rootDiv) {
                 rootDiv.style.overflow = " "; // Disable scroll for #root
@@ -205,7 +210,7 @@ const ProductView = () => {
                         <ProductName>{name}</ProductName>
                         <Rating>
                             <RatingStars>
-                                {[...Array(4)].map((_, i) => (
+                                {[...Array(5)].map((_, i) => (
                                     <svg
                                         key={i}
                                         fill="currentColor"
@@ -213,25 +218,25 @@ const ProductView = () => {
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth="2"
-                                        className="w-4 h-4 text-indigo-500"
+                                        className="w-4 h-4 text-gray-600"
                                         viewBox="0 0 24 24"
                                     >
                                         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
                                     </svg>
                                 ))}
-                                <svg
+                                {/* <svg
                                     fill="none"
                                     stroke="currentColor"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
                                     strokeWidth="2"
-                                    className="w-4 h-4 text-indigo-500"
+                                    className="w-4 h-4 text-gray-600"
                                     viewBox="0 0 24 24"
                                 >
                                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-                                </svg>
+                                </svg> */}
                             </RatingStars>
-                            <RatingText>4 Reviews</RatingText>
+                            <RatingText>5 star Reviews</RatingText>
                         </Rating>
                         <OptionsWrapper>
                             <ColorOptions>
@@ -273,11 +278,11 @@ const ProductView = () => {
                             </QuantityWrapper>
                             <BorderButton text={'Buy'} onclick={handleBuyButton} bgColor={'white'} />
                             <Button onclick={handleAddToCart} text={'Add to Cart'} />
-                            <FavoriteButton onClick={favoriteButtonHandler}>
+                            {/* <FavoriteButton onClick={favoriteButtonHandler}>
                                 <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className={`w-5 h-5 ${favoriteSelected && 'text-red-600'}`} viewBox="0 0 24 24">
                                     <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
                                 </svg>
-                            </FavoriteButton>
+                            </FavoriteButton> */}
                         </PriceWrapper>
                         <PaymentGateway>
                             <img src={razorpay} alt="razorpay" />

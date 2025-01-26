@@ -7,6 +7,11 @@ export const ProductViewWrapper = styled.section`
   position: relative;
   .sizechart {
   }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    margin-top: 5.5rem;
+  }
+
 `;
 
 export const Container = styled.div`
@@ -20,6 +25,13 @@ export const Container = styled.div`
     "more-products more-products";
   grid-template-columns: 65% 35%;
   gap: 2rem;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+
+  }
 `;
 
 export const ProductImages = styled.div`
@@ -58,6 +70,13 @@ export const ProductImages = styled.div`
       background-position: 200% 0;
     }
   }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    display: flex;
+    overflow-x: scroll;
+    height: max-content;
+  }
+
 `;
 
 export const ContentWrapper = styled.div`
@@ -170,13 +189,25 @@ export const PriceWrapper = styled.div`
   gap: 2rem;
   margin-top: 1.5rem;
   width: 100%;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 1.5rem 0px;
+  }
 `;
 
 export const Price = styled.span`
   color: #1f2937;
   font-size: 2rem;
   font-weight: 600;
-`;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    width: max-content;
+  }
+  `;
 
 export const QuantityWrapper = styled.div`
   display: flex;
@@ -264,7 +295,11 @@ export const ProductDescriptionContainer = styled.div`
   ol {
     list-style: decimal;
   }
-`;
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    align-items: center;
+    margin-top: 0.5rem;
+  }
+  `;
 
 export const FabricDescriptionContainer = styled.div`
   width: 100%;
@@ -274,11 +309,17 @@ export const FabricDescriptionContainer = styled.div`
   align-items: start;
   font-size: small;
   gap: 1rem;
-
+  
   h1 {
     font-size: 1.2rem;
     font-weight: 600;
   }
+  
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    align-items: center;
+    margin-top: 0.5rem;
+  }
+
 `;
 
 export const PrintDescriptionContainer = styled.div`
@@ -330,6 +371,10 @@ export const RelatedProductsList = styled.div`
     img {
       width: 100%;
       height: 50%;
+    }
+
+    @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+      
     }
   }
 `;
