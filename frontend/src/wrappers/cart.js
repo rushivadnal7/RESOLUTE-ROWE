@@ -17,6 +17,17 @@ export const CartWrapper = styled.div`
     justify-content: center;
     align-items: center;
   }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    margin-top: 5.5rem;
+    height: max-content;
+
+    .cart-info{
+
+      flex-direction: column;
+    }
+  }
+
 `;
 
 export const CartItems = styled.div`
@@ -59,6 +70,10 @@ export const CartItems = styled.div`
       background-position: 200% 0;
     }
   }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+  }
+
 `;
 
 export const CartItem = styled.div`
@@ -82,7 +97,6 @@ export const CartItem = styled.div`
 
   h3 {
     font-size: 18px;
-    margin: 0;
   }
 
   p {
@@ -110,6 +124,12 @@ export const CartItem = styled.div`
   }
   .delete-button:hover {
     color: red;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    flex-wrap: wrap;
+    justify-content: center;
+    /* border: 1px solid red; */
   }
 `;
 
@@ -205,6 +225,21 @@ export const SummarySection = styled.div`
       }
     }
   }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    width: 100%;
+    border: none;
+    padding: 0;
+    height: max-content;
+
+    .coupon-code {
+      input{
+
+        width: 100px;
+      }
+    }
+  }
+
 `;
 
 export const PaymentInfo = styled.div`

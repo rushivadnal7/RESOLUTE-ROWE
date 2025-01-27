@@ -29,6 +29,7 @@ const CustomerDetails = () => {
         loginStatus,
         sessionId,
         setLoginStatus,
+        currency,
     } = useContext(ShopContext);
     const [customerData, setCustomerData] = useState(() => {
         const savedData = localStorage.getItem("customer-shipping-details");
@@ -60,16 +61,18 @@ const CustomerDetails = () => {
 
     const { img, name, size, price, productID } = parsedBuyData[0];
 
-    const [couponCode, setCouponCode] = useState('')
-    const [discountedRate, setDiscountedRate] = useState(null)
-    const [discount, setDiscount] = useState('no discount');
-    const [couponPlaceholder, setCouponPlaceholder] = useState('discount code');
+    const [couponCode, setCouponCode] = useState("");
+    const [discountedRate, setDiscountedRate] = useState(null);
+    const [discount, setDiscount] = useState("no discount");
+    const [couponPlaceholder, setCouponPlaceholder] = useState("discount code");
     const [couponLoading, setCouponLoading] = useState(false);
     const [isEmailValid, setIsEmailValid] = useState(false);
     const [isUserExists, setIsUserExists] = useState(null);
     const [isChecking, setIsChecking] = useState(false);
     const [paymentMethod, setPaymentMethod] = useState("razorpay");
-    const [directBuy, setDirectBuy] = useState(parsedBuyData.length > 0 ? true : false)
+    const [directBuy, setDirectBuy] = useState(
+        parsedBuyData.length > 0 ? true : false
+    );
 
     useEffect(() => {
         localStorage.setItem(
@@ -104,7 +107,6 @@ const CustomerDetails = () => {
 
     const handleCheckUserExists = async () => {
         setIsChecking(true);
-        // console.log(customerData.email);
 
         if (loginStatus === false) {
             try {
@@ -201,15 +203,14 @@ const CustomerDetails = () => {
             let orderItems = [];
 
             if (directBuy) {
-
-                console.log(productID)
-                const itemInfo = allProducts.find((product) => product._id === productID)
+                console.log(productID);
+                const itemInfo = allProducts.find(
+                    (product) => product._id === productID
+                );
                 itemInfo.size = size;
                 itemInfo.quantity = 1;
                 orderItems.push(itemInfo);
-
             } else {
-
                 for (const items in cartData) {
                     for (const item in cartData[items]) {
                         if (cartData[items][item] > 0) {
@@ -225,11 +226,15 @@ const CustomerDetails = () => {
                     }
                 }
             }
-            console.log(orderItems)
+            console.log(orderItems);
             let orderData = {
                 address: customerData,
                 items: orderItems,
-                amount: directBuy ? discountedRate ? discountedRate + delivery_fee : price + delivery_fee : getCartAmount() + delivery_fee,
+                amount: directBuy
+                    ? discountedRate
+                        ? discountedRate + delivery_fee
+                        : price + delivery_fee
+                    : getCartAmount() + delivery_fee,
                 sessionId,
             };
 
@@ -286,24 +291,28 @@ const CustomerDetails = () => {
     };
 
     const couponApply = () => {
-        setCouponLoading(true)
+        setCouponLoading(true);
         setTimeout(() => {
-            if (couponCode === 'TOP10') {
+            if (couponCode === "TOP10") {
                 setDiscountedRate(price - (price * 25) / 100);
-                setDiscount('25%');
+                setDiscount("25%");
             } else {
-                setCouponCode('');
-                setCouponPlaceholder('no discounts available');
+                setCouponCode("");
+                setCouponPlaceholder("no discounts available");
             }
             setCouponLoading(false);
         }, 500);
+    };
 
-    }
-    // console.log(parsedBuyData);
     return (
         <>
             <Navbar />
             <MainSection>
+                <div className="mobile-view-summary-header">
+                    <h2>Order Summary</h2>
+                    <span>{`${currency} ${parsedBuyData ? price : getCartAmount()
+                        }`}</span>
+                </div>
                 <Container>
                     <Heading>Shipping Details</Heading>
                     <FormContainer>
@@ -442,9 +451,7 @@ const CustomerDetails = () => {
                         </InputWrapper>
                     </FormContainer>
 
-                    <Button onClick={handleSubmit}>
-                        Continue to payment
-                    </Button>
+                    <Button onClick={handleSubmit}>Paynow</Button>
                 </Container>
                 <PaymentOptions>
                     <div className="item-details">
@@ -454,32 +461,31 @@ const CustomerDetails = () => {
                                 <div className="name">{name}</div>
                                 <div className="size">Size: {size}</div>
                             </div>
-                            <div className="price">₹{discountedRate ? discountedRate : price.toFixed(2)}</div>
+                            <div className="price">
+                                ₹{discountedRate ? discountedRate : price.toFixed(2)}
+                            </div>
                         </div>
-
                         <div className="price-details">
                             <div className="label">Subtotal</div>
-                            <div className="value">₹{discountedRate ? discountedRate : price.toFixed(2)}</div>
+                            <div className="value">
+                                ₹{discountedRate ? discountedRate : price.toFixed(2)}
+                            </div>
                         </div>
-
                         <div className="discount-code">
-                            <input type="text" onChange={(e) => setCouponCode(e.target.value)} placeholder={couponPlaceholder} />
+                            <input
+                                type="text"
+                                onChange={(e) => setCouponCode(e.target.value)}
+                                placeholder={couponPlaceholder}
+                            />
                             <button onClick={couponApply}>Apply</button>
                         </div>
-
                         <div className="price-details">
                             <div className="label">Shipping</div>
                             <div className="value">Enter shipping address</div>
                         </div>
-
-                        <div className="total">
-                        </div>
-                        Total: ₹ {discountedRate ? discountedRate : price.toFixed(2)}{
-                            couponLoading ?
-                                <Spinner size={20} />
-                                :
-                                <p>{discount}</p>
-                        }
+                        <div className="total"></div>
+                        Total: ₹ {discountedRate ? discountedRate : price.toFixed(2)}
+                        {couponLoading ? <Spinner size={20} /> : <p>{discount}</p>}
                         <div className="taxes">
                             Including ₹{(price * 0.05).toFixed(2)} in taxes
                         </div>
@@ -492,9 +498,11 @@ const CustomerDetails = () => {
                         <input type="checkbox" name="" id="" />
 
                         <Button onClick={() => setPaymentMethod("cod")} text={"cod"} /> */}
-
                     </div>
                 </PaymentOptions>
+                <MobileViewButton onClick={handleSubmit}>
+                    Paynow
+                </MobileViewButton>
             </MainSection>
             <Footer />
         </>
@@ -506,6 +514,24 @@ export default CustomerDetails;
 const MainSection = styled.section`
   display: flex;
   height: 100vh;
+
+  .mobile-view-summary-header {
+    display: none;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    margin-top: 5.5rem;
+    flex-direction: column;
+    height: max-content;
+
+    .mobile-view-summary-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem;
+      border-bottom: 1px solid gainsboro;
+    }
+  }
 `;
 
 const Container = styled.div`
@@ -517,6 +543,14 @@ const Container = styled.div`
   flex-direction: column;
   gap: 20px;
   overflow-y: scroll;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    width: 100%;
+    height: max-content;
+    padding: 1.5rem;
+    /* position: st; */
+    /* overflow-y: hidden; */
+  }
 `;
 
 const PaymentOptions = styled.div`
@@ -533,96 +567,96 @@ const PaymentOptions = styled.div`
     /* height: 80%; */
     display: flex;
     margin: 2rem;
-  flex-direction: column;
-  gap: 16px;
-  background-color: #f9f9f9;
-  padding: 16px;
-  border-radius: 8px;
-
-  .product {
-    display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: 16px;
+    background-color: #f9f9f9;
+    padding: 16px;
+    border-radius: 8px;
 
-    img {
-      width: 80px;
-      height: 80px;
-      object-fit: cover;
-      border-radius: 8px;
-    }
-
-    .details {
+    .product {
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      gap: 16px;
 
-      .name {
-        font-size: 16px;
-        font-weight: 600;
-        color: #333;
+      img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 8px;
       }
 
-      .size {
+      .details {
+        display: flex;
+        flex-direction: column;
+
+        .name {
+          font-size: 16px;
+          font-weight: 600;
+          color: #333;
+        }
+
+        .size {
+          font-size: 14px;
+          color: #666;
+        }
+      }
+    }
+
+    .price-details {
+      display: flex;
+      justify-content: space-between;
+
+      .label {
         font-size: 14px;
-        color: #666;
+        color: #555;
+      }
+
+      .value {
+        font-size: 14px;
+        font-weight: 600;
+        color: #000;
       }
     }
-  }
 
-  .price-details {
-    display: flex;
-    justify-content: space-between;
+    .discount-code {
+      display: flex;
+      align-items: center;
+      gap: 8px;
 
-    .label {
-      font-size: 14px;
-      color: #555;
+      input {
+        flex: 1;
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+
+      button {
+        padding: 8px 16px;
+        font-size: 14px;
+        color: #fff;
+        background-color: black;
+        border: none;
+        border-radius: 2px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
     }
 
-    .value {
-      font-size: 14px;
-      font-weight: 600;
+    .total {
+      font-size: 16px;
+      font-weight: bold;
       color: #000;
-    }
-  }
-
-  .discount-code {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    input {
-      flex: 1;
-      padding: 8px;
-      font-size: 14px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
+      margin-top: 16px;
     }
 
-    button {
-      padding: 8px 16px;
-      font-size: 14px;
-      color: #fff;
-      background-color: black;
-      border: none;
-      border-radius: 2px;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #0056b3;
-      }
+    .taxes {
+      font-size: 12px;
+      color: #666;
     }
-  }
-
-  .total {
-    font-size: 16px;
-    font-weight: bold;
-    color: #000;
-    margin-top: 16px;
-  }
-
-  .taxes {
-    font-size: 12px;
-    color: #666;
-  }
   }
 
   .payment-options {
@@ -631,6 +665,12 @@ const PaymentOptions = styled.div`
     display: flex;
     justify-content: space-around;
     /* border: 1px solid red; */
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    width: 100%;
+    height: max-content;
+    background-color: white;
   }
 `;
 
@@ -646,6 +686,11 @@ const FormContainer = styled.div`
   flex-wrap: wrap;
   gap: 20px;
   /* overflow-y: scroll; */
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    height: max-content;
+    /* overflow-y: hidden; */
+  }
 `;
 
 const InputWrapper = styled.div`
@@ -674,12 +719,6 @@ const Input = styled.input`
   }
 `;
 
-const totalAmount = styled.span`
-  font-size: 18px;
-  font-weight: 600;
-  width: 100%;
-`;
-
 const Button = styled.button`
   background-color: #000;
   color: #fff;
@@ -695,119 +734,26 @@ const Button = styled.button`
   &:hover {
     background-color: #333;
   }
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    display: none;
+  }
 
 `;
 
-const CartItems = styled.div`
-  width: 100%;
-  height: 100%;
-  padding-right: 40px;
-  overflow-y: auto;
+const MobileViewButton = styled.button`
+  display: none;
 
-  h2 {
-    font-size: xx-large;
-    font-weight: bold;
-  }
-
-  .skeleton-cards {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    /* flex-wrap: wrap; */
-    gap: 3rem;
-  }
-
-  .skeleton-card {
-    width: 100%;
-    height: 100px;
-    background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
-    background-size: 200% 100%;
-    animation: shimmer 1.5s infinite;
-
-    @media (max-width: 768px) {
-      width: 80px;
-      height: 100px;
-    }
-  }
-
-  @keyframes shimmer {
-    0% {
-      background-position: -200% 0;
-    }
-    100% {
-      background-position: 200% 0;
-    }
-  }
-`;
-
-const CartItem = styled.div`
-  display: flex;
-  width: 100%;
-  align-items: center;
-  gap: 20px;
-  padding: 15px 0;
-  border-bottom: 1px solid #ddd;
-
-  img {
-    width: 60px;
-    height: auto;
-    margin-right: 20px;
-    border-radius: 8px;
-  }
-
-  div {
-    flex-grow: 1;
-  }
-
-  h3 {
-    font-size: 18px;
-    margin: 0;
-  }
-
-  p {
-    color: #777;
-    font-size: 14px;
-    margin: 5px 0;
-  }
-
-  .disabled-button {
-    cursor: not-allowed;
-    opacity: 0.5; /* Optional: to visually indicate it's disabled */
-  }
-  .disabled:disabled {
-    cursor: not-allowed;
-    opacity: 0.5; /* Optional: applies to all disabled buttons */
-  }
-
-  button {
-    background: none;
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    display: block;
+    background-color: #000;
+    color: #fff;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 500;
     border: none;
-    font-size: 18px;
+    border-radius: 4px;
     cursor: pointer;
-    transition: color 0.2s ease;
-    /* color: red; */
-  }
-  .delete-button:hover {
-    color: red;
-  }
-`;
-
-const QuantitySelector = styled.div`
-  display: flex;
-  align-items: center;
-  margin-right: 20px;
-
-  button {
-    width: 30px;
-    height: 30px;
-    border: 1px solid #ddd;
-    background: none;
-    cursor: pointer;
-    font-size: 16px;
-  }
-
-  span {
-    margin: 0 10px;
-    font-size: 16px;
+    align-self: center;
+    margin: 20px;
   }
 `;
