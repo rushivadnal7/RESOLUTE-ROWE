@@ -376,17 +376,18 @@ export const HomeWrapper = styled.section`
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    margin-top: 5.5rem;
+    margin-top: 5.5rem;  //make 
 
     .hero{
       position:relative;
+      background-color:orange;
 
       img{
         display:none;
       }
 
       .logo-container{
-        display:block;
+        display:flex;
         position:absolute;
         top:50%;
         left:50%;

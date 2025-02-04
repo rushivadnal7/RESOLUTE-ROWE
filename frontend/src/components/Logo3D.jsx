@@ -17,9 +17,16 @@ const LogoModel = () => {
   // const { scene } = useLoader(GLTFLoader, logoModel);
 
   // Apply rotation in every frame
+  console.log(scene)
+  useEffect(() => {
+    if (scene) {
+      meshRef.current = scene; // Assign scene to ref
+    }
+  }, [scene]);
   useFrame(() => {
     if (meshRef.current) {
-      meshRef.current.rotation.y += 0.01 // Adjust rotation speed
+
+      meshRef.current.rotation.x += 0.01 // Adjust rotation speed
     }
   });
 
@@ -32,26 +39,6 @@ const LogoModel = () => {
     />
   ) : null;
 };
-
-// const LogoModel = () => {
-//   const meshRef = useRef();
-//   const { scene } = useGLTF("/gltfs/Logo.glb");
-
-//   useFrame(() => {
-//     if (meshRef.current) {
-//             meshRef.current.rotation.y += 0.01 // Adjust rotation speed
-//     }
-//   });
-
-//   return scene ?(
-//     <primitive
-//       object={scene}
-//       ref={meshRef}
-//       scale={70}
-//       position={[0, 0.3, 0]}
-//     /> 
-//   ) : null;
-// };
 
 
 // The main component rendering the canvas and controls

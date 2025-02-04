@@ -8,15 +8,7 @@ import { CheckLoginStatus } from "../api/authapis";
 import { toast } from 'react-toastify'
 import { ShopContext } from "../context/ShopContext";
 
-const AccountWrapper = styled.section`
-    width: 100VW;
-    height: 100VH;
-    
 
-    @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-      margin-top: 5.5rem;
-}
-`
 
 const Account = () => {
   const navigate = useNavigate();
@@ -58,13 +50,64 @@ const Account = () => {
     <>
       <Navbar />
       <AccountWrapper>
-        <h1>Account Page</h1>
-        <span className="block">{userName}</span>
-        <span className='cursor-pointer' onClick={handleLogout}>logout</span>
+        <div className="left-container">
+          <div className="account-details">
+            <h2>Account Details</h2>
+            <span className="block">{userName}</span>
+          </div>
+          <div className="account-logout">
+            <span className='cursor-pointer' onClick={handleLogout}>logout</span>
+          </div>
+        </div>
+
+        <div className="orders">
+          <h3>Orders</h3>
+        </div>
       </AccountWrapper>
       <Footer />
     </>
-  )
+  );
+
 }
 
 export default Account
+
+const AccountWrapper = styled.section`
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+
+    .left-container {
+      width: 50%;
+      display: flex;
+      flex-direction: column; /* Stack children vertically */
+    }
+
+    .account-details {
+      height: 50%;
+      background-color: aliceblue;
+    }
+
+    .account-logout {
+      height: 50%;
+      background-color: lightyellow;
+    }
+
+    .orders {
+      width: 50%;
+      height: 100%;
+      background-color: lightsalmon;
+    }
+
+    @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+      flex-direction: column;
+
+      .left-container, .orders {
+        width: 100%;
+      }
+
+      .orders {
+        height: auto;
+      }
+    }
+`;

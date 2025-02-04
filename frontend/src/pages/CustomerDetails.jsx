@@ -73,7 +73,7 @@ const CustomerDetails = () => {
     const [directBuy, setDirectBuy] = useState(
         parsedBuyData.length > 0 ? true : false
     );
-
+ 
     useEffect(() => {
         localStorage.setItem(
             "customer-shipping-details",

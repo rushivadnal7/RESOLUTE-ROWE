@@ -150,7 +150,7 @@ export const NavbarWrapper = styled.nav`
       height: 100vh;
       position: absolute;
       top: ${({ isScrolled }) => (isScrolled ? "4.5rem" : "5.5rem")};
-      left: -300px;
+      left: -100%;
       z-index: 10;
       transition: all 0.4s ease;
 
@@ -171,7 +171,7 @@ export const NavbarWrapper = styled.nav`
     }
 
     .close {
-      left: -300px;
+      left: -100%;
     }
 
     .nav-links {

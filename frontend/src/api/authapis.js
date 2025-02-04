@@ -34,7 +34,7 @@ export const LogoutUser = async () => {
 export const CheckLoginStatus = async () => {
     try {
         const response = await axios.get(`${AUTH_API_URL}status`, {
-            withCredentials: true, 
+            withCredentials: true,
         });
         return response.data;
     } catch (error) {
@@ -42,3 +42,15 @@ export const CheckLoginStatus = async () => {
         throw error.response?.data?.message || 'Something went wrong';
     }
 };
+
+export const ResetPassword = async (email , newPassword) => {
+    try {
+        const response = await axios.post(`${API_URL}resetpassword`, {
+           email , newPassword
+        });
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        throw error.response?.data?.message || error.message;
+    }
+}

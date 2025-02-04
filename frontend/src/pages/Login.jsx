@@ -93,6 +93,8 @@ const Login = () => {
     setIsSignUp(prevState => !prevState);
   };
 
+  
+
   return (
     <>
 
@@ -162,7 +164,7 @@ const Login = () => {
                     password: e.target.value
                   })}
                   type="password" placeholder="Password" />
-                <span>forgot password?</span>
+                <span onClick={() => {navigate('/account/forgotpassword')}}>forgot password?</span>
                 <Button submit={'submit'} text={'login'} />
               </form>
             )}

@@ -18,6 +18,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import Admin from "./pages/Admin";
 import CustomerDetails from "./pages/CustomerDetails";
 import AdminProtectedRoute from "./components/admin_components/AdminProtectedRoute";
+import ForgotPassword from "./pages/ForgotPassword";
+import VerifyOtp from "./pages/VerifyOtp";
+import ChangePassword from "./pages/ChangePassword";
 
 function App() {
   const router = createBrowserRouter([
@@ -59,6 +62,18 @@ function App() {
     {
       path: "/account/login",
       element: <Login />,
+    },
+    {
+      path: "/account/forgotpassword",
+      element: <ForgotPassword/>,
+    },
+    {
+      path: "/account/forgotpassword/verifyotp",
+      element: <VerifyOtp/>,
+    },
+    {
+      path: "/account/forgotpassword/verifyotp/changepassword",
+      element: <ChangePassword/>,
     },
     {
       path: "/login",

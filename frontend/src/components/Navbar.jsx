@@ -33,9 +33,7 @@ const Navbar = () => {
   }, [])
 
   const value = getCartCount()
-  // console.log(value)
-
-
+  
   const menuDrawerHandler = () => {
     setHamburgerMenu(!hamburgerMenu);
   };
