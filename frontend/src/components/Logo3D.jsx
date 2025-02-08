@@ -17,7 +17,7 @@ const LogoModel = () => {
   // const { scene } = useLoader(GLTFLoader, logoModel);
 
   // Apply rotation in every frame
-  console.log(scene)
+  // console.log(scene)
   useEffect(() => {
     if (scene) {
       meshRef.current = scene; // Assign scene to ref
@@ -26,7 +26,7 @@ const LogoModel = () => {
   useFrame(() => {
     if (meshRef.current) {
 
-      meshRef.current.rotation.x += 0.01 // Adjust rotation speed
+      meshRef.current.rotation.y += 0.01 // Adjust rotation speed
     }
   });
 

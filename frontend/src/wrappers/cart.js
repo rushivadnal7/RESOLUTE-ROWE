@@ -8,6 +8,8 @@ export const CartWrapper = styled.div`
   padding: 40px;
   background-color: #f5f5f5;
   height: 100vh;
+  margin-top: 5.5rem;
+
 
   .cart-info {
     width: 100%;

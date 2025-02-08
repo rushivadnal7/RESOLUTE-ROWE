@@ -111,8 +111,8 @@ const ProductView = () => {
                 img : productData?.images[0],
             }]
             
-            setBuyData(data)
-            navigate('/customerdetails')
+            // setBuyData(data)
+            navigate('/customerdetails' , {state : data})
         } else {
             toast.error('select a size')
         }

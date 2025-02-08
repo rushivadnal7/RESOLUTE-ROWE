@@ -5,6 +5,8 @@ export const ProductViewWrapper = styled.section`
   overflow-x: hidden;
   color: #4b5563;
   position: relative;
+  margin-top: 5.5rem;
+
   .sizechart {
   }
 

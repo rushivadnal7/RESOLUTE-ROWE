@@ -8,6 +8,8 @@ export const CustomizeWrapper = styled.section`
   align-items: center;
   position: relative;
   background-color: #f2f0ef;
+  margin-top: 5.5rem;
+
 
   .surface-area {
     width: 100%;

@@ -3,6 +3,8 @@ import styled from "styled-components";
 export const ContactWrapper = styled.section`
   position: relative;
   color: #4a5568; /* text-gray-600 */
+  margin-top: 5.5rem;
+
 
   .map-background {
     position: absolute;

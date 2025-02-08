@@ -6,8 +6,10 @@ import {
   verifyRazorpay,
   userOrders,
   updateUserId,
+  exportOrders,
 } from "../Controllers/orderController.js";
 import jwt from "jsonwebtoken";
+
 
 
 const orderRouter = express.Router();
@@ -44,7 +46,9 @@ orderRouter.post("/razorpay", orderMiddleware, placeOrderRazorpay);
 orderRouter.post("/verifyrazorpay", orderMiddleware, verifyRazorpay);
 
 //user features
-orderRouter.get("/userorders", orderMiddleware, userOrders);
+orderRouter.get("/userorders", authMiddleware , userOrders);
 orderRouter.post('/updateuserid' , authMiddleware , updateUserId)
+
+orderRouter.get("/export", exportOrders);
 
 export default orderRouter;

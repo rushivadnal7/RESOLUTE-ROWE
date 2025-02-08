@@ -6,6 +6,8 @@ export const LoginWrapper = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 5.5rem;
+
 
   .container {
     width: 70%;

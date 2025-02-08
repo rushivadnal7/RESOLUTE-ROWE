@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import {
   Container,
   Sidebar,
@@ -46,12 +47,12 @@ const Admin = () => {
     switch (currentSection) {
       case "listProducts":
         return (
-          <ListDesigns/>
+          <ListDesigns />
         );
 
       case "addProduct":
         return (
-          <AddDesigns/>
+          <AddDesigns />
         );
       default:
         return null;
@@ -61,10 +62,40 @@ const Admin = () => {
   const logoutHandler = async () => {
 
     const response = await adminLogout()
-    if(response.success){
+    if (response.success) {
       navigate('/')
     }
   }
+
+
+
+  const handleExport = async () => {
+    try {
+      const currentDate = new Date();
+      const formattedDate = `${currentDate.getDate()}${currentDate.toLocaleString("en-us", { month: "short" })}${currentDate.getFullYear().toString().slice(-2)}`;
+      const fileName = `orders_${formattedDate}.xlsx`;
+      const response = await axios.get("http://localhost:7007/api/order/export", {
+        responseType: "blob", // Important to handle binary data
+      });
+
+      if(!response.data.success){
+        console.log(response.data.message)
+        toast.info(response.data.message)
+      }
+
+      // Create a Blob from the response data
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = fileName; // File name
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    } catch (error) {
+      console.error("Error exporting orders:", error);
+    }
+  };
+
 
   return (
     <Container>
@@ -81,7 +112,12 @@ const Admin = () => {
 
       {/* Main Content */}
       <MainContent>
-        {currentPage === "dashboard" && <h1>Welcome to the Dashboard</h1>}
+        {currentPage === "dashboard" && (
+          <>
+            <h1>Welcome to the Dashboard</h1>
+            <Button onClick={handleExport}>Export Order Data</Button>
+          </>
+        )}
         {currentPage === "manageProducts" && (
           <div>
             <SectionNavbar>

@@ -6,16 +6,18 @@ import styled from "styled-components";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { registerUser } from "../api/authapis";
-// import { CartItem, CartItems, QuantitySelector } from "../wrappers/cart";
-import BorderButton from "../components/BorderButton";
-// import Button from "../components/Button";
 import Spinner from "../components/Spinner";
+import { createOrder } from "../api/delhiveryapi";
+
+
 
 const CustomerDetails = () => {
     const navigate = useNavigate();
+    const location = useLocation()
+    const buyData = location.state
 
     const {
         cartData,
@@ -24,12 +26,13 @@ const CustomerDetails = () => {
         allProducts,
         setCartData,
         backendUrl,
-        buyData,
+        // buyData,
         checkUserExists,
         loginStatus,
         sessionId,
         setLoginStatus,
         currency,
+        discountPrice,
     } = useContext(ShopContext);
     const [customerData, setCustomerData] = useState(() => {
         const savedData = localStorage.getItem("customer-shipping-details");
@@ -48,21 +51,30 @@ const CustomerDetails = () => {
                 phoneNumber: "",
             };
     });
+    const customerCartData = [];
 
-    useEffect(() => {
-        if (Object.keys(buyData).length > 0) {
-            localStorage.setItem("buy-data", JSON.stringify(buyData));
+    for (const items in cartData) {
+        for (const item in cartData[items]) {
+            if (cartData[items][item] > 0) {
+                const itemInfo = allProducts.find(
+                    (product) => product._id === items
+                );
+
+                if (itemInfo) {  // Ensure itemInfo is found before using it
+                    customerCartData.push({
+                        name: itemInfo.name,
+                        price: itemInfo.price,
+                        size: item, // Assigning size correctly
+                        image: itemInfo.images[0],
+                        quantity: cartData[items][item] // Store quantity separately
+                    });
+                }
+            }
         }
-    }, []);
-
-    const data = localStorage.getItem("buy-data");
-
-    let parsedBuyData = JSON.parse(data);
-
-    const { img, name, size, price, productID } = parsedBuyData[0];
+    }
 
     const [couponCode, setCouponCode] = useState("");
-    const [discountedRate, setDiscountedRate] = useState(null);
+    const [discountedRate, setDiscountedRate] = useState(0);
     const [discount, setDiscount] = useState("no discount");
     const [couponPlaceholder, setCouponPlaceholder] = useState("discount code");
     const [couponLoading, setCouponLoading] = useState(false);
@@ -71,9 +83,9 @@ const CustomerDetails = () => {
     const [isChecking, setIsChecking] = useState(false);
     const [paymentMethod, setPaymentMethod] = useState("razorpay");
     const [directBuy, setDirectBuy] = useState(
-        parsedBuyData.length > 0 ? true : false
+        buyData?.length > 0 ? true : false
     );
- 
+
     useEffect(() => {
         localStorage.setItem(
             "customer-shipping-details",
@@ -87,6 +99,7 @@ const CustomerDetails = () => {
             handleCheckUserExists();
         }
     }, []);
+
 
     // validateEmail(customerData.email)
     useEffect(() => {
@@ -135,7 +148,7 @@ const CustomerDetails = () => {
     };
 
     const verifyRazorpay = (order) => {
-        console.log(order.receipt);
+        console.log(order);
         const options = {
             key: import.meta.env.VITE_RAZORPAY_KEY_ID,
             order_id: order.id,
@@ -172,6 +185,23 @@ const CustomerDetails = () => {
                             setCartData({});
                             localStorage.removeItem("cart-items");
                         }
+                        // console.log()
+                        let createDelhiveryData = {
+                            // orderId: order.receipt,
+                            // name: customerData.Name,
+                            // phone: customerData.phoneNumber,
+                            // address: customerData.address,
+                            // pin: customerData.pincode,
+                            // state: customerData.state,
+                            // city: customerData.city,
+                            // weight: '1kg'
+                            expected_package_count : 7,
+
+                        }
+
+                        const delhiveryResponse = await createOrder(createDelhiveryData)
+                        console.log(delhiveryResponse.data)
+
                         navigate("/");
                         if (!loginStatus && isUserExists === false) {
                             const data = {
@@ -199,15 +229,17 @@ const CustomerDetails = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log(directBuy)
+        console.log(discountedRate)
         try {
             let orderItems = [];
 
             if (directBuy) {
-                console.log(productID);
+                // console.log(buyData_productId);
                 const itemInfo = allProducts.find(
-                    (product) => product._id === productID
+                    (product) => product._id === buyData[0].productID
                 );
-                itemInfo.size = size;
+                itemInfo.size = buyData[0].size;
                 itemInfo.quantity = 1;
                 orderItems.push(itemInfo);
             } else {
@@ -226,15 +258,10 @@ const CustomerDetails = () => {
                     }
                 }
             }
-            console.log(orderItems);
             let orderData = {
                 address: customerData,
                 items: orderItems,
-                amount: directBuy
-                    ? discountedRate
-                        ? discountedRate + delivery_fee
-                        : price + delivery_fee
-                    : getCartAmount() + delivery_fee,
+                amount: directBuy ? discountPrice > 0 ? discountPrice : buyData[0].price : getCartAmount(),
                 sessionId,
             };
 
@@ -290,19 +317,9 @@ const CustomerDetails = () => {
         }
     };
 
-    const couponApply = () => {
-        setCouponLoading(true);
-        setTimeout(() => {
-            if (couponCode === "TOP10") {
-                setDiscountedRate(price - (price * 25) / 100);
-                setDiscount("25%");
-            } else {
-                setCouponCode("");
-                setCouponPlaceholder("no discounts available");
-            }
-            setCouponLoading(false);
-        }, 500);
-    };
+
+
+
 
     return (
         <>
@@ -310,7 +327,7 @@ const CustomerDetails = () => {
             <MainSection>
                 <div className="mobile-view-summary-header">
                     <h2>Order Summary</h2>
-                    <span>{`${currency} ${parsedBuyData ? price : getCartAmount()
+                    <span>{`${currency} ${buyData ? buyData[0]?.price : getCartAmount()
                         }`}</span>
                 </div>
                 <Container>
@@ -395,7 +412,7 @@ const CustomerDetails = () => {
                                 required
                             />
                         </InputWrapper>
-                        <InputWrapper>
+                        {/* <InputWrapper>
                             <Label>Apartment</Label>
                             <Input
                                 type="text"
@@ -404,7 +421,7 @@ const CustomerDetails = () => {
                                 value={customerData.apartment}
                                 onChange={handleInputChange}
                             />
-                        </InputWrapper>
+                        </InputWrapper> */}
                         <InputWrapper>
                             <Label>City</Label>
                             <Input
@@ -450,55 +467,64 @@ const CustomerDetails = () => {
                             />
                         </InputWrapper>
                     </FormContainer>
-
-                    <Button onClick={handleSubmit}>Paynow</Button>
+                    {directBuy ? <Button onClick={handleSubmit}>Pay now</Button> : ''}
                 </Container>
                 <PaymentOptions>
-                    <div className="item-details">
-                        <div className="product">
-                            <img src={img} alt={name} />
-                            <div className="details">
-                                <div className="name">{name}</div>
-                                <div className="size">Size: {size}</div>
-                            </div>
-                            <div className="price">
-                                ₹{discountedRate ? discountedRate : price.toFixed(2)}
-                            </div>
-                        </div>
-                        <div className="price-details">
-                            <div className="label">Subtotal</div>
-                            <div className="value">
-                                ₹{discountedRate ? discountedRate : price.toFixed(2)}
-                            </div>
-                        </div>
-                        <div className="discount-code">
-                            <input
-                                type="text"
-                                onChange={(e) => setCouponCode(e.target.value)}
-                                placeholder={couponPlaceholder}
-                            />
-                            <button onClick={couponApply}>Apply</button>
-                        </div>
-                        <div className="price-details">
-                            <div className="label">Shipping</div>
-                            <div className="value">Enter shipping address</div>
-                        </div>
-                        <div className="total"></div>
-                        Total: ₹ {discountedRate ? discountedRate : price.toFixed(2)}
-                        {couponLoading ? <Spinner size={20} /> : <p>{discount}</p>}
-                        <div className="taxes">
-                            Including ₹{(price * 0.05).toFixed(2)} in taxes
-                        </div>
-                    </div>
-                    <div className="payment-options">
-                        {/* <Button
-                            onClick={() => setPaymentMethod("razorpay")}
-                            text={"razorpay"}
-                        />
-                        <input type="checkbox" name="" id="" />
 
-                        <Button onClick={() => setPaymentMethod("cod")} text={"cod"} /> */}
-                    </div>
+                    {
+                        directBuy ?
+                            <DirectBuyProduct data={buyData} couponLoading={couponLoading} couponPlaceholder={couponPlaceholder} discount={discount} setCouponCode={setCouponCode} />
+                            :
+                            <div className="item-details itemd-details-col">
+
+                                {/* <div className="products-container">
+
+                                    {customerCartData.map((product, index) => {
+                                        const { image, name, size, price, discountedRate } = product;
+
+                                        return (
+                                            <div className="product" key={index}>
+                                                <img src={image} alt={name} />
+                                                <div className="details">
+                                                    <div className="name">{name}</div>
+                                                    <div className="size">Size: {size}</div>
+                                                </div>
+                                                <div className="price">
+                                                    ₹{discountedRate ? discountedRate.toFixed(2) : price.toFixed(2)}
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                                <div className="price-details">
+                                    <div className="label">Subtotal</div>
+                                    <div className="value">
+                                        ₹{discountedRate ? discountedRate : getCartAmount()}
+                                    </div>
+                                </div>
+                                <div className="discount-code">
+                                    <input
+                                        type="text"
+                                        onChange={(e) => setCouponCode(e.target.value)}
+                                        placeholder={couponPlaceholder}
+                                    />
+                                    <button onClick={couponApply}>Apply</button>
+                                </div> */}
+                                <div className="price-details">
+                                    <div className="label">Shipping</div>
+                                    <div className="value">Enter shipping address</div>
+                                </div>
+                                <div className="total">
+                                    Total: ₹ {discountedRate ? discountedRate : getCartAmount()}</div>
+                                {couponLoading ? <Spinner size={20} /> : <p>{discount}</p>}
+
+                                {/* <div className="taxes">
+                                    Including ₹{(getCartAmount() * 0.05).toFixed(2)} in taxes
+                                </div> */}
+                                <Button onClick={handleSubmit}>Pay now</Button>
+                            </div>
+                    }
+
                 </PaymentOptions>
                 <MobileViewButton onClick={handleSubmit}>
                     Paynow
@@ -511,9 +537,82 @@ const CustomerDetails = () => {
 
 export default CustomerDetails;
 
+const DirectBuyProduct = ({ data }) => {
+    const [couponCode, setCouponCode] = useState("");
+    // const [discountPrice, setDiscountedRate] = useState(0);
+    const [discount, setDiscount] = useState("no discount");
+    const [couponPlaceholder, setCouponPlaceholder] = useState("discount code");
+    const [couponLoading, setCouponLoading] = useState(false);
+    // console.log("Received discountPrice in DirectBuyProduct:", discountPrice);
+
+    const { setDiscountPrice, discountPrice } = useContext(ShopContext);
+
+
+    const couponApply = () => {
+        setCouponLoading(true);
+        setTimeout(() => {
+            if (couponCode === "TOP10") {
+                const newDiscountedRate = data
+                    ? data[0].price - (data[0].price * 25) / 100
+                    : getCartAmount() - (getCartAmount() * 25) / 100;
+
+                console.log("Updating discountPrice to:", newDiscountedRate); // Debugging
+                setDiscountPrice(newDiscountedRate)
+                setDiscount("25% discount applied!");
+            } else {
+                setCouponCode("");
+                setCouponPlaceholder("No discounts available");
+                setDiscount("Invalid Coupon Code");
+            }
+            setCouponLoading(false);
+        }, 500);
+    };
+
+    return (
+        <div className="item-details">
+            <div className="product">
+                <img src={data[0].img} alt={data[0].img} />
+                <div className="details">
+                    <div className="name">{data[0].name}</div>
+                    <div className="size">Size: {data[0].size}</div>
+                </div>
+                <div className="price">
+                    ₹{discountPrice ? discountPrice : data[0].price.toFixed(2)}
+                </div>
+            </div>
+            <div className="price-details">
+                <div className="label">Subtotal</div>
+                <div className="value">
+                    ₹{discountPrice ? discountPrice : data[0].price.toFixed(2)}
+                </div>
+            </div>
+            <div className="discount-code">
+                <input
+                    type="text"
+                    onChange={(e) => setCouponCode(e.target.value)}
+                    placeholder={couponPlaceholder}
+                />
+                <button onClick={couponApply}>Apply</button>
+            </div>
+            <div className="price-details">
+                <div className="label">Shipping</div>
+                <div className="value">Enter shipping address</div>
+            </div>
+            <div className="total"></div>
+            Total: ₹ {discountPrice ? discountPrice : data[0].price.toFixed(2)}
+            {couponLoading ? <Spinner size={20} /> : <p>{discount}</p>}
+            {/* <div className="taxes">
+                Including ₹{(data[0].price * 0.05).toFixed(2)} in taxes
+            </div> */}
+        </div>
+    )
+}
+
 const MainSection = styled.section`
   display: flex;
   height: 100vh;
+  margin-top: 5.5rem;
+
 
   .mobile-view-summary-header {
     display: none;
@@ -537,12 +636,12 @@ const MainSection = styled.section`
 const Container = styled.div`
   width: 70%;
   /* height: max-content; */
-  margin: 40px auto;
+  /* margin: 40px auto; */
   padding: 2rem 4rem;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     width: 100%;
@@ -555,34 +654,43 @@ const Container = styled.div`
 
 const PaymentOptions = styled.div`
   width: 40%;
-  padding: 1rem;
+  /* padding: 1rem; */
   height: 100%;
-  background-color: whitesmoke;
   display: flex;
   justify-content: space-around;
   align-items: center;
   flex-direction: column;
 
   .item-details {
-    /* height: 80%; */
+    height: 100%;
     display: flex;
-    margin: 2rem;
+    /* margin: 2rem; */
     flex-direction: column;
     gap: 16px;
     background-color: #f9f9f9;
     padding: 16px;
-    border-radius: 8px;
+    width: 100%;
+
+    .products-container{
+        display: flex;
+        flex-direction: column;
+        height: 30%;
+    }
 
     .product {
       display: flex;
       align-items: center;
+      justify-content: space-around;
       gap: 16px;
-
+      width: 100%;
+      height: 5rem;
+      
       img {
-        width: 80px;
+          width: 80px;
         height: 80px;
         object-fit: cover;
         border-radius: 8px;
+        padding: 10px;
       }
 
       .details {
@@ -590,7 +698,7 @@ const PaymentOptions = styled.div`
         flex-direction: column;
 
         .name {
-          font-size: 16px;
+          font-size: 14px;
           font-weight: 600;
           color: #333;
         }
@@ -601,6 +709,7 @@ const PaymentOptions = styled.div`
         }
       }
     }
+
 
     .price-details {
       display: flex;
@@ -651,6 +760,7 @@ const PaymentOptions = styled.div`
       font-weight: bold;
       color: #000;
       margin-top: 16px;
+      display: inline;
     }
 
     .taxes {
@@ -678,7 +788,7 @@ const Heading = styled.h2`
   font-size: 28px;
   font-weight: 600;
   text-align: center;
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
 `;
 
 const FormContainer = styled.div`

@@ -9,10 +9,10 @@ export const NavbarWrapper = styled.nav`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  position: sticky;
-  top: 0;
-  left: 0;
-  z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
 
   /* border-bottom: ${({ isScrolled }) =>
     isScrolled ? "1px solid white" : ""}; */

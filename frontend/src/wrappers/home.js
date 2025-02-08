@@ -6,7 +6,7 @@ export const HomeWrapper = styled.section`
   background-color: black;
   font-family: "Roboto Condensed", sans-serif;
   font-family: "Poppins", sans-serif;
-
+  
   @keyframes heroImageAnimation {
     0% {
       transform: translateY(100%);
@@ -38,6 +38,8 @@ export const HomeWrapper = styled.section`
     overflow: hidden;
     display: flex;
     background-color: black;
+    margin-top: 5.5rem;
+
 
     img {
       width: 15rem;

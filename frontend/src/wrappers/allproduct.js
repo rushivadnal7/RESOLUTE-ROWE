@@ -8,6 +8,7 @@ export const AllproductWrapper = styled.div`
   scroll-behavior: smooth;
   color: white;
   position: relative;
+  margin-top: 5.5rem;
 
   .header {
     height: 2rem;
@@ -259,7 +260,6 @@ export const AllproductWrapper = styled.div`
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    margin-top: 5.5rem;
     padding: 1rem 0px;
 
     .header{

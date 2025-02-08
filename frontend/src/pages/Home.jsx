@@ -37,6 +37,7 @@ const Home = () => {
 
 
   return (
+
     <HomeWrapper onScroll={handleScroll}>
       <Navbar scrollRatio={scrollRatio}/>
       <Hero />

@@ -13,6 +13,8 @@ import adminAuthRouter from "./Routes/adminRoute.js";
 import orderRouter from "./Routes/orderRoute.js";
 import otpRouter from "./Routes/otpRoute.js"; 
 import cache from "./Config/cache.js"; // ✅ Replace Redis with node-cache
+// import delhiveryRoutes from "./routes/delhiveryRoutes.js";
+import delhiveryRoutes from './Routes/delhiveryRoute.js'
 
 const app = express();
 const port = process.env.PORT || 7007;
@@ -58,6 +60,7 @@ app.use("/api/designs", designRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/otp", otpRouter);
+app.use("/api/delhivery", delhiveryRoutes);
 
 // Home Route
 app.get("/", (req, res) => {

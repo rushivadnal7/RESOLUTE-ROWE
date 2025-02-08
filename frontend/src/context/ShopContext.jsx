@@ -17,6 +17,7 @@ const ShopContextProvider = (props) => {
     const [loginStatus, setLoginStatus] = useState(false)
     const [cartData, setCartData] = useState({})
     const [buyData, setBuyData] = useState({})
+    const [discountPrice, setDiscountPrice] = useState(0)
     const [sessionId, setSessionId] = useState('')
 
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -227,15 +228,25 @@ const ShopContextProvider = (props) => {
     };
 
     // Check if a user exists in the database
-    const checkUserExists = async (email) => {
-        console.log(email)
+    const checkUserExists = async (id) => {
+        console.log(id)
         try {
             const response = await axios.post(`${backendUrl}api/user/checkuserexists`, {
-                email,
+                id,
             });
             return response.data.exists;
         } catch (error) {
             console.error("Error in checkUserExists:", error);
+            throw error;
+        }
+    };
+
+    const getUserOrders = async (userId, token) => {
+        try {
+            const response = await axios.get(`${backendUrl}api/order/userorders`, {withCredentials:true});
+            return response.data.orders;
+        } catch (error) {
+            console.error("Error fetching orders:", error);
             throw error;
         }
     };
@@ -251,6 +262,7 @@ const ShopContextProvider = (props) => {
         cartItems,
         setCartItems,
         UpdateCartApi,
+        getUserOrders,
         loading,
         loginStatus,
         setLoginStatus,
@@ -263,6 +275,8 @@ const ShopContextProvider = (props) => {
         buyData,
         checkUserExists,
         sessionId,
+        discountPrice,
+        setDiscountPrice
     };
     return (
         <ShopContext.Provider value={contextValue}>
