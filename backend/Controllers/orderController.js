@@ -1,5 +1,5 @@
-import orderModel from "../models/orderModel.js";
-import userModel from "../models/userModel.js";
+import orderModel from "../Models/orderModel.js";
+import userModel from "../Models/userModel.js";
 import crypto from "crypto";
 import razorpay from "razorpay";
 import ExcelJS from "exceljs";
