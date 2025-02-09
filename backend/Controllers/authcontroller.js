@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 // import userModel from "../models/userModel.js";
-import userModel from '../Models/userModel';
+import userModel from '../Models/userModel.js';
 
 
 export const checkLoginStatus = async (req, res) => {
