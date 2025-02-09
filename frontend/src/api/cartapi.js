@@ -4,7 +4,7 @@ const backendURL = import.meta.env.VITE_BACKEND_URL;
 
 export const UserCart = async () => {
   try {
-    const response = await axios.get(backendURL + "/api/cart/get", {
+    const response = await axios.get(backendURL + "api/cart/get", {
       withCredentials: true,    
     });
     return response.data;
@@ -15,7 +15,7 @@ export const UserCart = async () => {
 
 export const addCartDataLStrgToDb = async (cartData) => {
   try {
-    const response = await axios.post(backendURL + "/api/cart/lstrgtodb", cartData , {
+    const response = await axios.post(backendURL + "api/cart/lstrgtodb", cartData , {
       withCredentials: true,    
     });
     return response.data

@@ -4,7 +4,7 @@ export const createOrder = async (orderData) => {
     console.log(orderData)
     try {
         const response = await axios.post(
-            `${import.meta.env.VITE_BACKEND_URL}/api/delhivery/create-order`,
+            `${import.meta.env.VITE_BACKEND_URL}api/delhivery/create-order`,
             orderData,
             {
                 headers: { "Content-Type": "application/json" }
@@ -21,7 +21,7 @@ export const createOrder = async (orderData) => {
 export const trackOrder = async (waybill) => {
     try {
         const response = await axios.get(
-            `${import.meta.env.VITE_BACKEND_URL}/api/delhivery/track-order/${waybill}`
+            `${import.meta.env.VITE_BACKEND_URL}api/delhivery/track-order/${waybill}`
         );
         return response.data;
     } catch (error) {
