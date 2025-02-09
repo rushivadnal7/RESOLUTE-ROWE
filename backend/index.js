@@ -4,7 +4,7 @@ import { connectDb } from "./Config/db.js";
 import "dotenv/config.js";
 import cookieParser from "cookie-parser";
 import userRouter from "./Routes/userRoute.js";
-import authRouter from "../backend/Routes/authRoute.js";
+import authRouter from "./Routes/authRoute.js";
 import productRouter from "./Routes/ProductRoute.js";
 import connectCloudinary from "./Config/cloudinary.js";
 import designRouter from "./Routes/designRoute.js";
