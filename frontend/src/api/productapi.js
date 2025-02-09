@@ -2,9 +2,7 @@ import axios from 'axios'
 import { useState } from 'react'
 
 
-const API_URL = `${import.meta.env.VITE_BACKEND_URL}api/product/`
-console.log("Backend URL:", import.meta.env.VITE_BACKEND_URL);
-console.log("API URL:", API_URL);
+const API_URL = `${import.meta.env.VITE_BACKEND_URL}/api/product/`
 
 export const addProductAPI = async (data) => {
     try {
