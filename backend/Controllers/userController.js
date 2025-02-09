@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import validator from "validator";
 import "dotenv/config.js";
-import userModel from "../models/userModel";
+import userModel from "../models/userModel.js";
 
 
 
