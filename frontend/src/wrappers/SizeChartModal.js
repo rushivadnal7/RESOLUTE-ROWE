@@ -12,6 +12,10 @@ export const ModalOverlay = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 1200;  
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    
+  }
+
 `;
 
 export const ModalContent = styled.div`
@@ -122,4 +126,9 @@ export const SizeGuideButton = styled.button`
   cursor: pointer;
   writing-mode: vertical-rl;
   text-align: center;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+
+  }
+
 `;

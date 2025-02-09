@@ -144,12 +144,13 @@ export const AllproductWrapper = styled.div`
         display: flex;
         cursor: pointer;
         align-items: center;
+
       }
 
       .price-range-dropdown {
         position: absolute;
         top: 100%; /* Positions the dropdown just below the gender filter */
-        left: -100%;
+        left: 0%;
         z-index: 999;
         width: 300px;
         color: black;

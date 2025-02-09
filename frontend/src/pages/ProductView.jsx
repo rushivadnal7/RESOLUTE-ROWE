@@ -53,6 +53,38 @@ const ProductView = () => {
     const [favoriteSelected, setFavoriteSelected] = useState(false)
     const [selectedSize, setSelectedSize] = useState("");
     const [productData, setProductData] = useState({})
+    const [relatedProducts, setRelatedProducts] = useState([])
+    const [copied, setCopied] = useState(false);
+    const pageUrl = window.location.href; // Get current page URL
+
+
+    const copyToClipboard = () => {
+        navigator.clipboard.writeText(pageUrl).then(() => {
+            setCopied(true);
+            toast.info('url copied')
+            setTimeout(() => setCopied(false), 2500);
+
+        });
+    };
+
+    const generateRandomNum = () => {
+        return Math.floor(Math.random() * allProducts.length); // ✅ Corrected random number calculation
+    };
+
+    const relatedProductsAlgorithm = () => {
+        let newRelatedProducts = [];
+        for (let i = 0; i < 4; i++) {  // ✅ Loop should be from 0 to 3
+            const randomIndex = generateRandomNum();
+            if (allProducts[randomIndex]) {
+                newRelatedProducts.push(allProducts[randomIndex]); // ✅ Collect in an array first
+            }
+        }
+        setRelatedProducts(newRelatedProducts); // ✅ Update state once
+    };
+
+    useEffect(() => {
+        relatedProductsAlgorithm();
+    }, [allProducts]);
 
 
     useEffect(() => {
@@ -78,27 +110,22 @@ const ProductView = () => {
     const handleOpenModal = () => {
         const rootDiv = document.getElementById("root"); // Select the #root div
         if (rootDiv) {
-            rootDiv.style.overflow = "hidden"; // Disable scroll for #root
+            rootDiv.style.overflow = "hidden";
         } setIsModalOpen(true)
     }
         ;
     const handleCloseModal = () => {
-        const rootDiv = document.getElementById("root"); // Select the #root div
+        const rootDiv = document.getElementById("root");
         if (rootDiv) {
-            rootDiv.style.overflow = " "; // Disable scroll for #root
+            rootDiv.style.overflow = " ";
         }
         setIsModalOpen(false)
     };
-
-    const favoriteButtonHandler = () => {
-        setFavoriteSelected(!favoriteSelected)
-    }
 
     const handleSizeChange = (e) => {
         setSelectedSize(e.target.value);
     };
 
-    // console.log(productData)
     const handleBuyButton = () => {
         if (selectedSize) {
             const data = [{
@@ -108,11 +135,11 @@ const ProductView = () => {
                 name: name,
                 price: price,
                 description: description,
-                img : productData?.images[0],
+                img: productData?.images[0],
             }]
-            
+
             // setBuyData(data)
-            navigate('/customerdetails' , {state : data})
+            navigate('/customerdetails', { state: data })
         } else {
             toast.error('select a size')
         }
@@ -127,33 +154,6 @@ const ProductView = () => {
         addToCart(productId, selectedSize, quantity); // Call addToCart with selected size
 
     };
-
-    const OtherProductsData = [
-        {
-            id: 1,
-            name: "Product 1",
-            Price: '595',
-            image: 'https://dummyimage.com/400x400',
-        },
-        {
-            id: 2,
-            name: "Product 1",
-            Price: '595',
-            image: 'https://dummyimage.com/400x400',
-        },
-        {
-            id: 3,
-            name: "Product 1",
-            Price: '595',
-            image: 'https://dummyimage.com/400x400',
-        },
-        {
-            id: 4,
-            name: "Product 1",
-            Price: '595',
-            image: 'https://dummyimage.com/400x400',
-        },
-    ]
 
     useEffect(() => {
         if (isModalOpen) {
@@ -186,6 +186,8 @@ const ProductView = () => {
             }
         };
     }, [isModalOpen]);
+
+    // console.log(RelatedProducts)
 
     return (
 
@@ -224,33 +226,17 @@ const ProductView = () => {
                                         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
                                     </svg>
                                 ))}
-                                {/* <svg
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    className="w-4 h-4 text-gray-600"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-                                </svg> */}
                             </RatingStars>
                             <RatingText>5 star Reviews</RatingText>
                         </Rating>
                         <OptionsWrapper>
                             <ColorOptions>
                                 <span>Color</span>
-                                <button className="color-btn" />
-                                <button className="color-btn" />
-                                <button className="color-btn" />
-                                <button className="color-btn" />
-
-                                {/* {
-                                    data.colors.map((item, index) => (
-                                            <button className="color-btn" />
+                                {
+                                    productData?.colors?.map((color, index) => (
+                                        <button className={`color-btn ${color} `} />
                                     ))
-                                } */}
+                                }
                             </ColorOptions>
                             <SizeOptions>
                                 {/* <span>Size</span> */}
@@ -278,11 +264,6 @@ const ProductView = () => {
                             </QuantityWrapper>
                             <BorderButton text={'Buy'} onclick={handleBuyButton} bgColor={'white'} />
                             <Button onclick={handleAddToCart} text={'Add to Cart'} />
-                            {/* <FavoriteButton onClick={favoriteButtonHandler}>
-                                <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className={`w-5 h-5 ${favoriteSelected && 'text-red-600'}`} viewBox="0 0 24 24">
-                                    <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
-                                </svg>
-                            </FavoriteButton> */}
                         </PriceWrapper>
                         <PaymentGateway>
                             <img src={razorpay} alt="razorpay" />
@@ -311,7 +292,7 @@ const ProductView = () => {
                                 This oversized tee is made from high-quality cotton weighing 240 GSM, ensuring both comfort and longevity.
                             </p>
                         </PrintDescriptionContainer>
-                        <ShareButton>
+                        <ShareButton onClick={copyToClipboard}>
                             Share
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-4">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15m0-3-3-3m0 0-3 3m3-3V15" />
@@ -323,13 +304,13 @@ const ProductView = () => {
                         <h1>You may also like</h1>
                         <div className="other-products">
                             {
-                                OtherProductsData.map((product, index) => {
+                                relatedProducts.map((product, index) => {
                                     return (
                                         <>
                                             <div className='product'>
-                                                <img src={product.image} alt="product image" />
-                                                <span>{product.name}</span>
-                                                <span>{product.Price}</span>
+                                                <img src={product?.images[0]} alt="product image" />
+                                                <span>{product?.name}</span>
+                                                <span>{product?.price}</span>
                                             </div>
                                         </>
 
@@ -340,7 +321,6 @@ const ProductView = () => {
                     </RelatedProductsList>
                 </Container>
             </ProductViewWrapper>
-            <Footer />
             <SizeChart>
 
                 {/* Product Details */}
@@ -351,6 +331,7 @@ const ProductView = () => {
 
                 <SizeChartModal isOpen={isModalOpen} onClose={handleCloseModal} />
             </SizeChart>
+            <Footer />
 
         </>
     );

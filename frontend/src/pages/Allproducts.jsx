@@ -17,7 +17,7 @@ const Allproducts = () => {
   const [priceRange, setPriceRange] = useState(false);
   const [originalProductList, setOriginalProductList] = useState([]);
   const [productList, setProductList] = useState([]);
-  const [priceValue, setPriceValue] = useState([250, 600]);
+  const [priceValue, setPriceValue] = useState([250, 700]);
   const [filterClick, setFilterClick] = useState(false)
 
 
@@ -26,6 +26,7 @@ const Allproducts = () => {
 
   useEffect(() => {
     setProductList(allProducts);
+    setOriginalProductList(allProducts)
   }, [allProducts]);
 
 
@@ -125,13 +126,13 @@ const Allproducts = () => {
                 <input
                   type="range"
                   min="250"
-                  max="600"
+                  max="700"
                   value={priceValue[1]}
                   onChange={handlePriceChange}
                   className="slider"
                 />
               </div>
-              <span onClick={() => (setPriceValue([250, 600]), setProductList(originalProductList))}>reset</span>
+              <span onClick={() => (setPriceValue([250, 700]), setProductList(originalProductList))}>reset</span>
             </div>
           </div>
         </div>

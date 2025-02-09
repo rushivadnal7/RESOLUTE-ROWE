@@ -165,6 +165,13 @@ export const ColorOptions = styled.div`
     margin-left: 0.25rem;
     background-color: gray;
   }
+
+  .black{
+    background-color: #000;
+  }
+  .white{
+    background-color: #fff;
+  }
 `;
 
 export const SizeOptions = styled.div`
@@ -341,6 +348,13 @@ export const PrintDescriptionContainer = styled.div`
 export const ShareButton = styled.div`
   display: flex;
   font-size: small;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.3s ease;
+
+  svg:hover{
+    transform: translateY(-10%);
+  }
 `;
 
 export const RelatedProductsList = styled.div`
@@ -356,60 +370,78 @@ export const RelatedProductsList = styled.div`
 
   .other-products {
     width: 100%;
+    height: 200px;
+    /* border: 1px solid red; */
     display: flex;
     justify-content: space-around;
     gap: 1rem;
     align-items: center;
-
+    
     .product {
       display: flex;
       flex-direction: column;
-      justify-content: space-around;
+      /* justify-content: space-around; */
       gap: 0.4rem;
       width: 25%;
       height: 100%;
     }
 
     img {
-      width: 100%;
-      height: 50%;
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      
     }
 
     @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-
+      .product{
+        img{
+          width: 100%;
+          height: 50%;
+        }
+        span{
+          font-size: smaller;
+        }
+      }
     }
   }
 `;
 
 export const SizeChart = styled.div`
-
   .size-button {
     transform: rotate(270deg);
     position: absolute;
-    bottom: 50%;
+    bottom: 0%;
     right: 0;
     z-index: 20;
-    /* background-color: #4b5563; */
-    /* background-color: #C2b97f; */
     background-color: #C2b97f;
     display: flex;
     justify-content: center;
     align-items: center;
     color: black;
-    padding: 0.5rem ;
+    padding: 0.5rem;
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
     transition: all 0.2s ease;
   }
 
-  .size-button:hover{
+  .size-button:hover {
     filter: drop-shadow(0 -1mm 2mm #beb7b4);
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    .size-button{
-      bottom: -50%;
+    position: static;
+
+    .size-button {
+      transform: rotate(0deg);  /* Remove rotation for horizontal layout */
+      position: relative;       /* Change position to relative */
+      bottom: auto;             /* Reset bottom positioning */
+      right: auto;              /* Reset right positioning */
+      width: 100%;              /* Make it full-width */
+      border-radius: 0;         /* Remove border-radius for a clean look */
+      padding: 0.7rem 1rem;     /* Adjust padding for better spacing */
+      justify-content: center;  /* Center align text and icon */
     }
-}
-  
+  }
 `;
+

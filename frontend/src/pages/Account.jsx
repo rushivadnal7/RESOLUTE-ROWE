@@ -256,8 +256,7 @@ const AccountWrapper = styled.section`
     width: 50%;
     height: 100%;
     text-align: center;
-    /* border-left: 1.5px solid black; */
-
+    
     h3 {
       font-size: 1.5rem;
       font-weight: bold;
@@ -268,12 +267,12 @@ const AccountWrapper = styled.section`
     .orders-container {
       display: flex;
       height: 95%;
-      flex-direction: row; /* Change to row */
+      flex-direction: row; 
       flex-wrap: wrap;
       width: 100%;
-      justify-content: space-evenly; /* Ensures even spacing */
-      align-items: flex-start; /* Aligns items from the top */
-      gap: 10px; /* Adds spacing between items */
+      justify-content: center; 
+      align-items: center; 
+      gap: 10px; 
     }
   }
 

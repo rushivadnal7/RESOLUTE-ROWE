@@ -40,7 +40,9 @@ export const HomeWrapper = styled.section`
     background-color: black;
     margin-top: 5.5rem;
 
-
+    .mobile-view-bg-image{
+      display: none;
+    }
     img {
       width: 15rem;
       height: auto;
@@ -382,14 +384,28 @@ export const HomeWrapper = styled.section`
 
     .hero{
       position:relative;
-      background-color:orange;
 
-      img{
-        display:none;
+      .mobile-view-bg-image{
+        display:block;
+        position:absolute;
+        top:0;
+        left:0;
+        z-index:-10;
+        width:100%;
+        height:100%;
+        opacity:0.5;
+
+        img{
+          width:100%;
+          height:100%;
+
+        }
       }
 
+      
+
       .logo-container{
-        display:flex;
+        display:block;
         position:absolute;
         top:50%;
         left:50%;
@@ -415,6 +431,10 @@ export const HomeWrapper = styled.section`
     }
     .right-container{
       display:none;
+
+      img{
+        display:none;
+      }
     }
 
     

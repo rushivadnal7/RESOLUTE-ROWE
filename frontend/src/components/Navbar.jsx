@@ -98,7 +98,7 @@ const Navbar = () => {
           <ul>
             <li className="link" onClick={() => navigate('/')}>Home</li>
             <li onClick={() => navigate('/products')} className="link">Products</li>
-            <li onClick={() => navigate('/customize')} className="link">customize</li>
+            {/* <li onClick={() => navigate('/customize')} className="link">customize</li> */}
             <li onClick={() => navigate('/contact')} className="link">Contact</li>
           </ul>
         </div>

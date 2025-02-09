@@ -2,8 +2,13 @@ import React from 'react'
 import logo from '../assets/logo.png'
 import { footer } from 'framer-motion/client'
 import { FooterWrapper } from '../wrappers/footer'
+import { useNavigate } from 'react-router-dom'
+
 
 const Footer = () => {
+    const navigate = useNavigate()
+
+
     return (
         <FooterWrapper>
             <div className="social-media">
@@ -55,12 +60,11 @@ const Footer = () => {
                     </div>                </div>
                 <div className="footer-links">
                     <ul>
-                        <li><a href='#'></a> refund policy</li>
-                        <li><a href='#'>privacy policy</a></li>
-                        <li><a href='#'>Terms of services</a></li>
-                        <li><a href='#'>shipping policy</a></li>
-                        <li><a href='#'>contact</a></li>
-                        {/* <li>about</li> */}
+                        <li className=' cursor-pointer ' onClick={() => navigate('/policies/refund-policy')}>refund policy</li>
+                        <li className=' cursor-pointer ' onClick={() => navigate('/policies/privacy-policy')}>privacy policy</li>
+                        <li className=' cursor-pointer ' onClick={() => navigate('/policies/faq-policy')}>FAQ</li>
+                        <li className=' cursor-pointer ' onClick={() => navigate('/policies/shipping-policy')}>shipping policy</li>
+                        <li className=' cursor-pointer ' onClick={() => navigate('/contact')}>contact</li>
                     </ul>
                 </div>
             </div>

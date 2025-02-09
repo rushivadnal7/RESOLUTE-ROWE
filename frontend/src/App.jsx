@@ -21,6 +21,10 @@ import AdminProtectedRoute from "./components/admin_components/AdminProtectedRou
 import ForgotPassword from "./pages/ForgotPassword";
 import VerifyOtp from "./pages/VerifyOtp";
 import ChangePassword from "./pages/ChangePassword";
+import RefundPolicy from "./pages/RefundPolicy";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import ShippingPolicy from "./pages/ShippingPolicy";
+import Faq from "./pages/Faq";
 
 function App() {
   const router = createBrowserRouter([
@@ -95,6 +99,22 @@ function App() {
     {
       path: "/products/:productID",
       element: <ProductView />,
+    },
+    {
+      path: "/policies/refund-policy",
+      element: <RefundPolicy/>,
+    },
+    {
+      path: "/policies/privacy-policy",
+      element: <PrivacyPolicy/>,
+    },
+    {
+      path: "/policies/shipping-policy",
+      element: <ShippingPolicy/>,
+    },
+    {
+      path: "/policies/faq-policy",
+      element: <Faq/>,
     },
   ]);
 
