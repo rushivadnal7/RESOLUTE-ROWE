@@ -89,7 +89,7 @@ const Navbar = () => {
           <ul>
             <li onClick={() => navigate('/')}>home</li>
             <li onClick={() => navigate('/products')}>products</li>
-            <li onClick={() => navigate('/customize')}>customize</li>
+            {/* <li onClick={() => navigate('/customize')}>customize</li> */}
             <li onClick={() => navigate('/contact')}>contact</li>
           </ul>
         </div>
