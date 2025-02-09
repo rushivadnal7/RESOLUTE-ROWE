@@ -1,12 +1,12 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import validator from "validator";
-import mongoose from "mongoose";
 import "dotenv/config.js";
-import userModel from "../models/userModel.js";
+import userModel from "../models/userModel";
+
+
 
 export const register = async (req, res) => {
-  // console.log(req.body);  
   const { name, email, password } = req.body;
   try {
     const existingUser = await userModel.findOne({ email });
