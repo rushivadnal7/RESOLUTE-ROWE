@@ -21,7 +21,7 @@ const ShopContextProvider = (props) => {
     const [sessionId, setSessionId] = useState('')
 
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
-    const CART_API = `${import.meta.env.VITE_BACKEND_URL}api/cart/`;
+    const CART_API = `${import.meta.env.VITE_BACKEND_URL}/api/cart/`;
     const delivery_fee = 100;
     const currency = "₹";
 
@@ -85,7 +85,7 @@ const ShopContextProvider = (props) => {
         if (loginStatus) {
             try {
                 console.log(`updating the user id : ${sessionId}`)
-                const response = await axios.post(backendUrl + "api/order/updateuserid", { sessionId }, { withCredentials: true })
+                const response = await axios.post(backendUrl + "/api/order/updateuserid", { sessionId }, { withCredentials: true })
                 if (response.data.success) {
                     console.log(response.data.message)
                 }
@@ -128,7 +128,7 @@ const ShopContextProvider = (props) => {
         setCartItems(cart);
         if (loginStatus) {
             try {
-                const response = await axios.post(backendUrl + "api/order/verifyrazorpay", { itemId, size, quantity }, { withCredentials: true });
+                const response = await axios.post(backendUrl + "/api/order/verifyrazorpay", { itemId, size, quantity }, { withCredentials: true });
                 // console.log(response.data)
                 if (response.data) {
                     toast.success('product added to cart')
@@ -231,7 +231,7 @@ const ShopContextProvider = (props) => {
     const checkUserExists = async (id) => {
         console.log(id)
         try {
-            const response = await axios.post(`${backendUrl}api/user/checkuserexists`, {
+            const response = await axios.post(`${backendUrl}/api/user/checkuserexists`, {
                 id,
             });
             return response.data.exists;
@@ -243,7 +243,7 @@ const ShopContextProvider = (props) => {
 
     const getUserOrders = async (userId, token) => {
         try {
-            const response = await axios.get(`${backendUrl}api/order/userorders`, {withCredentials:true});
+            const response = await axios.get(`${backendUrl}/api/order/userorders`, {withCredentials:true});
             return response.data.orders;
         } catch (error) {
             console.error("Error fetching orders:", error);
