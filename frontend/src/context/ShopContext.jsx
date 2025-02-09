@@ -21,7 +21,7 @@ const ShopContextProvider = (props) => {
     const [sessionId, setSessionId] = useState('')
 
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
-    const CART_API = `http://localhost:7007/api/cart/`;
+    const CART_API = `${import.meta.env.VITE_BACKEND_URL}api/cart/`;
     const delivery_fee = 100;
     const currency = "₹";
 

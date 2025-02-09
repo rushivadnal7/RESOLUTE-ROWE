@@ -12,8 +12,7 @@ import cartRouter from "./Routes/cartRoute.js";
 import adminAuthRouter from "./Routes/adminRoute.js";
 import orderRouter from "./Routes/orderRoute.js";
 import otpRouter from "./Routes/otpRoute.js"; 
-import cache from "./Config/cache.js"; // ✅ Replace Redis with node-cache
-// import delhiveryRoutes from "./routes/delhiveryRoutes.js";
+import cache from "./Config/cache.js"; 
 import delhiveryRoutes from './Routes/delhiveryRoute.js'
 
 const app = express();

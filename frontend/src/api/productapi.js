@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useState } from 'react'
 
 
-const API_URL = 'http://localhost:7007/api/product/'
+const API_URL = `${import.meta.env.VITE_BACKEND_URL}api/product/`
 
 export const addProductAPI = async (data) => {
     try {

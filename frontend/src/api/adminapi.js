@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = 'http://localhost:7007/api/admin/'
+const API_URL = `${import.meta.env.VITE_BACKEND_URL}api/admin/`
 
 export const adminLogin = async (data) => {
     try {

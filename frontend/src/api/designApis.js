@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = 'http://localhost:7007/api/designs/'
+const API_URL = `${import.meta.env.VITE_BACKEND_URL}api/designs/`
 
 
 export const addDesignAPI = async (data) => {
