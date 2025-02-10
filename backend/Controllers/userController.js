@@ -43,7 +43,7 @@ export const register = async (req, res) => {
     res.cookie('token', token, {
       httpOnly: true,
       secure: true,
-      samesite: 'lax',
+      samesite: 'None',
       maxAge: 60 * 60 * 24 * 30 * 2 * 1000,
     })
     res.json({ success: true, message: 'welcome to Resolute & Rowe', token })
@@ -77,7 +77,7 @@ export const login = async (req, res) => {
     res.cookie('token', token, {
       httpOnly: true,
       secure: true,
-      samesite: 'lax',
+      samesite: 'None',
       maxAge: 60 * 60 * 24 * 30 * 2 * 1000,
     })
 
@@ -98,7 +98,7 @@ export const logout = (req, res) => {
   res.clearCookie('token', {
     httpOnly: true,
     secure: true,
-    sameSite: 'lax',
+    sameSite: 'None',
   });
   res.json({ success: true, message: 'Logged out successfully' });
 };
