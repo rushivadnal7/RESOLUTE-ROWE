@@ -18,7 +18,7 @@ import delhiveryRoutes from './Routes/delhiveryRoute.js'
 const app = express();
 const port = process.env.PORT || 7007;
 
-app.options("*", cors()); // Handle preflight requests
+// app.options("*", cors()); // Handle preflight requests
 
 // Set Cache (Replaces Redis)
 app.get("/set-cache", (req, res) => {
