@@ -110,11 +110,14 @@ const Account = () => {
     try {
       const response = await LogoutUser();
       console.log(response);
-      setLoginStatus(false);
 
-      setCartData({});
-      fetchUserData(); // Reset state
-      navigate("/");
+      if(response.success){
+        setLoginStatus(false);
+        setCartData({});
+        fetchUserData(); // Reset state
+        navigate("/");
+      }
+
     } catch (error) {
       console.error("Error logging out:", error);
     }
