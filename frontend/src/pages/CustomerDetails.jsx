@@ -174,7 +174,7 @@ const CustomerDetails = () => {
                 };
                 try {
                     const { data } = await axios.post(
-                        backendUrl + "api/order/verifyrazorpay",
+                        backendUrl + "/api/order/verifyrazorpay",
                         razorpayData,
                         { withCredentials: true }
                     );
@@ -269,7 +269,7 @@ const CustomerDetails = () => {
             switch (paymentMethod) {
                 case "cod":
                     const response = await axios.post(
-                        backendUrl + "api/order/place",
+                        backendUrl + "/api/order/place",
                         orderData,
                         { withCredentials: true }
                     );
@@ -297,7 +297,7 @@ const CustomerDetails = () => {
                     break;
                 case "razorpay":
                     const responseRazorpay = await axios.post(
-                        backendUrl + "api/order/razorpay",
+                        backendUrl + "/api/order/razorpay",
                         orderData,
                         { withCredentials: true }
                     );
