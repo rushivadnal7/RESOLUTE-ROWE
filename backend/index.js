@@ -11,8 +11,8 @@ import designRouter from "./Routes/designRoute.js";
 import cartRouter from "./Routes/cartRoute.js";
 import adminAuthRouter from "./Routes/adminRoute.js";
 import orderRouter from "./Routes/orderRoute.js";
-import otpRouter from "./Routes/otpRoute.js"; 
-import cache from "./Config/cache.js"; 
+import otpRouter from "./Routes/otpRoute.js";
+import cache from "./Config/cache.js";
 import delhiveryRoutes from './Routes/delhiveryRoute.js'
 
 const app = express();
@@ -41,18 +41,25 @@ app.get("/get-cache", (req, res) => {
 // App Config
 app.use(express.json());
 app.use(cookieParser());
+const allowedOrigins = [
+  "http://localhost:5173", // Local Dev
+  "https://resolute-and-rowe-frontend.vercel.app", // Deployed Frontend
+];
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: allowedOrigins,
     credentials: true,
   })
 );
-// app.use(
-//   cors({
-//     origin: "http://localhost:5173",
-//     credentials: true,
-//   })
-// );
+
+app.use((req, res, next) => {
+  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+  res.setHeader("Pragma", "no-cache");
+  res.setHeader("Expires", "0");
+  next();
+});
+
 connectDb();
 connectCloudinary();
 
