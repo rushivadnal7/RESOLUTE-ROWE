@@ -18,6 +18,8 @@ import delhiveryRoutes from './Routes/delhiveryRoute.js'
 const app = express();
 const port = process.env.PORT || 7007;
 
+app.options("*", cors()); // Handle preflight requests
+
 // Set Cache (Replaces Redis)
 app.get("/set-cache", (req, res) => {
   try {
@@ -42,16 +44,24 @@ app.get("/get-cache", (req, res) => {
 app.use(express.json());
 app.use(cookieParser());
 const allowedOrigins = [
-  "http://localhost:5173", // Local Dev
-  "https://resolute-and-rowe-frontend.vercel.app", // Deployed Frontend
+  "http://localhost:5173", // Local development
+  "https://resolute-and-rowe-frontend.vercel.app", // Deployed frontend
 ];
 
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
-);
+)
 
 app.use((req, res, next) => {
   res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
