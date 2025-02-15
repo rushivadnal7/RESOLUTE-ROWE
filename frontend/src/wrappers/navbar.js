@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { media } from "../helper/mediaHelper";
 
 export const NavbarWrapper = styled.nav`
   width: 100vw;
