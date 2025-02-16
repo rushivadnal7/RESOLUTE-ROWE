@@ -74,7 +74,7 @@ const Admin = () => {
       const currentDate = new Date();
       const formattedDate = `${currentDate.getDate()}${currentDate.toLocaleString("en-us", { month: "short" })}${currentDate.getFullYear().toString().slice(-2)}`;
       const fileName = `orders_${formattedDate}.xlsx`;
-      const response = await axios.get("http://localhost:7007/api/order/export", {
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}order/export`, {
         responseType: "blob", // Important to handle binary data
       });
 

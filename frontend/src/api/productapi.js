@@ -16,7 +16,6 @@ export const addProductAPI = async (data) => {
 export const findProduct = async (productId) => {
     try {
         const response = await axios.post(`${API_URL}single`, { productId })
-        // console.log(response.data);
         return response.data;
     } catch (error) {
         throw error.response?.data?.message || "Something went wrong";

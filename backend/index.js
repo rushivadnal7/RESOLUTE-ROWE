@@ -43,6 +43,7 @@ app.get("/get-cache", (req, res) => {
 // App Config
 app.use(express.json());
 app.use(cookieParser());
+
 const allowedOrigins = [
   "http://localhost:5173", // Local development
   "https://resolute-and-rowe-frontend.vercel.app", // Deployed frontend
@@ -63,6 +64,8 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 )
+
+app.options("*", cors());
 
 app.use((req, res, next) => {
   res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");

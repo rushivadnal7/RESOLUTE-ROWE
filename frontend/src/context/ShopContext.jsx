@@ -80,6 +80,7 @@ const ShopContextProvider = (props) => {
     }, []);
 
 
+    //change the not logged in user to a logged in user. session ID is converted to userID and stored in DB
     const sessionIdToUserId = async () => {
 
         if (loginStatus) {
@@ -106,7 +107,6 @@ const ShopContextProvider = (props) => {
 
     // add to cart
     const addToCart = async (itemId, size, quantity) => {
-
         if (!size) {
             toast.error("Select Product Size");
             return;
@@ -120,7 +120,6 @@ const ShopContextProvider = (props) => {
                 cart[itemId][size] = quantity;
             }
         } else {
-            // console.log(itemId, size, quantity)
             cart[itemId] = {};
             cart[itemId][size] = quantity;
         }
@@ -129,20 +128,17 @@ const ShopContextProvider = (props) => {
         if (loginStatus) {
             try {
                 const response = await axios.post(backendUrl + "/api/order/verifyrazorpay", { itemId, size, quantity }, { withCredentials: true });
-                // console.log(response.data)
                 if (response.data) {
                     toast.success('product added to cart')
                 }
                 localStorage.setItem('cart-items', JSON.stringify(cart))
                 return response.data
             } catch (e) {
-                // console.log(e);
                 toast.error(e.message);
             }
         } else {
             localStorage.setItem('cart-items', JSON.stringify(cart))
         }
-        // }
     };
 
 
