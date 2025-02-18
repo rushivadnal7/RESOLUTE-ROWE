@@ -77,7 +77,7 @@ app.use((req, res, next) => {
 
 connectDb();
 connectCloudinary();
-
+ 
 // API Endpoints
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
