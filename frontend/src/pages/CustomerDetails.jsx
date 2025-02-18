@@ -66,7 +66,7 @@ const CustomerDetails = () => {
                         price: itemInfo.price,
                         size: item, // Assigning size correctly
                         image: itemInfo.images[0],
-                        quantity: cartData[items][item] // Store quantity separately
+                        quantity: cartData[items][item]
                     });
                 }
             }
@@ -316,6 +316,8 @@ const CustomerDetails = () => {
             toast.error(error.message);
         }
     };
+
+    
 
 
 
