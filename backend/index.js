@@ -96,5 +96,5 @@ app.get("/", (req, res) => {
 
 // Start Server
 app.listen(port, () => {
-  console.log(`Server Running at http://localhost:${port}`);
+  console.log(`Server Running at dummy http://localhost:${port}`);
 });
