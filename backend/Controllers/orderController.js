@@ -49,6 +49,7 @@ const placeOrder = async (req, res) => {
 //placing orders using razorpay method
 const placeOrderRazorpay = async (req, res) => {
   try {
+    console.log('order placing start ' )
     const { items, amount, address, sessionId } = req.body;
     const userId = req.body.userId || sessionId;
 
@@ -71,13 +72,13 @@ const placeOrderRazorpay = async (req, res) => {
       currency: currency.toUpperCase(),
       receipt: newOrder._id,
     };
-
+    
     razorpayInstance.orders.create(options, (error, order) => {
       if (error) {
         console.log(error);
         return res
           .status(500)
-          .json({ success: false, message: "Some Error, Try Again!" });
+          .json({ success: false, message: "Some Error in razorpay, Try Again!" });
       }
       console.log('order ', order)
       console.log('order id', order.id)
