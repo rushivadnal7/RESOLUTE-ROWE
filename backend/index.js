@@ -24,8 +24,8 @@ app.use(cookieParser());
 
 const allowedOrigins = [
   "http://localhost:5173", // Local development
-  "https://resolute-and-rowe-frontend.vercel.app", // Deployed frontend
   "https://www.resoluteandrowe.com", // Deployed frontend
+  "https://resoluteandrowe.com", // Deployed frontend
   "https://resolute-rowe.onrender.com", // Deployed frontend
 ];
 
