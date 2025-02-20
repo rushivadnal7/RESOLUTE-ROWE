@@ -186,21 +186,21 @@ const CustomerDetails = () => {
                             localStorage.removeItem("cart-items");
                         }
                         // console.log()
-                        let createDelhiveryData = {
-                            // orderId: order.receipt,
-                            // name: customerData.Name,
-                            // phone: customerData.phoneNumber,
-                            // address: customerData.address,
-                            // pin: customerData.pincode,
-                            // state: customerData.state,
-                            // city: customerData.city,
-                            // weight: '1kg'
-                            expected_package_count : 7,
+                        // let createDelhiveryData = {
+                        //     // orderId: order.receipt,
+                        //     // name: customerData.Name,
+                        //     // phone: customerData.phoneNumber,
+                        //     // address: customerData.address,
+                        //     // pin: customerData.pincode,
+                        //     // state: customerData.state,
+                        //     // city: customerData.city,
+                        //     // weight: '1kg'
+                        //     expected_package_count : 7,
 
-                        }
+                        // }
 
-                        const delhiveryResponse = await createOrder(createDelhiveryData)
-                        console.log(delhiveryResponse.data)
+                        // const delhiveryResponse = await createOrder(createDelhiveryData)
+                        // console.log(delhiveryResponse.data)
 
                         navigate("/");
                         if (!loginStatus && isUserExists === false) {
