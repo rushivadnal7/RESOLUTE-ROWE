@@ -17,8 +17,8 @@ const razorpayInstance = new razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
-// console.log("Key ID:", process.env.RAZORPAY_KEY_ID);
-// console.log("Key Secret:", process.env.RAZORPAY_KEY_SECRET ? "Loaded": "Missing");
+console.log("Key ID:", process.env.RAZORPAY_KEY_ID);
+console.log("Key Secret:", process.env.RAZORPAY_KEY_SECRET ? "Loaded": "Missing");
 
 //placing orders using cod method
 const placeOrder = async (req, res) => {
