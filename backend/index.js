@@ -20,6 +20,26 @@ const port = process.env.PORT || 7007;
 
 // app.options("*", cors()); // Handle preflight requests
 
+// App Config
+app.use(express.json());
+app.use(cookieParser());
+
+const allowedOrigins = [
+  "http://localhost:5173", // Local development
+  "https://resolute-and-rowe-frontend.vercel.app/", // Deployed frontend
+  "https://www.resoluteandrowe.com/", // Deployed frontend
+];
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+)
+
+
 // Set Cache (Replaces Redis)
 app.get("/set-cache", (req, res) => {
   try {
@@ -40,24 +60,6 @@ app.get("/get-cache", (req, res) => {
   }
 });
 
-// App Config
-app.use(express.json());
-app.use(cookieParser());
-
-const allowedOrigins = [
-  "http://localhost:5173", // Local development
-  "https://resolute-and-rowe-frontend.vercel.app/", // Deployed frontend
-  "https://www.resoluteandrowe.com/", // Deployed frontend
-];
-
-app.use(
-  cors({
-    origin: allowedOrigins,
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-)
 
 
 app.use((req, res, next) => {
