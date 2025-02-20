@@ -302,6 +302,7 @@ const CustomerDetails = () => {
                         { withCredentials: true }
                     );
                     if (responseRazorpay.data.success) {
+                        console.log(responseRazorpay.data.order)
                         verifyRazorpay(responseRazorpay.data.order);
                     }
                     break;
