@@ -18,8 +18,6 @@ import delhiveryRoutes from './Routes/delhiveryRoute.js'
 const app = express();
 const port = process.env.PORT || 7007;
 
-// app.options("*", cors()); // Handle preflight requests
-
 // App Config
 app.use(express.json());
 app.use(cookieParser());
@@ -28,6 +26,7 @@ const allowedOrigins = [
   "http://localhost:5173", // Local development
   "https://resolute-and-rowe-frontend.vercel.app", // Deployed frontend
   "https://www.resoluteandrowe.com", // Deployed frontend
+  "https://resolute-rowe.onrender.com", // Deployed frontend
 ];
 
 app.use(
