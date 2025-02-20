@@ -17,6 +17,9 @@ const razorpayInstance = new razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
+// console.log("Key ID:", process.env.RAZORPAY_KEY_ID);
+// console.log("Key Secret:", process.env.RAZORPAY_KEY_SECRET ? "Loaded": "Missing");
+
 //placing orders using cod method
 const placeOrder = async (req, res) => {
   try {
@@ -49,9 +52,12 @@ const placeOrder = async (req, res) => {
 //placing orders using razorpay method
 const placeOrderRazorpay = async (req, res) => {
   try {
-    console.log('order placing start ' )
+    console.log('order placing start ')
     const { items, amount, address, sessionId } = req.body;
     const userId = req.body.userId || sessionId;
+
+    console.log("Key ID:", process.env.RAZORPAY_KEY_ID);
+console.log("Key Secret:", process.env.RAZORPAY_KEY_SECRET ? "Loaded": "Missing");
 
     let orderId;
     const orderData = {
@@ -72,13 +78,13 @@ const placeOrderRazorpay = async (req, res) => {
       currency: currency.toUpperCase(),
       receipt: newOrder._id,
     };
-    
+
     razorpayInstance.orders.create(options, (error, order) => {
       if (error) {
         console.log(error);
         return res
           .status(500)
-          .json({ success: false, message: "Some Error in razorpay, Try Again!" });
+          .json({ success: false, error, message: "Some Error in razorpay, Try Again!" });
       }
       console.log('order ', order)
       console.log('order id', order.id)
@@ -126,7 +132,7 @@ const verifyRazorpay = async (req, res) => {
 //get all orders of that particular user
 const userOrders = async (req, res) => {
   try {
-    const userId  = req.userId;
+    const userId = req.userId;
     const orders = await orderModel.find({ userId });
     return res.status(200).json({ success: true, orders });
   } catch (error) {
@@ -173,12 +179,12 @@ const exportOrders = async (req, res) => {
     // Get today's start and end timestamps
     const startOfDay = new Date();
     startOfDay.setHours(0, 0, 0, 0);
-    
+
     const endOfDay = new Date();
     endOfDay.setHours(23, 59, 59, 999);
 
     // Fetch only today's orders
-    const orders = await orderModel.find({ 
+    const orders = await orderModel.find({
       date: { $gte: startOfDay.getTime(), $lte: endOfDay.getTime() }
     }).lean();
 

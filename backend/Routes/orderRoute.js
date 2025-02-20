@@ -14,7 +14,7 @@ import jwt from "jsonwebtoken";
 
 const orderRouter = express.Router();
 const orderMiddleware = (req, res, next) => { 
-  console.log('order middleware ' ,   req.body)
+  // console.log('order middleware ' ,   req.body)
   const token = req.cookies.token;
 
   if (token) {
@@ -28,7 +28,7 @@ const orderMiddleware = (req, res, next) => {
     // If no token, check for sessionId and set as userId
     if (req.body.sessionId) {
       req.body.userId = req.body.sessionId;
-      console.log(req.body.userId)
+      // console.log(req.body.userId)
     } else {
       return res.status(401).json({ success: false, message: "User not logged in and no session ID provided" });
     }
