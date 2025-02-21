@@ -123,8 +123,9 @@ const CustomerDetails = () => {
 
         if (loginStatus === false) {
             try {
-                const exists = await checkUserExists(customerData.email);
-                setIsUserExists(exists);
+                const response = await checkUserExists(customerData.email);
+                console.log('response and status', response.message , response.success)
+                setIsUserExists(response.exists);
             } catch (error) {
                 console.error("Error checking user:", error);
                 toast.error("Failed to check user.");
@@ -321,7 +322,7 @@ const CustomerDetails = () => {
     
 
 
-
+    console.log(isUserExists , loginStatus)
 
 
     return (

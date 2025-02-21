@@ -83,6 +83,7 @@ const ShopContextProvider = (props) => {
     //change the not logged in user to a logged in user. session ID is converted to userID and stored in DB
     const sessionIdToUserId = async () => {
 
+        console.log(loginStatus)
         if (loginStatus) {
             try {
                 console.log(`updating the user id : ${sessionId}`)
@@ -94,7 +95,6 @@ const ShopContextProvider = (props) => {
                 console.error(error.message)
                 console.log('userId not updated')
             }
-            // Cookies.remove('sessionId')
         }
         // setSessionId('')
     }
@@ -224,13 +224,13 @@ const ShopContextProvider = (props) => {
     };
 
     // Check if a user exists in the database
-    const checkUserExists = async (id) => {
-        console.log(id)
+    const checkUserExists = async (email) => {
+        console.log(email)
         try {
             const response = await axios.post(`${backendUrl}/api/user/checkuserexists`, {
-                id,
+                email,
             });
-            return response.data.exists;
+            return response.data;
         } catch (error) {
             console.error("Error in checkUserExists:", error);
             throw error;
