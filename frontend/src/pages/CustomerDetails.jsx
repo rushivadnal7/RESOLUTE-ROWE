@@ -235,7 +235,7 @@ const CustomerDetails = () => {
         e.preventDefault();
 
         if (
-            (!checkUserExists && customerData.password.length === 0) || 
+            (!isUserExists || isUserExists === null && customerData.password.length === 0) || 
             customerData.Name.length === 0 || 
             customerData.email.length === 0 || 
             customerData.address.length === 0 || 
@@ -245,6 +245,7 @@ const CustomerDetails = () => {
             customerData.pincode.length === 0 || 
             customerData.phoneNumber.length === 0
           ) {
+            console.log("Please fill all the fields")
             return toast.error("Please fill all the fields");
           }
           
