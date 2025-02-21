@@ -234,9 +234,20 @@ const CustomerDetails = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (customerData.Name.length === 0 || customerData.email.length === 0 || customerData.address.length === 0 || customerData.country.length === 0 || customerData.city.length === 0 || customerData.state.length === 0 || customerData.pincode.length === 0 || customerData.phoneNumber.length === 0) {
+        if (
+            (!checkUserExists && customerData.password.length === 0) || 
+            customerData.Name.length === 0 || 
+            customerData.email.length === 0 || 
+            customerData.address.length === 0 || 
+            customerData.country.length === 0 || 
+            customerData.city.length === 0 || 
+            customerData.state.length === 0 || 
+            customerData.pincode.length === 0 || 
+            customerData.phoneNumber.length === 0
+          ) {
             return toast.error("Please fill all the fields");
-        }
+          }
+          
 
         try {
             let orderItems = [];

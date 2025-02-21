@@ -103,6 +103,7 @@ const verifyRazorpay = async (req, res) => {
   const _id = receipt
   const userId = req.body.userId || sessionId;
   console.log('verify razorpay ' + userId)
+  console.log('receipt' + _id)
   const body = order_id + "|" + payment_id;
   const generatedSignature = crypto
     .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
