@@ -235,7 +235,7 @@ const CustomerDetails = () => {
         e.preventDefault();
 
         if (
-            (!isUserExists || isUserExists === null && customerData.password.length === 0) || 
+            (!isUserExists  && customerData.password.length === 0) || 
             customerData.Name.length === 0 || 
             customerData.email.length === 0 || 
             customerData.address.length === 0 || 
