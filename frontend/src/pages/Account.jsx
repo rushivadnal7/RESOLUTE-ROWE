@@ -175,7 +175,7 @@ const Account = () => {
         <div className="orders">
           <h3>Order History</h3>
           <div className="orders-container">
-            {orders.slice(0, 5).map((order) => (
+            {orders.slice(-5).map((order) => (
               order.items.map((item, itemIndex) => (
                 <Order key={itemIndex} item={item} />
               ))
