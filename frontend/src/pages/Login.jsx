@@ -72,6 +72,7 @@ const Login = () => {
       }
     }
     const data = await LoginUser(loginFormData);
+    console.log(data.token)
     if (data.success) {
       const response = await addCartDataLStrgToDb(cartData);
       if (response.success) {
