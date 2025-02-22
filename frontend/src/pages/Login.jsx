@@ -40,6 +40,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const data = await registerUser(signupFormData);
+      console.log('token' ,data.token)
       if (data.success) {
         toast.success(data.message)
         if (customerDetailsLogin === true) {
@@ -72,7 +73,7 @@ const Login = () => {
       }
     }
     const data = await LoginUser(loginFormData);
-    console.log(data.token)
+    console.log('token' ,data.token)
     if (data.success) {
       const response = await addCartDataLStrgToDb(cartData);
       if (response.success) {
