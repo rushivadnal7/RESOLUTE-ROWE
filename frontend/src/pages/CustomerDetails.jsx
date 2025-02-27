@@ -44,7 +44,6 @@ const CustomerDetails = () => {
                 password: "",
                 country: "",
                 address: "",
-                // apartment: "",
                 city: "",
                 state: "",
                 pincode: "",

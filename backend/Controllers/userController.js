@@ -44,7 +44,7 @@ export const register = async (req, res) => {
       httpOnly: true,
       secure: true,
       samesite: 'None',
-      domain : 'resoluteandrowe.com',
+      // domain : 'resoluteandrowe.com',
       maxAge: 60 * 60 * 24 * 30 * 2 * 1000,
     })
     res.json({ success: true, message: 'welcome to Resolute & Rowe', token })
@@ -79,7 +79,7 @@ export const login = async (req, res) => {
       httpOnly: true,
       secure: true,
       samesite: 'None',
-      domain : 'resoluteandrowe.com',
+      // domain : 'resoluteandrowe.com',
       maxAge: 60 * 60 * 24 * 30 * 2 * 1000,
     })
 
