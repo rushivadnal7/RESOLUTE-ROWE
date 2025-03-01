@@ -36,18 +36,18 @@ const ShopContextProvider = (props) => {
                 setLoginStatus(true);
             } else {
                 setLoginStatus(false);
+                if (!document.cookie.includes("sessionId")) {
+                    let sessionId = '';
+                    for (let i = 0; i < 24; i++) {
+                        sessionId += Math.floor(Math.random() * 10);
+                    }
+                    document.cookie = `sessionId=${sessionId}; path=/`;
+                    setSessionId(sessionId);
+                } else {
+                    const cookies = document.cookie.split("; ");
+                    const sessionCookie = cookies.find((cookie) => cookie.startsWith("sessionId="));
+                    setSessionId(sessionCookie ? sessionCookie.split("=")[1] : null)
             }
-            if (!document.cookie.includes("sessionId")) {
-                let sessionId = '';
-                for (let i = 0; i < 24; i++) {
-                    sessionId += Math.floor(Math.random() * 10);
-                }
-                document.cookie = `sessionId=${sessionId}; path=/`;
-                setSessionId(sessionId);
-            } else {
-                const cookies = document.cookie.split("; ");
-                const sessionCookie = cookies.find((cookie) => cookie.startsWith("sessionId="));
-                setSessionId(sessionCookie ? sessionCookie.split("=")[1] : null)
             }
             const dataString = localStorage.getItem('cart-items')
             const localStrgCartData = JSON.parse(dataString);

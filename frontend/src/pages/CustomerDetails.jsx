@@ -126,10 +126,10 @@ const CustomerDetails = () => {
         if (loginStatus === false) {
             try {
                 const response = await checkUserExists(customerData.email);
-                console.log('response and status', response.message, response.success)
+                console.log('response and status', response.message , response.success)
                 setIsUserExists(response.exists);
             } catch (error) {
-                console.error("Error checking user:", error);
+                console.error("Error checking user : ", error);
                 toast.error("Failed to check user.");
             } finally {
                 setIsChecking(false);
@@ -253,7 +253,6 @@ const CustomerDetails = () => {
             let orderItems = [];
 
             if (directBuy) {
-                // console.log(buyData_productId);
                 const itemInfo = allProducts.find(
                     (product) => product._id === buyData[0].productID
                 );
