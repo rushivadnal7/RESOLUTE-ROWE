@@ -46,7 +46,7 @@ export const register = async (req, res) => {
     res.cookie('token', token, {
       httpOnly: true,
       secure: true,
-      samesite: 'None',
+      sameSite: 'None',
       maxAge: 60 * 60 * 24 * 30 * 2 * 1000,
     })
     res.json({ success: true, message: 'welcome to Resolute & Rowe', token })
@@ -78,7 +78,7 @@ export const login = async (req, res) => {
     res.cookie('token', token, {
       httpOnly: true,
       secure: true,
-      samesite: 'None',
+      sameSite: 'None',
       maxAge: 60 * 60 * 24 * 30 * 2 * 1000,
     })
 
