@@ -99,9 +99,9 @@ const ShopContextProvider = (props) => {
         // setSessionId('')
     }
 
-    useEffect(() => {
-        sessionIdToUserId()
-    }, [loginStatus])
+    // useEffect(() => {
+    //     sessionIdToUserId()
+    // }, [loginStatus])
 
 
 
