@@ -13,7 +13,7 @@ import adminAuthRouter from "./Routes/adminRoute.js";
 import orderRouter from "./Routes/orderRoute.js";
 import otpRouter from "./Routes/otpRoute.js";
 import cache from "./Config/cache.js";
-import delhiveryRoutes from './Routes/delhiveryRoute.js'
+import delhiveryRoutes from "./Routes/delhiveryRoute.js";
 
 const app = express();
 const port = process.env.PORT || 7007;
@@ -29,15 +29,24 @@ const allowedOrigins = [
   "https://resolute-rowe.onrender.com", // Deployed frontend
 ];
 
+// CORS Middleware (with credentials enabled)
 app.use(
   cors({
     origin: allowedOrigins,
-    credentials: true,
+    credentials: true, // Needed for cookies
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
-)
+);
 
+// ✅ Fix: Allow credentials in response headers
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Credentials", "true");
+  next();
+});
+
+// Handle preflight requests for all routes
+app.options("*", cors());
 
 // Set Cache (Replaces Redis)
 app.get("/set-cache", (req, res) => {
@@ -59,19 +68,21 @@ app.get("/get-cache", (req, res) => {
   }
 });
 
-
-
+// Disable Caching
 app.use((req, res, next) => {
-  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+  res.setHeader(
+    "Cache-Control",
+    "no-store, no-cache, must-revalidate, proxy-revalidate"
+  );
   res.setHeader("Pragma", "no-cache");
   res.setHeader("Expires", "0");
   next();
 });
 
-
+// Connect Database & Cloudinary
 connectDb();
 connectCloudinary();
- 
+
 // API Endpoints
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
