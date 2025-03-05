@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const TestimonialWrapper = styled.section`
-  background-color: white;
+  background-color: black;
   height: 100vh;
   display: flex;
   align-items: center;
@@ -121,7 +121,8 @@ const TestimonialWrapper = styled.section`
     padding: 40px 0;
 
     .card {
-      width: 100%; /* Full width for mobile screens */
+      height: 50%;
+      width: 80%; /* Full width for mobile screens */
       filter: drop-shadow(0 -1mm 4mm #002147);
 
     }

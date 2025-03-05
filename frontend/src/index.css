@@ -2,11 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
+body {
     /* width: 100vw; */
     /* overflow-x: hidden; */
     font-family: "Poppins", sans-serif;
     background-color: white;
+}
+
+#root{
+    overflow-x: hidden;
 }
 
 /* @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
@@ -15,12 +19,30 @@ body{
     }
 } */
 
-@media screen and (max-width : 992px ) {
-    #root{
+@media screen and (max-width : 992px) {
+    #root {
         overflow-x: hidden;
     }
 }
 
-input:focus{
+/* width */
+::-webkit-scrollbar {
+    width: 2px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px transparent;
+    border-radius: 20px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: gray;
+    border-radius: 10px;
+}
+
+
+input:focus {
     outline: none;
 }
