@@ -511,7 +511,7 @@ export const HomeWrapper = styled.section`
       align-items: center;
       padding: 0;
 
-      .canvas {
+      .canvas-container {
         width: 100%;
         height: 50%;
       }
