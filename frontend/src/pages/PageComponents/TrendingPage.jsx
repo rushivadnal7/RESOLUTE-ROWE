@@ -42,8 +42,7 @@ const TrendingPage = () => {
         {allProducts.length === 0 ? dummy.map((val) => {
           return (
             <>
-              <div className="w-[300px] flex-none h-[450px] bg-slate-500">
-                {val}
+              <div className="skeleton-card">
               </div>
             </>
           )
