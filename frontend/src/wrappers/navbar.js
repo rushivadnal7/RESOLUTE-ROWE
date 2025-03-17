@@ -16,12 +16,12 @@ export const NavbarWrapper = styled.nav`
   /* border-bottom: ${({ isScrolled }) =>
     isScrolled ? "1px solid white" : ""}; */
 
-  /* Background change on scroll */
   background-color: ${({ isScrolled }) =>
     isScrolled ? "transparent" : "white"};
   color: ${({ isScrolled }) => (isScrolled ? "#40404F" : "black")};
   transition: background-color 0.3s ease;
   transition: height 0.3s ease;
+  will-change: auto;
 
   ul {
     display: flex;
@@ -31,13 +31,14 @@ export const NavbarWrapper = styled.nav`
       text-align: center;
       font-size: small;
       transition: all 0.3s ease;
+      will-change: all;
       text-transform: uppercase;
     }
 
     li:hover {
       scale: 1.05;
       color: #002147;
-      filter: drop-shadow(0 -1mm 4mm #002147);
+      filter: drop-shadow(0 -2mm 3mm gold);
     }
   }
 
@@ -58,12 +59,13 @@ export const NavbarWrapper = styled.nav`
 
   .button {
     transition: all 0.3s ease-in;
+    will-change: auto;
   }
 
   .nav-buttons .button:hover {
     scale: 1.05;
     color: #002147;
-    filter: drop-shadow(0 -1mm 4mm #002147);
+    filter: drop-shadow(0 -1mm 4mm gold);
   }
 
   .hamburger-menu {
@@ -91,6 +93,7 @@ export const NavbarWrapper = styled.nav`
     width: 100px;
     max-height: 0px;
     transition: max-height 0.3s ease;
+    will-change: auto;
 
     .orders-button,
     .auth-button {
@@ -99,7 +102,7 @@ export const NavbarWrapper = styled.nav`
 
     .hover-effect:hover {
       color: #002147;
-      filter: drop-shadow(0 -1mm 4mm #002147);
+      filter: drop-shadow(0 -1mm 4mm #FCF6BA);
     }
   }
 
@@ -152,6 +155,7 @@ export const NavbarWrapper = styled.nav`
       left: -100%;
       z-index: 10;
       transition: all 0.4s ease;
+      will-change: auto;
 
       
       ul{

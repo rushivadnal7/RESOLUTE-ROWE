@@ -49,7 +49,7 @@ const TestimonialWrapper = styled.section`
     }
 
     .content {
-      background: white;
+      background:  gold;
       padding: 16px;
     }
   }
@@ -64,7 +64,7 @@ const TestimonialWrapper = styled.section`
   .title {
     font-size: 16px;
     font-weight: 500;
-    color: #2d3748;
+    color: white;
     margin-bottom: 12px;
   }
 

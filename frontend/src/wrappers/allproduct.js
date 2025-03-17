@@ -197,13 +197,10 @@ export const AllproductWrapper = styled.div`
     flex-wrap: wrap;
     gap: 3rem;
 
-    /* overflow-y: auto; */
-    scroll-behavior: smooth; /* Smooth scrolling */
-    /* Hides scrollbar in most browsers */
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none; 
 
-    /* Webkit-based browsers (Chrome, Safari) */
     &::-webkit-scrollbar {
       display: none;
     }

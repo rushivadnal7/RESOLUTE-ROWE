@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { AllproductWrapper, StyledProductList } from '../wrappers/allproduct'
-// import { allProductsData } from '../Data/allproductsData'
 import ProductCard from '../components/ProductCard'
 import { toast } from 'react-toastify'
 import { ShopContext } from '../context/ShopContext'
@@ -20,15 +19,12 @@ const Allproducts = () => {
   const [priceValue, setPriceValue] = useState([250, 700]);
   const [filterClick, setFilterClick] = useState(false)
 
-
-
-  console.log(allProducts)
-
   useEffect(() => {
     setProductList(allProducts);
     setOriginalProductList(allProducts)
   }, [allProducts]);
 
+  console.log(allProducts)
 
   const handlePriceChange = (event) => {
     const value = Number(event.target.value);

@@ -13,8 +13,8 @@ export const BorderButtonWrapper = styled.div`
     width: 100%;
     height: 100%;
     /* border-radius: 2px; */
-    /* background-image:linear-gradient(to bottom, #274060, #1B2845); */
-    background-image: linear-gradient( to right, #403B4A, #E7E9BB); //frozen
+    /* background-image: linear-gradient( to right, #403B4A, #E7E9BB);  */
+    background-image: linear-gradient( to right, #BF953F , #FCF6BA); 
 
     /* background-color: white; */
   }

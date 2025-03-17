@@ -49,7 +49,7 @@ const BestSeller = () => {
           </div>
           <div className="buy-addtocart-buttons">
             {/* <button className="buy-button">Buy</button> */}
-            <BorderButton text={'buy'} bgColor={'white'} />
+            <BorderButton text={'buy'} bgColor={'black'} />
             <Button text={'add to cart'} />
             {/* <button className="add-to-cart-button">Add to cart</button> */}
           </div>
