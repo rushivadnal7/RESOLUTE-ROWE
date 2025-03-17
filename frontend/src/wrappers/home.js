@@ -121,6 +121,7 @@ export const HomeWrapper = styled.section`
   font-size: 150px;
   padding:0 1rem;
   background: -webkit-linear-gradient(#bf953f, #fcf6ba);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
