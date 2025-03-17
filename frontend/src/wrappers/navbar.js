@@ -8,10 +8,10 @@ export const NavbarWrapper = styled.nav`
   display: flex;
   justify-content: space-around;
   align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
 
   /* border-bottom: ${({ isScrolled }) =>
     isScrolled ? "1px solid white" : ""}; */
@@ -72,7 +72,7 @@ export const NavbarWrapper = styled.nav`
     display: none;
   }
 
-  .hamburger{
+  .hamburger {
     color: ${({ isScrolled }) => (isScrolled ? "#40404F" : "black")};
   }
 
@@ -102,11 +102,11 @@ export const NavbarWrapper = styled.nav`
 
     .hover-effect:hover {
       color: #002147;
-      filter: drop-shadow(0 -1mm 4mm #FCF6BA);
+      filter: drop-shadow(0 -1mm 4mm #fcf6ba);
     }
   }
 
-  .menu{
+  .menu {
     display: none;
   }
 
@@ -118,10 +118,10 @@ export const NavbarWrapper = styled.nav`
     visibility: hidden;
   }
 
- 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     position: fixed;
-
+    justify-content: space-between;
+    padding: 0 1rem ;
 
     .hamburger-menu {
       display: flex;
@@ -131,22 +131,20 @@ export const NavbarWrapper = styled.nav`
       gap: 0.3rem;
       cursor: pointer;
       width: 1.7rem;
-      color:black;
+      color: black;
       /* background-color:black; */
 
-      .menu-bar{
-        background-color:gray;
-        width:20px;
-        height:3px;
-        border-radius:8px;
-
+      .menu-bar {
+        background-color: gray;
+        width: 20px;
+        height: 3px;
+        border-radius: 8px;
       }
-      
     }
     .menu {
       /* background-color: #1b2a41; */
       display: flex;
-      flex-direction:column;
+      flex-direction: column;
       background-color: black;
       width: 50%;
       height: 100vh;
@@ -157,18 +155,17 @@ export const NavbarWrapper = styled.nav`
       transition: all 0.4s ease;
       will-change: auto;
 
-      
-      ul{
-        margin-top:5rem;
-        list-style:none;
-        display:flex;
-        flex-direction:column;
-        
+      ul {
+        margin-top: 5rem;
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+
         gap: 1rem;
-        color:white;
+        color: white;
       }
     }
-    
+
     .open {
       left: 0;
     }
@@ -182,10 +179,10 @@ export const NavbarWrapper = styled.nav`
     }
 
     .logo {
-    display: none; 
-    visibility: hidden; 
-    cursor: pointer;
-  }
+      display: none;
+      visibility: hidden;
+      cursor: pointer;
+    }
   }
 
   .cart-button {
