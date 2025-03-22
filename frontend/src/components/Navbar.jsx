@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import Logo3D from "./Logo3D";
 import { NavbarWrapper } from "../wrappers/navbar";
 import { useNavigate } from "react-router-dom";
@@ -33,22 +33,26 @@ const Navbar = () => {
   }, [])
 
   const value = getCartCount()
-  
+
   const menuDrawerHandler = () => {
     setHamburgerMenu(!hamburgerMenu);
+
   };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      // Change this scroll threshold as per your requirement (e.g., 100px)
-      if (scrollTop > 100) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
 
+  const handleScroll = useCallback(() => {
+    const scrollTop = window.scrollY;
+    console.log('inside event listner')
+    if (scrollTop > 100) {
+      setIsScrolled(true);
+      console.log('scrolling')
+    } else {
+      setIsScrolled(false);
+      console.log('on top')
+    }
+  }, []);
+  
+  useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);

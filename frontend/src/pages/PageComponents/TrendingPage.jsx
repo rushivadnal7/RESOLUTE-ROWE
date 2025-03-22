@@ -6,23 +6,19 @@ const TrendingPage = () => {
   const { allProducts } = useContext(ShopContext);
   const scrollContainerRef = useRef(null);
 
-  // Scroll to the left
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
-      const cardWidth = scrollContainerRef.current.firstChild.offsetWidth; // Get the width of a single card
       scrollContainerRef.current.scrollBy({
-        left: -350, // Scroll by one card's width
+        left: -350,
         behavior: "smooth",
       });
     }
   };
 
-  // Scroll to the right
   const scrollRight = () => {
     if (scrollContainerRef.current) {
-      const cardWidth = scrollContainerRef.current.firstChild.offsetWidth; // Get the width of a single card
       scrollContainerRef.current.scrollBy({
-        left: 350, // Scroll by one card's width
+        left: 350, 
         behavior: "smooth",
       });
     }
@@ -49,11 +45,6 @@ const TrendingPage = () => {
         }) : allProducts.reverse().map((val, id) => (
           <ProductCard key={id} data={val} />
         ))}
-        {/* {
-          dummy.map((val) => {
-            
-          })
-        } */}
       </div>
 
       <button className="arrow right-arrow" onClick={scrollRight}>
