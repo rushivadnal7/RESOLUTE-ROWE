@@ -1,6 +1,8 @@
 import React, { useContext, useRef } from "react";
 import ProductCard from "../../components/ProductCard";
 import { ShopContext } from "../../context/ShopContext";
+import { TrendingPageWrapper } from "../../wrappers/trendingpage";
+
 
 const TrendingPage = () => {
   const { allProducts } = useContext(ShopContext);
@@ -18,7 +20,7 @@ const TrendingPage = () => {
   const scrollRight = () => {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollBy({
-        left: 350, 
+        left: 350,
         behavior: "smooth",
       });
     }
@@ -28,11 +30,10 @@ const TrendingPage = () => {
 
 
   return (
-    <section className="trending-page">
+    <TrendingPageWrapper>
       <button className="arrow left-arrow" onClick={scrollLeft}>
         &#8249;
       </button>
-
       <h2 className="title-trending">TRENDING</h2>
       <div className="scrolling-container" ref={scrollContainerRef}>
         {allProducts.length === 0 ? dummy.map((val) => {
@@ -50,7 +51,7 @@ const TrendingPage = () => {
       <button className="arrow right-arrow" onClick={scrollRight}>
         &#8250;
       </button>
-    </section>
+    </TrendingPageWrapper>
   );
 };
 

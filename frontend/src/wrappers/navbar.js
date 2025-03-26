@@ -18,7 +18,7 @@ export const NavbarWrapper = styled.nav`
 
   background-color: ${({ isScrolled }) =>
     isScrolled ? "transparent" : "white"};
-  color: ${({ isScrolled }) => (isScrolled ? "#40404F" : "black")};
+  color: ${({ isScrolled }) => (isScrolled ? "white" : "black")};
   transition: background-color 0.3s ease;
   transition: height 0.3s ease;
   will-change: auto;
@@ -73,7 +73,7 @@ export const NavbarWrapper = styled.nav`
   }
 
   .hamburger {
-    color: ${({ isScrolled }) => (isScrolled ? "#40404F" : "black")};
+    color: ${({ isScrolled }) => (isScrolled ? "white" : "black")};
   }
 
   .dropdown-container {

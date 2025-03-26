@@ -1,30 +1,29 @@
-import React from 'react'
-import { ProductCardWrapper } from '../wrappers/productcard'
-import { useNavigate } from 'react-router-dom'
-
+import React from 'react';
+import { ProductCardWrapper } from '../wrappers/productcard';
+import { useNavigate } from 'react-router-dom';
 
 const ProductCard = ({ data }) => {
-  const { images, name, price, _id } = data
+  const { images = [], name = 'Product Name', price = 'Product Price', _id } = data;
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
+  const handleCardClick = () => {
+    navigate(`/products/${_id}`);
+  };
 
-  const CardbuttonHandler = () => {
-    setTimeout(() => {
-      navigate(`/products/${_id}`);
-    }, 50);
-  }
-  
   return (
-    <>
-      <ProductCardWrapper onClick={CardbuttonHandler}>
-        <img loading='lazy' className='image' src={images ? images[0] : ''} alt={name && 'product-image'} />
-        <div className="product-card-container">
-          <h1>{name ? name : 'product-name'}</h1>
-          <span>{price ? price : "product-price"}</span>
-        </div>
-      </ProductCardWrapper>
-    </>
-  )
-}
+    <ProductCardWrapper onClick={handleCardClick}>
+      <img
+        loading="lazy"
+        className="image"
+        src={images.length > 0 ? images[0] : '/placeholder.jpg'}
+        alt={name}
+      />
+      <div className="product-card-container">
+        <h1>{name}</h1>
+        <span>{price}</span>
+      </div>
+    </ProductCardWrapper>
+  );
+};
 
 export default ProductCard;

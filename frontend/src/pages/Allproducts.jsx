@@ -24,8 +24,6 @@ const Allproducts = () => {
     setOriginalProductList(allProducts)
   }, [allProducts]);
 
-  console.log(allProducts)
-
   const handlePriceChange = (event) => {
     const value = Number(event.target.value);
     setPriceValue([250, value]);
@@ -132,8 +130,6 @@ const Allproducts = () => {
             </div>
           </div>
         </div>
-
-        {/* mobile view slider */}
         <div className={`filter-slider ${filterClick ? 'open' : 'close'}`}>
 
           <svg onClick={() => setFilterClick(!filterClick)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">

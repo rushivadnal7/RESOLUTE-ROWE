@@ -99,133 +99,31 @@ export const HomeWrapper = styled.section`
   }
 
   .marquee {
-  width: 100%;
-  background-color: #000;
-  padding: 4rem 2rem;
-  text-transform: uppercase;
-  font-family: "Montserrat", sans-serif;
-  font-weight: 600;
-  overflow: hidden;
-  border-top: 2px solid #bf953f;
-  border-bottom: 2px solid #bf953f;
-}
+    width: 100%;
+    background-color: #000;
+    padding: 4rem 2rem;
+    text-transform: uppercase;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+    overflow: hidden;
+    border-top: 2px solid #bf953f;
+    border-bottom: 2px solid #bf953f;
+  }
 
-.marquee-inner {
-  display: flex;
-  gap: 2rem; /* Space between elements */
-  white-space: nowrap;
-  will-change: transform;
-}
-
-.text {
-  font-size: 150px;
-  padding:0 1rem;
-  background: -webkit-linear-gradient(#bf953f, #fcf6ba);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-
-  .trending-page {
-    border-radius: 20px 20px 0px 0px;
-    width: 100vw;
-    height: 130vh;
-    padding: 20px;
+  .marquee-inner {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: start;
-    background-color: black;
-    position: relative;
+    gap: 2rem; /* Space between elements */
+    white-space: nowrap;
+    will-change: transform;
+  }
 
-    .title-trending {
-      padding: 2rem;
-      color: white;
-      font-size: 3rem;
-      font-weight: bold;
-    }
-
-    .scrolling-container {
-      width: 100%;
-      height: max-content;
-      display: flex;
-      padding: 2rem;
-      flex-wrap: nowrap;
-      gap: 2rem;
-      justify-content: flex-start;
-      align-items: center;
-      overflow-x: auto;
-      scroll-behavior: smooth;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-
-      &::-webkit-scrollbar {
-        display: none;
-      }
-
-      .skeleton-cards {
-      display: flex;
-      justify-content: center;
-      /* flex-wrap: wrap; */
-      gap: 3rem;
-    }
-
-      .skeleton-card {
-      width: 300px;
-      height: 450px;
-      flex: none;
-      background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
-      background-size: 200% 100%;
-      animation: shimmer 1.5s infinite;
-      border-radius: 10px;
-    }
-
-    }
-
-    .arrow-controls {
-    }
-
-    .arrow {
-      position: absolute;
-      top: 50%; /* Center arrows vertically */
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      /* transform: translateY(-50%); */
-      z-index: 10;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: white;
-      font-size: 2rem;
-      cursor: pointer;
-      width: 50px;
-      height: 50px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 50%;
-      transition: background-color 0.3s, transform 0.2s;
-
-      &:hover {
-        background: rgba(255, 255, 255, 0.3);
-        /* transform: scale(1.1); */
-      }
-
-      &:active {
-        transform: scale(0.9);
-      }
-    }
-
-    .left-arrow {
-      position: absolute;
-      left: 10px;
-    }
-
-    .right-arrow {
-      position: absolute;
-      right: 10px;
-    }
+  .text {
+    font-size: 150px;
+    padding: 0 1rem;
+    background: -webkit-linear-gradient(#bf953f, #fcf6ba);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   .best-seller-page {
@@ -243,17 +141,13 @@ export const HomeWrapper = styled.section`
       height: max-content;
       width: 100%;
       text-align: center;
-      /* padding: 0; */
       font-size: 50px;
       font-weight: 500;
-      /* border:1px solid red; */
     }
 
     .product-container {
-      /* border:1px solid red; */
       width: 100%;
       height: 600px;
-      /* padding: 1rem; */
       display: flex;
 
       ${media("lg")`
@@ -440,25 +334,24 @@ export const HomeWrapper = styled.section`
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    margin-top: 5.5rem; //make
+    margin-top: 5.5rem;
 
     .hero {
       position: relative;
-      height:80vh;
+      height: 80vh;
 
       .mobile-view-bg-image {
         display: block;
         width: 100%;
         height: 100%;
-        /* opacity: 0.5; */
-
         img {
           position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
           width: 100%;
           height: max-content;
+          /* aspect-ratio: 16/9; */
         }
       }
 
@@ -467,7 +360,7 @@ export const HomeWrapper = styled.section`
         position: absolute;
         top: 50%;
         left: 50%;
-        z-index:100;
+        z-index: 100;
         transform: translate(-50%, -50%);
       }
 

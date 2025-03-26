@@ -1,8 +1,6 @@
 import React, { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, useGLTF } from "@react-three/drei";
-import backgroundImage from '../../assets/playful_background_image.jpg'
-import { BlobGradient } from "../../wrappers/blobGradient";
 
 const LogoModel = ({ mouse }) => {
   const modelRef = useRef();
@@ -41,7 +39,6 @@ const PlayfullLogo = () => {
         className="playfull-page"
         style={{ width: "100vw", height: "100vh", cursor: "pointer", display: 'flex' }}
       >
-        {/* <img className="gradient-background-image" src={backgroundImage} alt="" /> */}
         <div className="canvas-container">
           <div className="blob-outer-container">
             <div className="blob-inner-container">
@@ -52,7 +49,6 @@ const PlayfullLogo = () => {
             <ambientLight intensity={0.5} />
             <directionalLight position={[0, 5, 5]} />
 
-            {/* Ground Light */}
             <spotLight
               position={[0, -2, 0]}
               angle={Math.PI / 4}
@@ -60,18 +56,15 @@ const PlayfullLogo = () => {
               intensity={2}
               castShadow
             />
-
-            {/* Circular Ground Plane */}
             <mesh
               rotation={[-Math.PI / 2, 0, 0]}
               position={[0.3, -1, 0]}
               receiveShadow
             >
-              <circleGeometry args={[1.5, 32]} /> {/* Circular ground size */}
+              {/* <circleGeometry args={[1.5, 32]} />  */}
               <meshStandardMaterial color="black" transparent={true} opacity={0.1} />
             </mesh>
 
-            {/* Logo Model */}
             <LogoModel mouse={mouse} />
 
             <OrbitControls enableZoom={false} />
