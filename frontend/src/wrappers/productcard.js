@@ -28,7 +28,8 @@ export const ProductCardWrapper = styled.div`
   &:hover{
     transform: scale(1.01);
     /* box-shadow: 2px 2px 20px white; */
-    filter: drop-shadow(0 -1mm 3mm #FCF6BA);
+    /* filter: drop-shadow(0 -1mm 3mm #FCF6BA); */
+    filter: drop-shadow(0 -1mm 3mm gray);
   }
 
 `;

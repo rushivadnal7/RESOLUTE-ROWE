@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useMemo } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { AllproductWrapper, StyledProductList } from '../wrappers/allproduct'
@@ -14,30 +14,43 @@ const Allproducts = () => {
   const [menCheckbox, setMenCheckbox] = useState(false);
   const [womenCheckbox, setWomenCheckbox] = useState(false);
   const [priceRange, setPriceRange] = useState(false);
-  const [originalProductList, setOriginalProductList] = useState([]);
-  const [productList, setProductList] = useState([]);
+  // const [originalProductList, setOriginalProductList] = useState([]);
+  // const [productList, setProductList] = useState([]);
   const [priceValue, setPriceValue] = useState([250, 700]);
   const [filterClick, setFilterClick] = useState(false)
+  
+  // Store the original product list
+  const originalProductList = useMemo(() => allProducts, [allProducts]);
 
-  useEffect(() => {
-    setProductList(allProducts);
-    setOriginalProductList(allProducts)
-  }, [allProducts]);
+  // Compute the filtered product list using useMemo
+  const productList = useMemo(() => {
+    return originalProductList.filter((product) => product.price <= priceValue[1]);
+  }, [originalProductList, priceValue]);
 
   const handlePriceChange = (event) => {
     const value = Number(event.target.value);
-    setPriceValue([250, value]);
-    console.log(value)
-    setProductList(
-      originalProductList.filter((product) => product.price <= value)
-    );
+    setPriceValue([250, value]); // Update price range
   };
+
+  // useEffect(() => {
+  //   setProductList(allProducts);
+  //   setOriginalProductList(allProducts)
+  // }, [allProducts]);
+
+  // const handlePriceChange = (event) => {
+  //   const value = Number(event.target.value);
+  //   setPriceValue([250, value]);
+  //   console.log(value)
+  //   setProductList(
+  //     originalProductList.filter((product) => product.price <= value)
+  //   );
+  // };
 
   const resetAll = () => {
     setMenCheckbox(false)
     setWomenCheckbox(false)
     setPriceValue([250, 600])
-    setProductList(originalProductList)
+    // setProductList(originalProductList)
   }
 
   useEffect(() => {
