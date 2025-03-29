@@ -1,7 +1,6 @@
-import React, { useEffect, useRef,useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import { HomeWrapper } from "../wrappers/home";
 import Navbar from "../components/Navbar";
-
 import ProductCard from "../components/ProductCard";
 import Hero from "./PageComponents/Hero";
 import LocomotiveScroll from "locomotive-scroll";
@@ -11,30 +10,25 @@ import Marquee from "./PageComponents/Marquee";
 import PlayfullLogo from "./PageComponents/PlayfullLogo";
 import Testimonials from "./PageComponents/Testimonials";
 import Footer from "../components/Footer";
-import { use } from "react";
 
 const Home = () => {
-  // const locomotiveScroll = new LocomotiveScroll();
   const [scrollRatio, setScrollRatio] = useState(0);
-  const handleScroll = (e) => {
-    console.log('')
-    const {scrollTop, scrollHeight, clientHeight } = e.target;
-    console.log(scrollHeight,scrollTop ,clientHeight)
+
+  const handleScroll = useCallback((e) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.target;
     const scrollRatio = scrollTop / (scrollHeight - clientHeight);
-    setScrollRatio(scrollRatio)
-  }
+    setScrollRatio(scrollRatio);
+  }, []);
 
   return (
-
     <HomeWrapper onScroll={handleScroll}>
-      <Navbar scrollRatio={scrollRatio}/>
+      <Navbar scrollRatio={scrollRatio} />
       <Hero />
-      <Marquee/>
-      <TrendingPage/>
-      <BestSeller/>
-      <PlayfullLogo/>
-      <Testimonials/>
-      <Footer/>
+      <Marquee />
+      <TrendingPage />
+      <BestSeller />
+      <Testimonials />
+      <Footer />
     </HomeWrapper>
   );
 };

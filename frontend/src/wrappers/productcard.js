@@ -16,7 +16,7 @@ export const ProductCardWrapper = styled.div`
     border-radius: 8px;
     width: 100%; /* Make image take full width */
     height: 85%; /* Make image take full height */
-    object-fit: cover; /* Cover the div, maintaining aspect ratio */
+    object-fit: cover; 
   }
 
   .product-card-container {
@@ -25,11 +25,10 @@ export const ProductCardWrapper = styled.div`
     padding: 0.2rem 1rem;
   }
 
-  &:hover{
+  /* &:hover{
     transform: scale(1.01);
-    /* box-shadow: 2px 2px 20px white; */
-    /* filter: drop-shadow(0 -1mm 3mm #FCF6BA); */
+    box-shadow: 2px 2px 20px white;
     filter: drop-shadow(0 -1mm 3mm gray);
-  }
+  } */
 
 `;

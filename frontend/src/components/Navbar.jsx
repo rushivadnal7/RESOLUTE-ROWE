@@ -13,9 +13,7 @@ const Navbar = () => {
 
   const getCartCount = () => {
     let totalCount = 0;
-    // console.log(cartData)
     for (const itemId in cartData) {
-      // console.log(itemId)
       if (cartData[itemId]) {
         for (const size in cartData[itemId]) {
           const count = cartData[itemId][size];
@@ -42,13 +40,10 @@ const Navbar = () => {
 
   const handleScroll = useCallback(() => {
     const scrollTop = window.scrollY;
-    console.log('inside event listner')
     if (scrollTop > 100) {
       setIsScrolled(true);
-      console.log('scrolling')
     } else {
       setIsScrolled(false);
-      console.log('on top')
     }
   }, []);
   
@@ -93,7 +88,6 @@ const Navbar = () => {
           <ul>
             <li onClick={() => navigate('/')}>home</li>
             <li onClick={() => navigate('/products')}>products</li>
-            {/* <li onClick={() => navigate('/customize')}>customize</li> */}
             <li onClick={() => navigate('/contact')}>contact</li>
           </ul>
         </div>
@@ -102,11 +96,11 @@ const Navbar = () => {
           <ul>
             <li className="link" onClick={() => navigate('/')}>Home</li>
             <li onClick={() => navigate('/products')} className="link">Products</li>
-            {/* <li onClick={() => navigate('/customize')} className="link">customize</li> */}
             <li onClick={() => navigate('/contact')} className="link">Contact</li>
           </ul>
         </div>
         <div className="logo">
+          {/* <span>Resolute & rowe</span> */}
           <Logo3D />
         </div>
         <div className="nav-buttons">

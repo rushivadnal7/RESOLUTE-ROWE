@@ -20,7 +20,7 @@ export const NavbarWrapper = styled.nav`
     isScrolled ? "transparent" : "white"};
   color: ${({ isScrolled }) => (isScrolled ? "white" : "black")};
   transition: background-color 0.3s ease;
-  transition: height 0.3s ease;
+  transition: height 0.2s ease;
   will-change: auto;
 
   ul {
@@ -37,18 +37,24 @@ export const NavbarWrapper = styled.nav`
 
     li:hover {
       scale: 1.05;
-      color: #002147;
+      color: #BF953F;
       filter: drop-shadow(0 -2mm 3mm gold);
     }
   }
 
   .logo {
     justify-self: center;
-    width: 300px;
-    height: 100%;
+    /* width: 300px; */
+    /* height: 100%; */
     display: flex;
     visibility: visible;
     cursor: grab;
+    font-family: "Alumni Sans Pinstripe", sans-serif;
+    font-size: 2rem;
+    font-weight: 600;
+    text-transform: capitalize;
+    z-index: 9999 !important;
+    position: relative;
   }
 
   .nav-buttons {
@@ -64,7 +70,7 @@ export const NavbarWrapper = styled.nav`
 
   .nav-buttons .button:hover {
     scale: 1.05;
-    color: #002147;
+    color: #BF953F;
     filter: drop-shadow(0 -1mm 4mm gold);
   }
 

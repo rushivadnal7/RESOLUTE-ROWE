@@ -61,6 +61,7 @@ const ShopContextProvider = (props) => {
     const fetchProducts = async () => {
         setLoading(true);
         try {
+            console.log('re-fetching')
             const data = await ListProductAPI();
             if (data.products) {
                 setAllProducts(data.products);
@@ -80,7 +81,6 @@ const ShopContextProvider = (props) => {
     }, []);
 
 
-    //change the not logged in user to a logged in user. session ID is converted to userID and stored in DB
     const sessionIdToUserId = async () => {
 
         console.log(loginStatus)

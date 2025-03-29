@@ -61,7 +61,6 @@ const PlayfullLogo = () => {
               position={[0.3, -1, 0]}
               receiveShadow
             >
-              {/* <circleGeometry args={[1.5, 32]} />  */}
               <meshStandardMaterial color="black" transparent={true} opacity={0.1} />
             </mesh>
 

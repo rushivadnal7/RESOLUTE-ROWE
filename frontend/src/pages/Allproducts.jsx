@@ -14,43 +14,25 @@ const Allproducts = () => {
   const [menCheckbox, setMenCheckbox] = useState(false);
   const [womenCheckbox, setWomenCheckbox] = useState(false);
   const [priceRange, setPriceRange] = useState(false);
-  // const [originalProductList, setOriginalProductList] = useState([]);
-  // const [productList, setProductList] = useState([]);
   const [priceValue, setPriceValue] = useState([250, 700]);
   const [filterClick, setFilterClick] = useState(false)
-  
-  // Store the original product list
-  const originalProductList = useMemo(() => allProducts, [allProducts]);
 
-  // Compute the filtered product list using useMemo
+  const originalProductList = useMemo(() => 
+    allProducts
+    , [allProducts]);
+
   const productList = useMemo(() => {
     return originalProductList.filter((product) => product.price <= priceValue[1]);
   }, [originalProductList, priceValue]);
 
   const handlePriceChange = (event) => {
     const value = Number(event.target.value);
-    setPriceValue([250, value]); // Update price range
+    setPriceValue([250, value]);
   };
-
-  // useEffect(() => {
-  //   setProductList(allProducts);
-  //   setOriginalProductList(allProducts)
-  // }, [allProducts]);
-
-  // const handlePriceChange = (event) => {
-  //   const value = Number(event.target.value);
-  //   setPriceValue([250, value]);
-  //   console.log(value)
-  //   setProductList(
-  //     originalProductList.filter((product) => product.price <= value)
-  //   );
-  // };
-
   const resetAll = () => {
     setMenCheckbox(false)
     setWomenCheckbox(false)
     setPriceValue([250, 600])
-    // setProductList(originalProductList)
   }
 
   useEffect(() => {
