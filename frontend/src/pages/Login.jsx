@@ -34,7 +34,7 @@ const Login = () => {
 
 
   const [message, setMessage] = useState('')
-  console.log(cartData)
+  // console.log(cartData)
 
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
@@ -64,9 +64,10 @@ const Login = () => {
         password: loginFormData.password,
       };
       const response = await adminLogin(data);
+      console.log(response)
       if (response.success) {
-        navigate('/admin'); // Navigate directly to the admin page
-        toast.success('Welcome ADMIN');
+        navigate('/admin');
+        toast.success(response.message);
         return;
       } else {
         toast.error('Invalid Email or Password');

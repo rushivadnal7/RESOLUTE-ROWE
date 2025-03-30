@@ -18,10 +18,13 @@ const AdminProtectedRoute = () => {
     checkAdmin();
   }, []);
 
-  if (isAdmin === null) return <div>Loading...</div>; // Show a loading message while validation is in progress
-  if (!isAdmin) return <Navigate to="/account/login" replace />; // Redirect to login if not an admin
+  if (isAdmin === null) return <div>Loading...</div>; 
+  if (!isAdmin) return (
+    console.log('not a admin'),
+    <Navigate to="/account/login" replace />
+  ); 
 
-  return <Outlet />; // Render child routes if validation passes
+  return <Outlet />; 
 };
 
 export default AdminProtectedRoute;
