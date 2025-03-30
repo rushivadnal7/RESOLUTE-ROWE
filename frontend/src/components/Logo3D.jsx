@@ -1,58 +1,62 @@
 import React, { useRef, useEffect } from "react";
-import { Canvas, useLoader, useFrame } from "@react-three/fiber";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { OrbitControls, useGLTF } from "@react-three/drei";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { OrbitControls, useGLTF, ContactShadows } from "@react-three/drei";
 
-
-// Directly use the relative path to your model in the public folder
-// const logoModel = "/gl";
 const logoModel = "/gltfs/Logo.glb";
 
-// This is the model component where the rotation will be applied
 const LogoModel = () => {
   const meshRef = useRef();
+  const { scene } = useGLTF(logoModel);
 
-  // Load the 3D model using the GLTFLoader
-  const { scene } = useGLTF("/gltfs/Logo.glb");
-  // const { scene } = useLoader(GLTFLoader, logoModel);
-
-  // Apply rotation in every frame
-  // console.log(scene)
   useEffect(() => {
     if (scene) {
-      meshRef.current = scene; // Assign scene to ref
+      scene.traverse((child) => {
+        if (child.isMesh) {
+          child.castShadow = true; // Enable shadow casting
+          child.receiveShadow = true;
+        }
+      });
+      meshRef.current = scene;
     }
   }, [scene]);
+
   useFrame(() => {
     if (meshRef.current) {
-
-      meshRef.current.rotation.y += 0.01 // Adjust rotation speed
+      meshRef.current.rotation.y += 0.01; // Adjust rotation speed
     }
   });
 
   return scene ? (
-    <primitive
-      object={scene}
-      ref={meshRef}
-      scale={70} // Adjust the scale to ensure visibility
-      position={[0, 0, 0]}
-    />
+    <primitive object={scene} ref={meshRef} scale={70} position={[0, 0, 0]} />
   ) : null;
 };
 
-
-// The main component rendering the canvas and controls
 const Logo3D = () => {
   return (
-    <Canvas style={{ height: "5.5rem", width: "max-content" }}>
+    <Canvas
+      shadows
+      style={{ height: "5.5rem", width: "max-content" }}
+      camera={{ position: [0, 0, 10], fov: 50 }}
+    >
       <ambientLight intensity={1.5} />
       <directionalLight
-        position={[0, -5, 0]} // Light from below (Y axis negative)
-        intensity={2} // Adjust light intensity as needed
-      // color={"#ffffff"} // Optionally customize light color
+        position={[2, 4, 5]}
+        intensity={2}
+        castShadow
       />
+      
       <LogoModel />
-      {/* Render the model inside the Canvas */}
+
+      {/* Shadow Catcher */}
+      <ContactShadows 
+        position={[0, -0.5, 0]} 
+        opacity={0.9} 
+        blur={5} 
+        width={20} 
+        height={20} 
+        far={10} 
+      />
+
       <OrbitControls enableZoom={false} enablePan={false} autoRotate={false} />
     </Canvas>
   );

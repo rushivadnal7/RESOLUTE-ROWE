@@ -10,6 +10,7 @@ import Marquee from "./PageComponents/Marquee";
 import PlayfullLogo from "./PageComponents/PlayfullLogo";
 import Testimonials from "./PageComponents/Testimonials";
 import Footer from "../components/Footer";
+import Logo3D from "../components/Logo3D";
 
 const Home = () => {
   const [scrollRatio, setScrollRatio] = useState(0);
@@ -28,6 +29,9 @@ const Home = () => {
       <TrendingPage />
       <BestSeller />
       <Testimonials />
+      <div className="logo-container">
+        <Logo3D />
+      </div>
       <Footer />
     </HomeWrapper>
   );

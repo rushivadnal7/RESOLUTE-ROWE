@@ -30,9 +30,9 @@ const Hero = () => {
           </div>
         </div>
       </div> */}
-      <div className="logo-container">
+      {/* <div className="logo-container">
         <Logo3D />
-      </div>
+      </div> */}
       <div className="main-container">
         <img className="hero-image" rel="preload" loading="lazy" src={hero_bg_image} alt="hero-image" />
       </div>

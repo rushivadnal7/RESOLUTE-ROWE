@@ -14,6 +14,7 @@ const scaleUp = keyframes`
 
 export const HomeWrapper = styled.section`
   width: 100vw;
+  height: max-content;
   background-color: black;
   font-family: "Roboto Condensed", sans-serif;
   font-family: "Poppins", sans-serif;
@@ -69,6 +70,10 @@ export const HomeWrapper = styled.section`
     }
     .logo-container {
       display: none;
+
+      .bg-shadow{
+        /* display: none; */
+      }
     }
 
     .main-container {
@@ -332,9 +337,23 @@ export const HomeWrapper = styled.section`
       }
     }
   }
+  .logo-container{
+    display:none;
+  }
+
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     margin-top: 5.5rem;
+    position:relative;
+
+    .logo-container {
+        display: block;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        z-index: 1000;
+        transform: translate(-50%, -50%);
+      }
 
     .hero {
       position: relative;
@@ -355,13 +374,21 @@ export const HomeWrapper = styled.section`
         }
       }
 
-      .logo-container {
+     
+      .bg-shadow{
         display: block;
         position: absolute;
         top: 50%;
         left: 50%;
-        z-index: 100;
+        z-index: -1;
         transform: translate(-50%, -50%);
+        background-color: white;
+        width: 20px;
+        height:20px;
+        border-radius:50%;
+        box-shadow:5px 5px 10px white;
+        filter: drop-shadow(0 -2mm 3mm white);
+
       }
 
       .left-container {
