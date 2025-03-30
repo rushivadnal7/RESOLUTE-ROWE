@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import { ShopContext } from "../context/ShopContext";
 
 const Order = ({ item }) => {
-  console.log(item);
+  // console.log(item);
   return (
     <>
       <OrderWrapper>
@@ -77,7 +77,6 @@ const OrderWrapper = styled.div`
 const Account = () => {
   const navigate = useNavigate();
   const {
-    loginStatus,
     fetchUserData,
     setCartData,
     setLoginStatus,
@@ -104,8 +103,6 @@ const Account = () => {
     checkUserLogin();
   }, []);
 
-  console.log(orders)
-
   const handleLogout = async () => {
     try {
       const response = await LogoutUser();
@@ -123,6 +120,7 @@ const Account = () => {
     }
   };
 
+  console.log( orders)
   return (
     <>
       <Navbar />
@@ -175,11 +173,11 @@ const Account = () => {
         <div className="orders">
           <h3>Order History</h3>
           <div className="orders-container">
-            {orders.slice(-5).map((order) => (
+            {orders.length > 0 ? orders.slice(-5).map((order) => (
               order.items.map((item, itemIndex) => (
                 <Order key={itemIndex} item={item} />
               ))
-            ))}
+            )) : <span>No orders</span>}
           </div>
         </div>
       </AccountWrapper>

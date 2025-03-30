@@ -24,8 +24,7 @@ const Admin = () => {
   const [currentSection, setCurrentSection] = useState("listProducts"); // Tracks which Manage Products section is active
   const navigate = useNavigate()
   const [productList, setProductList] = useState([]);
-
-  console.log('admin')
+  const [selectedDate, setSelectedDate] = useState(""); // State for user input date
 
   // Render Manage Products sections
   const renderManageProductsSection = () => {
@@ -69,30 +68,34 @@ const Admin = () => {
 
 
 
-  const handleExport = async () => {
+  const handleExport = async (date) => {
     try {
-      const currentDate = new Date();
-      const formattedDate = `${currentDate.getDate()}${currentDate.toLocaleString("en-us", { month: "short" })}${currentDate.getFullYear().toString().slice(-2)}`;
+      const exportDate = date ? new Date(date) : new Date(); 
+      console.log(exportDate)
+      const formattedDate = `${exportDate.getDate()}${exportDate.toLocaleString("en-us", { month: "short" })}${exportDate.getFullYear().toString().slice(-2)}`;
       const fileName = `orders_${formattedDate}.xlsx`;
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}order/export`, {
-        responseType: "blob", // Important to handle binary data
-      });
 
-      if(!response.data.success){
-        console.log(response.data.message)
-        toast.info(response.data.message)
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/order/export`, {
+        params: { date: date || exportDate.toISOString().split("T")[0] }, 
+        responseType: "blob",
+      });
+ 
+      if (!response.data) {
+        toast.info("No data available for the selected date.");
+        return;
       }
 
       // Create a Blob from the response data
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const a = document.createElement("a");
       a.href = url;
-      a.download = fileName; // File name
+      a.download = fileName;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
     } catch (error) {
       console.error("Error exporting orders:", error);
+      toast.error("Failed to export orders.");
     }
   };
 
@@ -115,7 +118,16 @@ const Admin = () => {
         {currentPage === "dashboard" && (
           <>
             <h1>Welcome to the Dashboard</h1>
-            <Button onClick={handleExport}>Export Order Data</Button>
+            <input
+              type="date"
+              onChange={(e) => setSelectedDate(e.target.value)}
+              value={selectedDate}
+            />
+            <br />
+            <Button onClick={() => handleExport(selectedDate)}>Export Order Data</Button>
+            <br />
+            <br />
+            <Button onClick={() => handleExport()}>Export Today's Order Data</Button>
           </>
         )}
         {currentPage === "manageProducts" && (

@@ -18,7 +18,7 @@ export const NavbarWrapper = styled.nav`
 
   background-color: ${({ isScrolled }) =>
     isScrolled ? "transparent" : "white"};
-  color: ${({ isScrolled }) => (isScrolled ? "white" : "black")};
+  color: ${({ isScrolled }) => (isScrolled ? "#BF953F" : "black")};
   transition: background-color 0.3s ease;
   transition: height 0.2s ease;
   will-change: auto;
@@ -44,8 +44,6 @@ export const NavbarWrapper = styled.nav`
 
   .logo {
     justify-self: center;
-    /* width: 300px; */
-    /* height: 100%; */
     display: flex;
     visibility: visible;
     cursor: grab;

@@ -349,9 +349,9 @@ export const HomeWrapper = styled.section`
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          width: 100%;
-          height: max-content;
-          /* aspect-ratio: 16/9; */
+          width: auto;
+          height: 600px;
+          aspect-ratio: 16/9;
         }
       }
 
