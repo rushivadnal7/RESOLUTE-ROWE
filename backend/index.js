@@ -14,6 +14,7 @@ import orderRouter from "./Routes/orderRoute.js";
 import otpRouter from "./Routes/otpRoute.js";
 import cache from "./Config/cache.js";
 import delhiveryRoutes from "./Routes/delhiveryRoute.js";
+import contactRouter from "./Routes/contactRoute.js";
 
 const app = express();
 const port = process.env.PORT || 7007;
@@ -93,6 +94,8 @@ app.use("/api/cart", cartRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/otp", otpRouter);
 app.use("/api/delhivery", delhiveryRoutes);
+app.use("/api/contact", contactRouter);
+
 
 // Home Route
 app.get("/", (req, res) => {
