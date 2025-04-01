@@ -134,9 +134,8 @@ export const NavbarWrapper = styled.nav`
       align-items: flex-start;
       gap: 0.3rem;
       cursor: pointer;
-      width: 1.7rem;
+      width: 33.3%;
       color: black;
-      /* background-color:black; */
 
       .menu-bar {
         background-color: gray;
@@ -183,10 +182,16 @@ export const NavbarWrapper = styled.nav`
     }
 
     .logo {
-      /* display: none;
-      visibility: hidden;
-      cursor: pointer; */
+
+      width: 33.3%;
     }
+
+    .nav-buttons{
+      width: 33.3%;
+      gap: 1rem;
+      justify-content: end;
+    }
+
   }
 
   .cart-button {
