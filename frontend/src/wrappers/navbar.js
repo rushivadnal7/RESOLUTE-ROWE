@@ -183,9 +183,9 @@ export const NavbarWrapper = styled.nav`
     }
 
     .logo {
-      display: none;
+      /* display: none;
       visibility: hidden;
-      cursor: pointer;
+      cursor: pointer; */
     }
   }
 

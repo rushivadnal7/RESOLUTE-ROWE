@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Button from "../components/Button";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Contact = () => {
   const [formData, setFormData] = useState({ email: "", message: "" });
@@ -15,10 +16,12 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("Sending...");
+    console.log(formData)
 
     try {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/contact/send-email`, formData);
       setStatus(response.data.success);
+      toast.success('email sent successfully');
       setFormData({ email: "", message: "" }); // Clear form
     } catch (error) {
       setStatus("Failed to send email.");
@@ -42,7 +45,6 @@ const Contact = () => {
         </div>
         <div className="container px-5 py-24 mx-auto flex">
           <form
-            onSubmit={handleSubmit}
             className="lg:w-1/3 md:w-1/2 bg-white rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0 relative z-10 shadow-md"
           >
             <h2 className="text-gray-900 text-lg mb-1 font-medium title-font">Feedback</h2>
@@ -73,7 +75,7 @@ const Contact = () => {
               ></textarea>
             </div>
 
-            <Button text="Send" />
+            <Button onclick={handleSubmit} text="Send" />
             {status && <p className="text-sm text-gray-500 mt-3">{status}</p>}
           </form>
         </div>

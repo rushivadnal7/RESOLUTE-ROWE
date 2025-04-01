@@ -25,13 +25,12 @@ const LoadingScreen = ({ onComplete }) => {
   return (
     <Wrapper>
       <Loader>
-        {/* Wrapper for both progress circle & logo */}
         <ProgressWrapper>
           <ProgressCircle />
-          <LogoContainer>
+          {/* <LogoContainer>
             <Logo3D />
-          </LogoContainer>
-        </ProgressWrapper>
+          </LogoContainer> */}
+        </ProgressWrapper> 
 
         <ProgressText>{progress}%</ProgressText>
       </Loader>

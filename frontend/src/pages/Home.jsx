@@ -29,9 +29,9 @@ const Home = () => {
       <TrendingPage />
       <BestSeller />
       <Testimonials />
-      <div className="logo-container">
+      {/* <div className="logo-container">
         <Logo3D />
-      </div>
+      </div> */}
       <Footer />
     </HomeWrapper>
   );
