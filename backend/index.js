@@ -15,6 +15,7 @@ import otpRouter from "./Routes/otpRoute.js";
 import cache from "./Config/cache.js";
 import delhiveryRoutes from "./Routes/delhiveryRoute.js";
 import contactRouter from "./Routes/contactRoute.js";
+import productModel from "./Models/productModel.js";
 
 const app = express();
 const port = process.env.PORT || 7007;
@@ -101,6 +102,46 @@ app.use("/api/contact", contactRouter);
 app.get("/", (req, res) => {
   res.send("Backend is live :) siuuu");
 });
+
+// Add in your index.js or a separate route file
+app.get("/product-preview/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Assuming you have a Product model
+    const product = await productModel.findById(id);
+
+    if (!product) {
+      return res.status(404).send("Product not found");
+    }
+
+    const html = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta property="og:title" content="${product.name}" />
+        <meta property="og:description" content="${product.description}" />
+        <meta property="og:image" content="${product.imageUrl}" />
+        <meta property="og:url" content="https://resoluteandrowe.com/products/${product._id}" />
+        <meta property="og:type" content="product" />
+        <title>${product.name}</title>
+      </head>
+      <body>
+        Redirecting...
+        <script>
+          window.location.href = "https://resoluteandrowe.com/products/${product._id}";
+        </script>
+      </body>
+      </html>
+    `;
+
+    res.send(html);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Something went wrong");
+  }
+});
+
 
 // Start Server
 app.listen(port, () => {
