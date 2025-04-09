@@ -35,6 +35,7 @@ import SizeChartModal from '../components/SizeChartModal';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ShopContext } from '../context/ShopContext';
 import { toast } from 'react-toastify';
+import { Helmet } from 'react-helmet-async';
 
 
 
