@@ -193,7 +193,7 @@ const ProductView = () => {
                 <title>product view</title>
                 <meta property="og:title" content={'zoro'} />
                 <meta property="og:description" content={'zorozorozroro'} />
-                <meta property="og:image" content={productData?.images[0]} />
+                <meta property="og:image" content={'../assets/allproducts/majestyLionTshirt.png'} />
                 <meta property="og:url" content={`https://yourdomain.com/blogs/${productID}`} />
                 <meta property="og:type" content="article" />
             </Helmet>
