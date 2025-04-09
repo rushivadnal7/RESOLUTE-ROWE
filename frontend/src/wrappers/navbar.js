@@ -13,9 +13,6 @@ export const NavbarWrapper = styled.nav`
   left: 0;
   z-index: 999;
 
-  /* border-bottom: ${({ isScrolled }) =>
-    isScrolled ? "1px solid white" : ""}; */
-
   background-color: ${({ isScrolled }) =>
     isScrolled ? "transparent" : "white"};
   color: ${({ isScrolled }) => (isScrolled ? "#BF953F" : "black")};

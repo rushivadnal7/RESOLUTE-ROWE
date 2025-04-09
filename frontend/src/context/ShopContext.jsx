@@ -99,9 +99,9 @@ const ShopContextProvider = (props) => {
         // setSessionId('')
     }
 
-    // useEffect(() => {
-    //     sessionIdToUserId()
-    // }, [loginStatus])
+    useEffect(() => {
+        sessionIdToUserId()
+    }, [loginStatus])
 
 
 
@@ -272,7 +272,8 @@ const ShopContextProvider = (props) => {
         checkUserExists,
         sessionId,
         discountPrice,
-        setDiscountPrice
+        setDiscountPrice,
+        sessionIdToUserId
     };
     return (
         <ShopContext.Provider value={contextValue}>
